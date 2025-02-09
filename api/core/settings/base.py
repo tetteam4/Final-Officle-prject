@@ -34,6 +34,8 @@ THIRD_PARTY_APPS = [
     "drf_yasg",
     "corsheaders",
     "taggit",
+    "ckeditor",
+    "ckeditor_uploader",
 ]
 
 LOCAL_APPS = [
@@ -157,3 +159,4 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 # Site ID
 SITE_ID = 1
+CKEDITOR_UPLOAD_PATH = "uploads/ckeditor/"
