@@ -50,7 +50,8 @@ class Portfolio(TimeStampedUUIDModel):
     top_images = models.ImageField(upload_to="portfolio/", null=True, blank=True)
     dashboard_images = models.ImageField(upload_to="portfolio/", null=True, blank=True)
     nav_images = models.ImageField(upload_to="portfolio/", null=True, blank=True)
-    description = RichTextField(blank=True, null=True)
+    # description = RichTextField(blank=True, null=True)
+    description = models.TextField()
     deployment = models.CharField(blank=True, null=True, max_length=255)
     echnologies = TaggableManager()
 
