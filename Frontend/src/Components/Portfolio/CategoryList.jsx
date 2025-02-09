@@ -1,12 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Portfolio_Data } from "./portfiliodata";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
-const CategoryList = () => {
+const CategoryList = ({ Portfolio_Data }) => {
   const navigate = useNavigate();
   // Get unique categories from Portfolio_Data
   const categories = [
-    ...new Set(Portfolio_Data.map((project) => project.category.trim())),
+    ...new Set(Portfolio_Data.map((project) => project.category.name.trim())), //access category name by category.name
   ];
 
   return (

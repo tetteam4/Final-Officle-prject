@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Portfolio_Data } from "../Components/Portfolio/portfiliodata";
 import CategoryList from "../Components/Portfolio/CategoryList";
 import PortfolioCard from "../Components/Portfolio/PortfolioCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -12,56 +11,72 @@ import TopPortfolioList from "../Components/Portfolio/TopPortfolioList";
 
 const Portfolio = () => {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1); // Current page state
-  const [selectedCategory, setSelectedCategory] = useState("All"); // Selected category state
-  const cardsPerPage = 6; // Number of cards to display per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [cardsPerPage, setCardsPerPage] = useState(6);
+  const [portfolioData, setPortfolioData] = useState([]); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Filter Portfolio_Data based on the selected category
+  useEffect(() => {
+    const fetchPortfolioData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/portfolios/");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+      
+        setPortfolioData(data);
+      } catch (error) {
+        setError(error);
+        console.error("Error fetching portfolio data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPortfolioData();
+  }, []);
+  
+
   const filteredData =
     selectedCategory === "All"
-      ? Portfolio_Data
-      : Portfolio_Data.filter(
-          (project) => project.category === selectedCategory
+      ? portfolioData
+      : portfolioData.filter(
+          (project) => project.category.name === selectedCategory //access category.name
         );
 
-  // Calculate the total number of pages
   const totalPages = Math.ceil(filteredData.length / cardsPerPage);
-
-  // Get the cards for the current page
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = filteredData.slice(indexOfFirstCard, indexOfLastCard);
 
-  // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // Handle next page
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
 
-  // Handle previous page
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
-  // Handle category change
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    setCurrentPage(1); // Reset to the first page when the category changes
+    setCurrentPage(1);
   };
 
-  // Function to generate pagination buttons
   const renderPaginationButtons = () => {
     const buttons = [];
 
-    // Always show the first two pages
     for (let i = 1; i <= 2; i++) {
       buttons.push(
         <button
@@ -78,7 +93,6 @@ const Portfolio = () => {
       );
     }
 
-    // Add "..." if currentPage is greater than 4 (to avoid overlapping with the first two pages)
     if (currentPage > 4) {
       buttons.push(
         <button
@@ -91,7 +105,6 @@ const Portfolio = () => {
       );
     }
 
-    // Add current page and its immediate neighbors
     for (
       let i = Math.max(3, currentPage - 1);
       i <= Math.min(totalPages - 2, currentPage + 1);
@@ -112,7 +125,6 @@ const Portfolio = () => {
       );
     }
 
-    // Add "..." if currentPage is less than totalPages - 3 (to avoid overlapping with the last two pages)
     if (currentPage < totalPages - 3) {
       buttons.push(
         <button
@@ -125,10 +137,8 @@ const Portfolio = () => {
       );
     }
 
-    // Always show the last two pages
     for (let i = totalPages - 1; i <= totalPages; i++) {
       if (i > 2) {
-        // Avoid duplicating pages already shown
         buttons.push(
           <button
             key={i}
@@ -148,32 +158,38 @@ const Portfolio = () => {
     return buttons;
   };
 
+  if (loading) {
+    return <div>Loading portfolio data...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <section className="mx-auto  max-w-7xl ">
       <div className="py-4">
         <h1 className="text-2xl font-bold">Our Works</h1>
       </div>
       <div className="grid grid-cols-4 max-w-7xl mx-auto h-auto items-start gap-x-3">
-        {/* Left Aside - Category List */}
         <aside className="col-span-1 border h-auto bg-green-100/95 min-h-0 overflow-auto">
-          <CategoryList Portfolio_Data={Portfolio_Data} />
+          <CategoryList Portfolio_Data={portfolioData}  /> {}
         </aside>
 
         {/* Middle Section - Portfolio Slider Hero */}
         <div className="col-span-2 border h-[300px] min-h-0 overflow-auto">
-          <PortFolioSliderHero Portfolio_Data={Portfolio_Data} />
+          <PortFolioSliderHero Portfolio_Data={portfolioData} />
         </div>
 
-        {/* Right Aside - Project Name List */}
         <aside className="col-span-1 border h-auto bg-green-100/95 min-h-0 overflow-auto">
-          <ProjectNameList Portfolio_Data={Portfolio_Data} />
+          <ProjectNameList Portfolio_Data={portfolioData} />
         </aside>
       </div>
       <div>
         <PortfolioFiltering
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
-          Portfolio_Data={Portfolio_Data} // Pass Portfolio_Data as a prop
+          Portfolio_Data={portfolioData} // Pass portfolioData as a prop
         />
       </div>
       {/* Portfolio Card */}
@@ -196,10 +212,8 @@ const Portfolio = () => {
         ))}
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-start items-center my-10 space-x-2">
-          {/* Previous Button */}
           {currentPage > 1 && (
             <button
               onClick={handlePreviousPage}
@@ -209,10 +223,8 @@ const Portfolio = () => {
             </button>
           )}
 
-          {/* Render Pagination Buttons */}
           {renderPaginationButtons()}
 
-          {/* Next Button */}
           {currentPage < totalPages && (
             <button
               onClick={handleNextPage}
@@ -225,10 +237,10 @@ const Portfolio = () => {
       )}
 
       <div className="mt-10">
-        <LatestPortfolioWork Portfolio_Data={Portfolio_Data} />
+        <LatestPortfolioWork Portfolio_Data={portfolioData} />
       </div>
       <div className="mt-10">
-        <TopPortfolioList Portfolio_Data={Portfolio_Data} />
+        <TopPortfolioList Portfolio_Data={portfolioData} />
       </div>
     </section>
   );

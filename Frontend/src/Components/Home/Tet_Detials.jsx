@@ -1,106 +1,96 @@
-import React, { useState } from "react";
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
 
-const Tet_Detials = () => {
-  const [openItem, setOpenItem] = useState(null);
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-  const handleToggle = (index) => {
-    setOpenItem(openItem === index ? null : index);
-  };
+const CustomerSlider = () => {
+  const testimonials = [
+    {
+      image: "https://images.unsplash.com/photo-1622838320000-4b3b3b3b3b3b",
+      text: "The team exceeded our expectations, offering innovative solutions and incredible support!",
+      customer: "Customer A",
+    },
+    {
+      image: "https://images.unsplash.com/photo-1622838320000-4b3b3b3b3b3b",
+      text: "We’ve been working with them for years, and their service just gets better and better!",
+      customer: "Customer B",
+    },
+    {
+      image: "https://images.unsplash.com/photo-1622838320000-4b3b3b3b3b3b",
+      text: "A truly professional team that always delivers on time and with quality!",
+      customer: "Customer C",
+    },
+    {
+      image: "https://images.unsplash.com/photo-1622838320000-4b3b3b3b3b3b",
+      text: "The best decision we've made for our business growth!",
+      customer: "Customer D",
+    },
+  ];
 
   return (
-    <div className=" lg:max-w-6xl mx-auto grid  bg-white grid-cols-1 md:grid-cols-2 gap-x-16  lg:h-[90vh] py-10">
-      {/* First Section: Story about Tet Company */}
-      <div className="mb-10 flex flex-col justify-center">
-        <h2 className="text-3xl font-semibold mb-4">TET , In one Look</h2>
-        <p className="text-lg text-justify text-gray-700 mt-5">
-          Tet Company has been a leader in innovative solutions, offering
-          cutting-edge services to help businesses thrive in the digital world.
-          With expertise in UI/UX design, server management, and digital
-          marketing, we have successfully helped companies grow and achieve
-          their goals. Tet Company has been a leader in innovative solutions,
-          offering cutting-edge services to help businesses thrive in the
-          digital world. With expertise in UI/UX design, server management, and
-          digital marketing, we have successfully helped companies grow and
-          achieve their goals.
-        </p>
-        <div className="flex justify-end mt-5">
-          <button className="border px-6 py-2 rounded-full hover:bg-gray-300 border-gray-500">
-            All Services
-          </button>
+    <div className="max-w-7xl mx-auto relative group mt-6">
+      <div className="max-w-6xl mx-auto bg-[#f0f4ff]">
+        <div className="h-14 flex border-b-2 mx-10">
+          <p className="text-xl font-semibold h-full content-center">
+            What our business partners say about our team
+          </p>
         </div>
-      </div>
 
-      {/* Second Section: Services */}
-      <div className="flex flex-col justify-center">
-        {/* List of Services */}
-        <div className="">
-          {[
-            {
-              title: "Web Development",
-              content:
-                "We specialize in creating intuitive and engaging interfaces that improve user interaction We specialize in creating intuitive and engaging interfaces that improve user interaction.",
-            },
-            {
-              title: "UI / UX",
-              content:
-                "We specialize in creating intuitive and engaging interfaces that improve user interaction.",
-            },
-
-            {
-              title: "Server & Domain",
-              content:
-                "Our team provides fast, secure server hosting and domain registration services.",
-            },
-
-            {
-              title: "Google Ads",
-              content:
-                "Our experts create custom Google Ads campaigns to drive traffic and conversions.",
-            },
-
-            {
-              title: "SEO Services",
-              content:
-                "Our SEO strategies improve your website's ranking, driving more organic traffic.",
-            },
-          ].map((item, index) => (
-            <div key={index} className=" border-gray-300 rounded-lg">
-              {/* Collapsible Button */}
-              <button
-                onClick={() => handleToggle(index)}
-                className="w-full px-6 py-3 text-left border-b hover:bg-gray-200 rounded-t-lg font-semibold flex justify-between items-center"
-              >
-                <span className="text-lg text-gray-800">{item.title}</span>
-                <svg
-                  className={`w-5 h-5 transition-transform ${
-                    openItem === index ? "rotate-180" : "rotate-0"
-                  }`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-
-              {/* Collapsible Content */}
-              {openItem === index && (
-                <div className="px-6 py-4 bg-gray-100 border-b-2 text-gray-700">
-                  <p>{item.content}</p>
+        <div className="relative overflow-visible">
+          {/* Swiper Component */}
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            autoplay={{ delay: 3000 }}
+            loop
+            spaceBetween={50}
+            slidesPerView={2}
+            navigation={{
+              nextEl: ".button-next-slide",
+              prevEl: ".button-prev-slide",
+            }}
+            grabCursor={true}
+            className="shadow-lg cursor-pointer"
+          >
+            {testimonials.map((testimonial, index) => (
+              <SwiperSlide key={index}>
+                <div className="h-[250px] flex flex-col justify-center items-start px-8">
+                  <div className="flex items-center gap-x-5">
+                    <img
+                      src={testimonial.image}
+                      alt=""
+                      className="h-[90px] w-[90px]"
+                    />
+                    <div className="italic text-gray-600 space-y-2">
+                      <p className="text-start text-lg">
+                        {testimonial.customer}
+                      </p>
+                      <p className="text-justify text-sm">
+                        {testimonial.text.length > 140
+                          ? `${testimonial.text.substring(0, 137)}...`
+                          : testimonial.text}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
-          ))}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* Navigation Buttons (Placed Outside Swiper) */}
+          <div className="button-prev-slide flex w-[40px] h-[40px] items-center justify-center rounded-full absolute top-1/2 -translate-y-1/2 -left-5 z-20 bg-white shadow-md">
+            <MdArrowBackIos />
+          </div>
+          <div className="button-next-slide flex w-[40px] h-[40px] items-center justify-center rounded-full absolute top-1/2 -translate-y-1/2 -right-5 z-20 bg-white shadow-md">
+            <MdArrowForwardIos />
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Tet_Detials;
+export default CustomerSlider;
