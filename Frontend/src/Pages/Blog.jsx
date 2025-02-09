@@ -1,9 +1,10 @@
 import React from 'react'
+import RecentlyBlog from '../Components/Blog/RecentlyBlog'
 
 const Blog = () => {
   return (
     <div>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur ad voluptatem odio ab totam, quia placeat ipsum animi beatae labore? Laudantium tempore accusamus optio repudiandae facere, dolores mollitia natus modi!
+      <RecentlyBlog/>
     </div>
   )
 }

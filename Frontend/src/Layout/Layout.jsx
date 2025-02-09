@@ -24,7 +24,6 @@ const Layout = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Function to scroll to the top of the page
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,

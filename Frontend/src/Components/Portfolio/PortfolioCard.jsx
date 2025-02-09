@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const PortfolioCard = ({ port, onClick }) => {
+  //console.log("PortfolioCard - port:", port);
   return (
     <motion.div
       onClick={onClick}

@@ -1,31 +1,65 @@
-import React, { useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "./Breadcrumb";
 import CategoryList from "./CategoryList";
 import RelatedCategoryPortfolio from "./RelatedCategoryPortfolio";
 import { MdDashboard, MdRoomService, MdSettings } from "react-icons/md";
+
 const PortfolioDetialsPage = () => {
   const { slug } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
-  const port = location.state?.port;
+  const [portfolio, setPortfolio] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
+    console.log("Slug parameter:", slug); // Add this line
+
+    const fetchPortfolioDetails = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/portfolios/${slug}/`
+        ); // Assuming slug is the pkid
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setPortfolio(data);
+      } catch (error) {
+        setError(error);
+        console.error("Error fetching portfolio details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPortfolioDetails();
+    window.scrollTo(0, 0); //scroll to top
   }, [slug]);
 
-  if (!port) {
+  if (loading) {
+    return <div>Loading portfolio details...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!portfolio) {
     return (
       <div id="postdetails" className="text-center mt-10">
-        <h1 className="text-2xl font-bold">No Blog Data Available</h1>
+        <h1 className="text-2xl font-bold">No Portfolio Data Available</h1>
         <button
           onClick={() => navigate("/portfolio")}
           className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          Go Back to Blogs
+          Go Back to Portfolio
         </button>
       </div>
     );
   }
+
   return (
     <div className="max-w-7xl mx-auto">
       <Breadcrumb />
@@ -36,23 +70,23 @@ const PortfolioDetialsPage = () => {
         <div className="md:w-[75%] lg:w-[75%]  w-full h-fit mt-5 p-2  rounded-md">
           <div className="h-auto ">
             <h1 className="text-2xl font-extrabold mb-5 text-gray-900 dark:text-white ">
-              {port.name}
+              {portfolio.name}
             </h1>
           </div>
           <div className="">
             <p className="text-justify text-gray-600 text-base">
-              {port.description.projectOverview}
+              {portfolio.description}
             </p>
             <p className="text-gray-600">
-              For more information about{" "}
+              For more information about
               <span className="font-bold text-green-600">
-                {port.category} website design
-              </span>{" "}
+                {portfolio.category.name} website design
+              </span>
               , contact Tech Elevate Team consultants.
             </p>
             <p className="mt-5 text-black font-semibold">
-              In the image below, you can see the overall layout of the{" "}
-              {port.name} website and the elements used in its design.
+              In the image below, you can see the overall layout of the
+              {portfolio.name} website and the elements used in its design.
             </p>
           </div>
           <div className="w-full flex justify-center items-center my-10">
@@ -69,15 +103,15 @@ const PortfolioDetialsPage = () => {
               <div className="flex flex-col md:flex-row items-center gap-4">
                 <div className="relative border rounded-md border-gray-200   shadow-2xl w-[400px] h-[300px] md:w-[650px] md:h-[400px]">
                   <img
-                    src={port.images.laptop}
-                    alt={port.name}
+                    src={portfolio.images}
+                    alt={portfolio.name}
                     className="w-full h-full rounded-md"
                   />
                 </div>
                 <div className="relative border border-gray-200 rounded-md shadow-lg w-[150px] h-[300px] md:w-[250px] md:h-[400px]">
                   <img
-                    src={port.images.log}
-                    alt={port.name}
+                    src={portfolio.log_images}
+                    alt={portfolio.name}
                     className="w-full h-full rounded-md"
                   />
                 </div>
@@ -85,7 +119,7 @@ const PortfolioDetialsPage = () => {
             </div>
           </div>
           <div className="mt-10 w-full h-auto">
-            <h3 className="text-center text-xl font-bold">{port.name}</h3>
+            <h3 className="text-center text-xl font-bold">{portfolio.name}</h3>
             {/* dashboard image */}
             <div className="mt-5 border-t border-gray-500">
               <div className="mt-5 flex justify-between text-gray-700 items-center ">
@@ -97,34 +131,34 @@ const PortfolioDetialsPage = () => {
               <div className="flex items-center justify-center mt-10">
                 <div className="relative border rounded-md border-gray-200   shadow-2xl w-[400px] h-[300px] md:w-[750px] md:h-[400px]">
                   <img
-                    src={port.images.laptop}
-                    alt={port.name}
+                    src={portfolio.dashboard_images}
+                    alt={portfolio.name}
                     className="w-full h-full rounded-md"
                   />
                 </div>
               </div>
             </div>
             <div className="mt-12">
-            <p className="text-justify text-gray-600 text-base">
-              {port.description.projectOverview}
-            </p>
+              <p className="text-justify text-gray-600 text-base">
+                {portfolio.description}
+              </p>
             </div>
             <div className="mt-10 border-t border-gray-500">
-            <div className="mt-5 flex justify-between text-gray-700 items-center ">
+              <div className="mt-5 flex justify-between text-gray-700 items-center ">
                 <span className="text-md font-bold">Technology</span>
                 <span>
                   <MdSettings size={32} />
                 </span>
               </div>
             </div>
+            {/* Add RelatedPosts component */}
           </div>
-          {/* Add RelatedPosts component */}
         </div>
+        <RelatedCategoryPortfolio
+          category={portfolio.category.name}
+          currentPostId={portfolio.id}
+        />
       </div>
-      <RelatedCategoryPortfolio
-        category={port.category}
-        currentPostId={port.id}
-      />
     </div>
   );
 };

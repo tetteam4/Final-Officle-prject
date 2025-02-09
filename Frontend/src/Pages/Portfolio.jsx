@@ -14,11 +14,13 @@ const Portfolio = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cardsPerPage, setCardsPerPage] = useState(6);
-  const [portfolioData, setPortfolioData] = useState([]);
+  const [portfolioData, setPortfolioData] = useState([]); // State for portfolio data from API
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log(portfolioData.name);
+    
     const fetchPortfolioData = async () => {
       setLoading(true);
       try {
@@ -27,8 +29,6 @@ const Portfolio = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
-
         setPortfolioData(data);
       } catch (error) {
         setError(error);
@@ -41,6 +41,7 @@ const Portfolio = () => {
     fetchPortfolioData();
   }, []);
 
+  // Filter portfolioData based on selectedCategory
   const filteredData =
     selectedCategory === "All"
       ? portfolioData
@@ -52,7 +53,8 @@ const Portfolio = () => {
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = filteredData.slice(indexOfFirstCard, indexOfLastCard);
-
+  // console.log(currentCards);
+  
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -173,7 +175,7 @@ const Portfolio = () => {
       </div>
       <div className="grid grid-cols-4 max-w-7xl mx-auto h-auto items-start gap-x-3">
         <aside className="col-span-1 border h-auto bg-green-100/95 min-h-0 overflow-auto">
-          <CategoryList Portfolio_Data={portfolioData} /> {}
+          <CategoryList />
         </aside>
 
         {/* Middle Section - Portfolio Slider Hero */}
@@ -194,22 +196,22 @@ const Portfolio = () => {
       </div>
       {/* Portfolio Card */}
       <div className="grid grid-cols-3 max-w-7xl gap-5 mt-10 mx-auto">
-        {currentCards.map((port, index) => (
-          <PortfolioCard
-            key={index}
-            port={port}
-            onClick={() =>
-              navigate(
-                `/portfolio/${encodeURIComponent(
-                  port.name.replace(/\s+/g, "-").toLowerCase()
-                )}`,
-                {
-                  state: { port: port },
-                }
-              )
-            }
-          />
-        ))}
+        {currentCards.map((port, index) => {
+          const handleClick = () => {
+            console.log("Navigating to portfolio with ID:", port.slug); // Debugging line
+            navigate(`/portfolio/${port.slue}`, {
+              state: { port: port },
+            });
+          };
+
+          return (
+            <PortfolioCard
+              key={index}
+              port={port}
+              onClick={handleClick} // Use the handleClick function
+            />
+          );
+        })}
       </div>
 
       {totalPages > 1 && (

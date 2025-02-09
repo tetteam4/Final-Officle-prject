@@ -1,9 +1,9 @@
-// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import About from "./Pages/About.jsx";
+import Contact from "./Pages/contact.jsx";
 import HomePage from "./Pages/Home.jsx";
-// import AddMember from "./Components/AddMember";
+import AddMember from "./Components/AddMember";
 import VerifyEmail from "./Components/verifyEmail";
 import Dashboard from "./Components/dashboard/dashboard.jsx";
 import Layout from "./Layout/Layout.jsx";
@@ -16,8 +16,7 @@ import PortfolioDetialsPage from "./Components/Portfolio/PortfolioDetialsPage.js
 import CategoryPage from "./Components/Portfolio/CategoryPage.jsx";
 import NotFound from "./Pages/NotFound.jsx";
 import SignUpPage from "./Pages/SignUp/Signup.jsx";
-import Contact from "./Pages/Contact.jsx";
-// import { Frown, ImagePlay, Import } from "lucide-react";
+import { Frown, ImagePlay, Import } from "lucide-react";
 import Signin from "./Pages/SignUp/Signin.jsx";
 
 const App = () => {
@@ -28,7 +27,7 @@ const App = () => {
         v7_relativeSplatPath: true,
       }}
     >
-      <div className="bg-gray-200">
+      <div>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<HomePage />} />
@@ -41,7 +40,11 @@ const App = () => {
               element={<CategoryPage />}
             />{" "}
             {/* New route */}
-            <Route path="/portfolio/:slug" element={<PortfolioDetialsPage />} />
+            <Route
+              path="/portfolio/:slug"
+              element={<PortfolioDetialsPage />}
+            />{" "}
+            {/* Changed /portfolio/:slug to /portfolio/:id */}
             <Route path="/webdesign" element={<Web_Design />} />
             <Route path="/website-seo" element={<Web_Seo />} />
             <Route path="/blog" element={<Blog />} />
