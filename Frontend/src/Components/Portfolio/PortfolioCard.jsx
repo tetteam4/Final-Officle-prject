@@ -12,7 +12,7 @@ const PortfolioCard = ({ port, onClick }) => {
     >
       {/* Image */}
       <img
-        src={port.images.laptop}
+        src={port.images} // Access the image URL directly
         alt={port.name}
         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
       />

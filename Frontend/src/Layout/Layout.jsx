@@ -32,7 +32,9 @@ const Layout = () => {
     });
   };
   return (
-    <div className="relative ">
+    <div className="relative "
+    
+    >
       <div className=" ">
         <Header />
         <Navbar />

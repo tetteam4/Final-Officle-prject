@@ -14,7 +14,7 @@ const Portfolio = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cardsPerPage, setCardsPerPage] = useState(6);
-  const [portfolioData, setPortfolioData] = useState([]); 
+  const [portfolioData, setPortfolioData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -27,7 +27,8 @@ const Portfolio = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-      
+        console.log(data);
+
         setPortfolioData(data);
       } catch (error) {
         setError(error);
@@ -39,7 +40,6 @@ const Portfolio = () => {
 
     fetchPortfolioData();
   }, []);
-  
 
   const filteredData =
     selectedCategory === "All"
@@ -173,7 +173,7 @@ const Portfolio = () => {
       </div>
       <div className="grid grid-cols-4 max-w-7xl mx-auto h-auto items-start gap-x-3">
         <aside className="col-span-1 border h-auto bg-green-100/95 min-h-0 overflow-auto">
-          <CategoryList Portfolio_Data={portfolioData}  /> {}
+          <CategoryList Portfolio_Data={portfolioData} /> {}
         </aside>
 
         {/* Middle Section - Portfolio Slider Hero */}
