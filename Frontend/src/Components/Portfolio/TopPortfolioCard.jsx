@@ -12,7 +12,7 @@ const TopPortfolioCard = ({ port, onClick }) => {
     >
       {/* Image */}
       <img
-        src={port.images.laptop}
+        src={port.images}
         alt={port.name}
         className="w-full h-full object-cover transition-all duration-300 filter grayscale group-hover:grayscale-0"
       />

@@ -1,50 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TopPortfolioCard from "./TopPortfolioCard";
 import { useNavigate } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const TopPortfolioList = ({ Portfolio_Data }) => {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1); // Current page state
-  const cardsPerPage = 4; // Number of cards to display per page
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [cardsPerPage, setCardsPerPage] = useState(4); 
+  const [topProjects, setTopProjects] = useState([]);
 
-  // Filter projects with "top" rating
-  const topProjects = Portfolio_Data.filter(
-    (project) => project.rating?.top === true
-  );
+  useEffect(() => {
+    if (Portfolio_Data) {
+      const filteredProjects = Portfolio_Data.filter(
+        (project) => project.rating === "T" 
+      );
+      setTopProjects(filteredProjects);
+    }
+  }, [Portfolio_Data]);
 
-  // Calculate the total number of pages
+
   const totalPages = Math.ceil(topProjects.length / cardsPerPage);
 
-  // Get the cards for the current page
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = topProjects.slice(indexOfFirstCard, indexOfLastCard);
 
-  // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // Handle next page
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
 
-  // Handle previous page
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
-  // Function to generate pagination buttons
   const renderPaginationButtons = () => {
     const buttons = [];
 
-    // Always show the first two pages
     for (let i = 1; i <= 2; i++) {
       buttons.push(
         <button
@@ -61,7 +60,6 @@ const TopPortfolioList = ({ Portfolio_Data }) => {
       );
     }
 
-    // Add "..." if currentPage is greater than 4 (to avoid overlapping with the first two pages)
     if (currentPage > 4) {
       buttons.push(
         <button
@@ -74,7 +72,6 @@ const TopPortfolioList = ({ Portfolio_Data }) => {
       );
     }
 
-    // Add current page and its immediate neighbors
     for (
       let i = Math.max(3, currentPage - 1);
       i <= Math.min(totalPages - 2, currentPage + 1);
@@ -95,7 +92,6 @@ const TopPortfolioList = ({ Portfolio_Data }) => {
       );
     }
 
-    // Add "..." if currentPage is less than totalPages - 3 (to avoid overlapping with the last two pages)
     if (currentPage < totalPages - 3) {
       buttons.push(
         <button
@@ -108,10 +104,8 @@ const TopPortfolioList = ({ Portfolio_Data }) => {
       );
     }
 
-    // Always show the last two pages
     for (let i = totalPages - 1; i <= totalPages; i++) {
       if (i > 2) {
-        // Avoid duplicating pages already shown
         buttons.push(
           <button
             key={i}
@@ -140,14 +134,9 @@ const TopPortfolioList = ({ Portfolio_Data }) => {
             key={project.id}
             port={project}
             onClick={() =>
-              navigate(
-                `/portfolio/${encodeURIComponent(
-                  project.name.replace(/\s+/g, "-").toLowerCase()
-                )}`,
-                {
-                  state: { port: project },
-                }
-              )
+              navigate(`/portfolio/${project.id}`, {
+                state: { port: project },
+              })
             }
           />
         ))}

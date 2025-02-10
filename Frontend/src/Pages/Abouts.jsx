@@ -10,7 +10,7 @@ import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../Utilities/motion.js";
 
 const ServiceCard = ({ index, title, icon }) => (
-  <Tilt className="w-[250px] ">
+  <Tilt className="w-[250px] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <motion.div
       variants={fadeIn("right", "spring", index * 0.5, 0.75)}
       className="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card"
@@ -49,8 +49,8 @@ const About = () => {
         variants={fadeIn("", "", 0.1, 1)}
         className="mt-4 text-black text-[17px] max-w-3xl leading-[30px]"
       >
-        I'm a skilled software developer with experience in TypeScript and
-        JavaScript, and expertise in frameworks like React, Node.js, and
+           We are skilled software developers with experience in TypeScript and
+        JavaScript, and expertise in frameworks like React, Node.js,Python Django and
         Three.js.,mongodb , firebase I'm a quick learner and collaborate closely
         with clients to create efficient, scalable, and user-friendly solutions
         that solve real-world problems. Let's work together to bring your ideas
