@@ -31,7 +31,7 @@ const OurTeam = () => {
         <h2 className={styles.sectionHeadText}>Our Team.</h2>
       </motion.div>
 
-      <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
+      <div className="mt-20  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ">
         {teamMembers.map((member, index) => (
           <motion.div
             key={member.id}
@@ -59,19 +59,9 @@ const OurTeam = () => {
                   href={member.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
+                  className="text-green-500 hover:text-green-700 transition-colors duration-200"
                 >
                   <FaWhatsapp className="w-6 h-6" />
-                </a>
-              )}
-              {member.twitter_link && (
-                <a
-                  href={member.twitter_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
-                >
-                  <FaTwitter className="w-6 h-6" />
                 </a>
               )}
               {member.linkedin && (
@@ -84,14 +74,25 @@ const OurTeam = () => {
                   <FaLinkedin className="w-6 h-6" />
                 </a>
               )}
+
               {member.github && (
                 <a
                   href={member.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
+                  className="text-gray-900 hover:text-black transition-colors duration-200"
                 >
                   <FaGithub className="w-6 h-6" />
+                </a>
+              )}
+              {member.twitter_link && (
+                <a
+                  href={member.twitter_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-700 transition-colors duration-200"
+                >
+                  <FaTwitter className="w-6 h-6" />
                 </a>
               )}
             </div>
