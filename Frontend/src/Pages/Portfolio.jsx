@@ -17,10 +17,9 @@ const Portfolio = () => {
   const [portfolioData, setPortfolioData] = useState([]); // State for portfolio data from API
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedSort, setSelectedSort] = useState("A-Z");
 
   useEffect(() => {
-    console.log(portfolioData.name);
-    
     const fetchPortfolioData = async () => {
       setLoading(true);
       try {
@@ -49,12 +48,25 @@ const Portfolio = () => {
           (project) => project.category.name === selectedCategory //access category.name
         );
 
-  const totalPages = Math.ceil(filteredData.length / cardsPerPage);
+  const handleSortChange = (sortOption) => {
+    setSelectedSort(sortOption);
+  };
+  const sortedData = [...filteredData].sort((a, b) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+
+    if (selectedSort === "A-Z") {
+      return nameA.localeCompare(nameB);
+    } else {
+      return nameB.localeCompare(nameA);
+    }
+  });
+
+  const totalPages = Math.ceil(sortedData.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = filteredData.slice(indexOfFirstCard, indexOfLastCard);
-  // console.log(currentCards);
-  
+  const currentCards = sortedData.slice(indexOfFirstCard, indexOfLastCard);
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -192,14 +204,16 @@ const Portfolio = () => {
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
           Portfolio_Data={portfolioData} // Pass portfolioData as a prop
+          onSortChange={handleSortChange}
         />
       </div>
       {/* Portfolio Card */}
       <div className="grid grid-cols-3 max-w-7xl gap-5 mt-10 mx-auto">
         {currentCards.map((port, index) => {
           const handleClick = () => {
-            console.log("Navigating to portfolio with ID:", port.slug); // Debugging line
-            navigate(`/portfolio/${port.slue}`, {
+            console.log(`here: ${port.id}`);
+            console.log(`here 2: ${port.name}`);
+            navigate(`/portfolio/${port.id}`, {
               state: { port: port },
             });
           };

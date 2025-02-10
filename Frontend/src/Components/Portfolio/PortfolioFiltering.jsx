@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import { CiFilter } from "react-icons/ci";
 import { FaSortAlphaDown } from "react-icons/fa";
@@ -12,12 +12,19 @@ const PortfolioFiltering = ({
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState("A-Z");
+  const [categories, setCategories] = useState([]);
 
-  // Extract unique categories
-  const categories = [
-    "All",
-    ...new Set(Portfolio_Data.map((project) => project.category)),
-  ];
+  useEffect(() => {
+    // Extract unique categories
+    if (Portfolio_Data && Portfolio_Data.length > 0) {
+      const uniqueCategories = [
+        "All",
+        ...new Set(Portfolio_Data.map((project) => project.category.name)),
+      ];
+      setCategories(uniqueCategories);
+    }
+  }, [Portfolio_Data]);
+
   const sortingOptions = ["A-Z", "Z-A"];
 
   return (

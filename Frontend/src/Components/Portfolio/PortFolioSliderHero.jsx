@@ -29,9 +29,7 @@ const PortFolioSliderHero = ({ Portfolio_Data }) => {
           <SwiperSlide
             onClick={() =>
               navigate(
-                `/portfolio/${encodeURIComponent(
-                  port.name.replace(/\s+/g, "-").toLowerCase()
-                )}`,
+                `/portfolio/${port.id}`, // Use the portfolio ID for navigation
                 {
                   state: { port: port },
                 }
