@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import RespNavbar from "./RespNavbar";
-import { IoSearch } from "react-icons/io5";
 import { LuLogIn } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.jpg";

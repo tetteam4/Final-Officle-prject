@@ -19,7 +19,7 @@ import SignUpPage from "./Pages/SignUp/Signup.jsx";
 import { Frown, ImagePlay, Import } from "lucide-react";
 import Signin from "./Pages/SignUp/Signin.jsx";
 import { ThemeProvider } from "styled-components";
-import { lightTheme, darkTheme } from "./theme";
+import { lightTheme, darkTheme } from "./theme.jsx";
 import useDarkMode from "./hooks/useDarkMode";
 
 const App = () => {
@@ -34,7 +34,7 @@ const App = () => {
           v7_relativeSplatPath: true,
         }}
       >
-        <div className="dark:bg-gray-500">
+        <div >
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<HomePage />} />

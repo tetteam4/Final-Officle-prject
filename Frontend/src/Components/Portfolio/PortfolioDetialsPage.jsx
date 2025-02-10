@@ -6,20 +6,20 @@ import RelatedCategoryPortfolio from "./RelatedCategoryPortfolio";
 import { MdDashboard, MdRoomService, MdSettings } from "react-icons/md";
 
 const PortfolioDetialsPage = () => {
-  const { slug } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [portfolio, setPortfolio] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("Slug parameter:", slug);
+    console.log("Slug parameter:", id);
 
     const fetchPortfolioDetails = async () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/portfolios/${slug}/`
+          `http://127.0.0.1:8000/api/portfolios/${id}/`
         ); // Assuming slug is the pkid
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -36,7 +36,7 @@ const PortfolioDetialsPage = () => {
 
     fetchPortfolioDetails();
     window.scrollTo(0, 0); //scroll to top
-  }, [slug]);
+  }, [id]);
 
   if (loading) {
     return <div>Loading portfolio details...</div>;
