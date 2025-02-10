@@ -2,7 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const PortfolioCard = ({ port, onClick }) => {
-  //console.log("PortfolioCard - port:", port);
   return (
     <motion.div
       onClick={onClick}
@@ -13,7 +12,7 @@ const PortfolioCard = ({ port, onClick }) => {
     >
       {/* Image */}
       <img
-        src={port.images} // Access the image URL directly
+        src={port.images}
         alt={port.name}
         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
       />

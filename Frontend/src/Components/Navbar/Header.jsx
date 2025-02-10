@@ -1,31 +1,18 @@
 import React, { useState, useEffect } from "react";
 import RespNavbar from "./RespNavbar";
 import { IoSearch } from "react-icons/io5";
-
 import { LuLogIn } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.jpg";
-
-import { MdEmail, MdMenu, MdClose } from "react-icons/md"; // Email icon
+import { MdEmail, MdMenu, MdClose } from "react-icons/md";
 import { MdWbSunny, MdNightlight } from "react-icons/md";
-
+import useDarkMode from "../../hooks/useDarkMode";
 const Header = () => {
   const [isClick, setIsClick] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpne, setIsOpen] = useState(false);
   const [cardItems, setCardItems] = useState(0);
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem("darkmode");
-    return savedMode === "false";
-  });
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+  const [darkMode, setDarkMode] = useDarkMode(); // Use the custom hook
 
   const repsonsiveHandler = () => {
     setIsOpen(!isOpne);
@@ -75,14 +62,14 @@ const Header = () => {
             <div
               className={`relative flex items-center w-[110px] h-[40px] cursor-pointer rounded-full border 
       ${
-        darkMode ? "bg-zinc-700" : "bg-white"
+        darkMode === "dark" ? "bg-zinc-700" : "bg-white"
       } shadow-sm transition-all duration-300`}
             >
               {/* Toggle Circle */}
               <div
                 className={`absolute w-[35px] h-[35px] rounded-full top-[2px] transition-all duration-300 shadow-md
         ${
-          darkMode
+          darkMode === "dark"
             ? "left-[102px] translate-x-[-100%] bg-zinc-900"
             : "left-[4px] bg-gradient-to-r from-orange-500 to-yellow-400"
         }`}
@@ -90,17 +77,17 @@ const Header = () => {
 
               {/* Sun Icon (Light Mode) */}
               <MdWbSunny
-                onClick={() => setDarkMode(false)}
+                onClick={() => setDarkMode("light")}
                 className={`absolute left-[13px] w-5 h-5 transition-all ${
-                  darkMode ? "opacity-50" : "opacity-100"
+                  darkMode === "dark" ? "opacity-50" : "opacity-100"
                 }`}
               />
 
               {/* Moon Icon (Dark Mode) */}
               <MdNightlight
-                onClick={() => setDarkMode(true)}
+                onClick={() => setDarkMode("dark")}
                 className={`absolute right-[13px] w-5 h-5 transition-all ${
-                  darkMode
+                  darkMode === "dark"
                     ? "opacity-100 text-blue-700"
                     : "opacity-50 text-black"
                 }`}

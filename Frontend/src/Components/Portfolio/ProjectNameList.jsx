@@ -14,7 +14,7 @@ const ProjectNameList = ({ Portfolio_Data }) => {
             key={index}
             onClick={() =>
               navigate(
-                `/portfolio/${port.id}`, // Use the portfolio ID for navigation
+                `/portfolio/${port.id}`, 
                 {
                   state: { port: port },
                 }

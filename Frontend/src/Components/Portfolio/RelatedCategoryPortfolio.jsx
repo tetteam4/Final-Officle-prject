@@ -1,23 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Portfolio_Data } from "./portfiliodata"; // Import your data
 import PortfolioCard from "./PortfolioCard"; // Reuse the PortfolioCard component
 import { useNavigate } from "react-router-dom";
 
 const RelatedCategoryPortfolio = ({ category, currentPostId }) => {
   const navigate = useNavigate();
-
-  console.log("Category:", category); // Debugging: Check the category
-  console.log("Current Post ID:", currentPostId); // Debugging: Check the currentPostId
-
-  // Filter related projects
-  const relatedProjects = Portfolio_Data.filter(
-    (project) =>
-      project.category === category && // Match the category
-      project.id !== currentPostId // Exclude the current project
-  );
-
-  console.log("Related Projects:", relatedProjects); // Debugging: Check the filtered projects
-
+  const [relatedProjects, setRelatedProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError]=useState(null);
+  
+ 
+  useEffect(() => {
+    const fetchRelatedProjects = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/portfolios/`);
+        if (!response.ok) {
+          throw new Error(`HTTp error ! Status:${response.status}`);
+        }
+        const data = await response.json();
+        const related = data.filter(
+          (project) =>
+            project.category.name === category && project.id !== currentPostId
+        );
+        setRelatedProjects(related)
+        
+      } catch (error) {
+        setError(error)
+        confirm.error("Error fetching related to projects")
+        
+      }
+      finally {
+        setLoading(false)
+      }
+      fetchRelatedProjects()
+    }
+  },[category,currentPostId])
+  
+  if (loading) {
+    return <div div > Loading related projects....</div >
+  }
+  if (error) {
+    return <div div> Error:{ error.message}</div>;
+    
+  }
   if (relatedProjects.length === 0) {
     return <p className="text-gray-600">No related projects found.</p>;
   }
@@ -31,13 +57,10 @@ const RelatedCategoryPortfolio = ({ category, currentPostId }) => {
             key={project.id}
             port={project}
             onClick={() =>
-              navigate(
-                `/portfolio/${encodeURIComponent(
-                  project.name.replace(/\s+/g, "-").toLowerCase()
-                )}`,
-                {
-                  state: { port: project },
-                }
+              navigate(`/portfolio/${project.id}`, {
+                state:{port:project}
+              }
+               
               )
             }
           />

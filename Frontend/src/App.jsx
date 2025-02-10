@@ -18,46 +18,54 @@ import NotFound from "./Pages/NotFound.jsx";
 import SignUpPage from "./Pages/SignUp/Signup.jsx";
 import { Frown, ImagePlay, Import } from "lucide-react";
 import Signin from "./Pages/SignUp/Signin.jsx";
+import { ThemeProvider } from "styled-components";
+import { lightTheme, darkTheme } from "./theme";
+import useDarkMode from "./hooks/useDarkMode";
 
 const App = () => {
-  return (
-    <Router
-      future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true,
-      }}
-    >
-      <div>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route
-              path="/portfolio_ca/:categoryName"
-              element={<CategoryPage />}
-            />{" "}
-            {/* New route */}
-            <Route
-              path="/portfolio/:slug"
-              element={<PortfolioDetialsPage />}
-            />{" "}
-            {/* Changed /portfolio/:slug to /portfolio/:id */}
-            <Route path="/webdesign" element={<Web_Design />} />
-            <Route path="/website-seo" element={<Web_Seo />} />
-            <Route path="/blog" element={<Blog />} />
-          </Route>
-          <Route path="/verify_email/*" element={<VerifyEmail />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/sign-up" element={<SignUpPage />} />
-          <Route path="/sign-in" element={<Signin />} />
+  const [theme, toggleTheme] = useDarkMode();
+  const themeMode = theme === "light" ? lightTheme : darkTheme;
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </Router>
+  return (
+    <ThemeProvider theme={themeMode}>
+      <Router
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true,
+        }}
+      >
+        <div className="dark:bg-gray-500">
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route
+                path="/portfolio_ca/:categoryName"
+                element={<CategoryPage />}
+              />{" "}
+              {/* New route */}
+              <Route
+                path="/portfolio/:id"
+                element={<PortfolioDetialsPage />}
+              />{" "}
+              {/* Changed /portfolio/:slug to /portfolio/:id */}
+              <Route path="/webdesign" element={<Web_Design />} />
+              <Route path="/website-seo" element={<Web_Seo />} />
+              <Route path="/blog" element={<Blog />} />
+            </Route>
+            <Route path="/verify_email/*" element={<VerifyEmail />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/sign-up" element={<SignUpPage />} />
+            <Route path="/sign-in" element={<Signin />} />
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 };
 

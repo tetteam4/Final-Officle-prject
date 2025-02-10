@@ -13,7 +13,7 @@ const PortfolioDetialsPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("Slug parameter:", slug); // Add this line
+    console.log("Slug parameter:", slug);
 
     const fetchPortfolioDetails = async () => {
       setLoading(true);

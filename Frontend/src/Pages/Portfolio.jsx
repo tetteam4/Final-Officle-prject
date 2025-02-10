@@ -14,7 +14,7 @@ const Portfolio = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cardsPerPage, setCardsPerPage] = useState(6);
-  const [portfolioData, setPortfolioData] = useState([]); // State for portfolio data from API
+  const [portfolioData, setPortfolioData] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedSort, setSelectedSort] = useState("A-Z");
@@ -45,7 +45,7 @@ const Portfolio = () => {
     selectedCategory === "All"
       ? portfolioData
       : portfolioData.filter(
-          (project) => project.category.name === selectedCategory //access category.name
+          (project) => project.category.name === selectedCategory 
         );
 
   const handleSortChange = (sortOption) => {
@@ -203,7 +203,7 @@ const Portfolio = () => {
         <PortfolioFiltering
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
-          Portfolio_Data={portfolioData} // Pass portfolioData as a prop
+          Portfolio_Data={portfolioData} 
           onSortChange={handleSortChange}
         />
       </div>
@@ -222,7 +222,7 @@ const Portfolio = () => {
             <PortfolioCard
               key={index}
               port={port}
-              onClick={handleClick} // Use the handleClick function
+              onClick={handleClick} 
             />
           );
         })}
