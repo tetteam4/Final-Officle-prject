@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BlogCard from "../Components/Blog/BlogCard";
-import CategoryList from "../Components/Portfolio/CategoryList";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"; // or any other icon library you prefer
+import BlogCategoryList from "../Components/Blog/BlogCategoryList";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import LoadingSpinner from "../Components/Blog/LoadingSpinner";
+import BackToTopButton from "../Components/Blog/BackToTopButton";
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -47,17 +49,20 @@ const Blog = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on page change
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -82,7 +87,7 @@ const Blog = () => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`px-2 py-1 text-xs rounded-md border border-gray-300 font-medium ${
+          className={`px-3 py-1 text-sm rounded-md border font-medium ${
             currentPage === i
               ? "bg-[#02DB81] text-white border-[#02DB81]"
               : "bg-white text-gray-700 hover:bg-gray-100"
@@ -97,39 +102,49 @@ const Blog = () => {
   };
 
   if (loading) {
-    return <div>Loading blog data...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div className="text-red-500 text-center py-10">
+        Error: {error.message}
+      </div>
+    );
   }
 
   return (
-    <section className="mx-auto max-w-7xl py-8">
-      <div className="flex flex-col md:flex-row gap-5">
+    <section className="mx-auto max-w-7xl py-8 px-4">
+      <div className="flex flex-col md:flex-row gap-5 ">
+        {/* Left Aside - Category List */}
         <aside className="w-full md:w-1/4">
-          <CategoryList />
+          <BlogCategoryList
+            onCategoryChange={handleCategoryChange}
+            selectedCategory={selectedCategory}
+          />
         </aside>
+
+        {/* Main Content */}
         <main className="w-full md:w-3/4">
           <h1 className="text-3xl font-bold mb-6">Our Blog</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {currentCards.map((blog, index) => (
               <BlogCard
                 key={index}
                 blog={blog}
-                onClick={() => navigate(`/blog/${blog.id}`)} // Navigate to the details page
+                onClick={() => navigate(`/blog/${blog.id}`)}
               />
             ))}
           </div>
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex justify-start items-center my-10 space-x-2">
+            <div className="flex justify-center items-center my-10 space-x-2">
               {/* Previous Button */}
               {currentPage > 1 && (
                 <button
                   onClick={handlePreviousPage}
-                  className="flex items-center px-3 text-sm py-1.5 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-[#02DB81] hover:text-white transition-all shadow-sm"
+                  className="flex items-center px-3 py-1.5 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-[#02DB81] hover:text-white transition-all shadow-sm"
                 >
                   <FaChevronLeft className="mr-2" /> Previous
                 </button>
@@ -142,9 +157,9 @@ const Blog = () => {
               {currentPage < totalPages && (
                 <button
                   onClick={handleNextPage}
-                  className="flex items-center px-3 py-1.5 hover:bg-[#02DB81] rounded-md text-sm bg-white border border-gray-300 text-gray-700 hover:text-white transition-all shadow-sm"
+                  className="flex items-center px-3 py-1.5 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-[#02DB81] hover:text-white transition-all shadow-sm"
                 >
-                  Next <FaChevronRight className="ml-2 " />
+                  Next <FaChevronRight className="ml-2" />
                 </button>
               )}
             </div>

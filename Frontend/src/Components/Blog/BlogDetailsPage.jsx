@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import CategoryList from "../../Components/Portfolio/CategoryList";
+import BlogCategoryList from "../../Components/Blog/BlogCategoryList";
 import { FaUser } from "react-icons/fa";
 import { SectionWrapper } from "../../hoc";
 
@@ -59,22 +59,18 @@ const BlogDetailsPage = () => {
       <div className="flex flex-col md:flex-row gap-5">
         {/* Left Aside - Category List */}
         <aside className="w-full md:w-1/4">
-          <CategoryList />
+          <BlogCategoryList />
         </aside>
 
         {/* Main Content */}
         <main className="w-full md:w-3/4">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              {blog.title}
-            </h1>
+            <h1 className="text-3xl font-bold text-gray-900">{blog.title}</h1>
             <div className="flex items-center mt-2 text-gray-600">
-              {/* User Icon and Author */}
               <div className="flex items-center">
                 <FaUser className="mr-2" />
                 <span>TET</span>
               </div>
-              {/* Date */}
             </div>
           </div>
           {/* Hero Image */}
@@ -88,9 +84,7 @@ const BlogDetailsPage = () => {
           {/* General Information */}
           <div className="mb-6">
             <h2 className="text-2xl font-semibold mb-3">Overview</h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              {blog.general_info}
-            </p>
+            <p className="text-gray-700">{blog.general_info}</p>
           </div>
           {/* Sections */}
           {blog.section.map((section) => (
@@ -103,17 +97,13 @@ const BlogDetailsPage = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-gray-700 dark:text-gray-300">
-                {section.description}
-              </p>
+              <p className="text-gray-700">{section.description}</p>
             </div>
           ))}
           {/* Conclusion */}
           <div>
             <h2 className="text-2xl font-semibold mb-3">Conclusion</h2>
-            <p className="text-gray-700 dark:text-gray-300">
-              {blog.conclusion}
-            </p>
+            <p className="text-gray-700">{blog.conclusion}</p>
           </div>
         </main>
       </div>

@@ -21,6 +21,7 @@ import Signin from "./Pages/SignUp/Signin.jsx";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme.jsx";
 import useDarkMode from "./hooks/useDarkMode";
+import BlogDetailsPage from "./Components/Blog/BlogDetailsPage.jsx";
 
 const App = () => {
   const [theme, toggleTheme] = useDarkMode();
@@ -34,7 +35,7 @@ const App = () => {
           v7_relativeSplatPath: true,
         }}
       >
-        <div >
+        <div>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<HomePage />} />
@@ -55,6 +56,7 @@ const App = () => {
               <Route path="/webdesign" element={<Web_Design />} />
               <Route path="/website-seo" element={<Web_Seo />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:id" element={<BlogDetailsPage />} />
             </Route>
             <Route path="/verify_email/*" element={<VerifyEmail />} />
             <Route path="/dashboard" element={<Dashboard />} />

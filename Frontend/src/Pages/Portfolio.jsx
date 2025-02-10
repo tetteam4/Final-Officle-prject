@@ -45,7 +45,7 @@ const Portfolio = () => {
     selectedCategory === "All"
       ? portfolioData
       : portfolioData.filter(
-          (project) => project.category.name === selectedCategory 
+          (project) => project.category.name === selectedCategory //access category.name
         );
 
   const handleSortChange = (sortOption) => {
