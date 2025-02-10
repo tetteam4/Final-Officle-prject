@@ -1,15 +1,18 @@
 import React from "react";
 import { RxArrowRight } from "react-icons/rx";
 import { FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-const BlogCard = ({ data }) => {
+const BlogCard = ({ blog }) => {
+  const navigate = useNavigate();
+  //console.log("check is coming value  ",blog.id)
   return (
     <div className="bg-white flex flex-col justify-between rounded-t-xl h-[500px] w-[370px] shadow-xl">
       {/* Image Section */}
       <div className="h-[200px]">
         <img
-          src={data.images[0]}
-          alt={data.title}
+          src={blog?.hero_image} // Use ternary conditional operatior for hero image
+          alt={blog?.title} // Use ternary conditional operatior for title
           className="w-full h-full object-cover rounded-t-xl"
         />
       </div>
@@ -23,24 +26,27 @@ const BlogCard = ({ data }) => {
           <p className="text-lg font-bold">TET</p>
         </div>
         <div>
-          <span className="text-lg">{data.date}</span>
+          {/*<span className="text-lg">{blog.date}</span> not defined in API DATA */}
         </div>
       </div>
 
       {/* Title and Description Section */}
       <div className="px-4 h-[160px]  overflow-hidden">
         <h3 className="text-md font-semibold h-[40px] overflow-hidden text-ellipsis">
-          {data.title}
+          {blog?.title}
         </h3>
         <p className=" text-justify text-md h-[110px] mt-4 overflow-hidden text-ellipsis">
-        {data.description.length > 130
-            ? data.description.substring(0, 130) + "..."
-            : data.description}
+          {blog?.general_info?.length > 130
+            ? blog?.general_info.substring(0, 130) + "..."
+            : blog?.general_info}
         </p>
       </div>
 
       {/* Read More Button */}
-      <div className="relative group cursor-pointer  overflow-hidden h-[50px]">
+      <div
+        onClick={() => navigate(`/blog/${blog.id}`)}
+        className="relative group cursor-pointer  overflow-hidden h-[50px]"
+      >
         {/* Background animation effect */}
         <div className="absolute inset-0 w-0 bg-gradient-to-r from-[#02DB81] to-[#2d9469] transition-all duration-500 group-hover:w-full"></div>
 
