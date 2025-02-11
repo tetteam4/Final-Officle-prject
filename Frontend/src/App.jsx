@@ -46,13 +46,8 @@ const App = () => {
               <Route
                 path="/portfolio_ca/:categoryName"
                 element={<CategoryPage />}
-              />{" "}
-              {/* New route */}
-              <Route
-                path="/portfolio/:id"
-                element={<PortfolioDetialsPage />}
-              />{" "}
-              {/* Changed /portfolio/:slug to /portfolio/:id */}
+              />
+              <Route path="/portfolio/:id" element={<PortfolioDetialsPage />}/>
               <Route path="/webdesign" element={<Web_Design />} />
               <Route path="/website-seo" element={<Web_Seo />} />
               <Route path="/blog" element={<Blog />} />

@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 const CustomerSlider = () => {
   const testimonials = [
     {
-      image: "https://images.unsplash.com/photo-1622838320000-4b3b3b3b3b3b",
+      image: "./public/herobg.png",
       text: "The team exceeded our expectations, offering innovative solutions and incredible support!",
       customer: "Customer A",
     },

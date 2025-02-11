@@ -8,6 +8,7 @@ from .models import (
     Section,
     Team,
     Technology,
+    HoerImagesModel
 )
 
 admin.site.register(Portfolio)
@@ -16,3 +17,9 @@ admin.site.register(Category)
 admin.site.register(Section)
 admin.site.register(BlogPost)
 admin.site.register(Experiences)
+admin.site.register(Team)
+admin.site.register(HoerImagesModel)
+
+
+
+

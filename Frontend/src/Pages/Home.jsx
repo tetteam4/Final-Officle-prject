@@ -16,13 +16,10 @@ const HomePage = () => {
   return (
     <div className="font-sans ">
     <Hero_Home /> 
-    {/* TET */}
-    <Tet_Detials />
-    {/* Be Creative section */}
     <BeCreative />
     <ProjectStats />
-   <PortfolioHome />
-   <RecentlyHomeBlog />
+    <PortfolioHome />
+    <RecentlyHomeBlog />
     </div>
   );
 };
