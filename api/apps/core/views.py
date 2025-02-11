@@ -11,11 +11,21 @@ from rest_framework.mixins import (
 )
 from rest_framework.response import Response
 
-from .models import About, BlogPost, Category, Portfolio, Section, Team, Technology
+from .models import (
+    About,
+    BlogPost,
+    Category,
+    Experiences,
+    Portfolio,
+    Section,
+    Team,
+    Technology,
+)
 from .serializers import (
     AboutSerializer,
     BlogPostSerializer,
     CategorySerializer,
+    ExperienceSerializer,
     PortfolioSerializer,
     SectionSerializer,
     TeamSerializer,
@@ -215,3 +225,15 @@ class AboutView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         return About.objects.first()
+
+
+class ExperienceListView(generics.ListCreateAPIView):
+    queryset = Experiences.objects.all().order_by("-created_at")
+    serializer_class = ExperienceSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class ExperienceDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Experiences.objects.all()
+    serializer_class = ExperienceSerializer
+    permission_classes = [permissions.AllowAny]

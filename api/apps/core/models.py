@@ -149,3 +149,18 @@ class About(TimeStampedUUIDModel):
     class Meta:
         verbose_name = _("About Us")
         verbose_name_plural = _("About Us")
+
+
+class Experiences(TimeStampedUUIDModel):
+    title = models.CharField(max_length=200)
+    company_name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="images/experiences")
+    points = RichTextUploadingField()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _("Experience")
+        verbose_name_plural = _("Experiences")
+        ordering = ["-created_at"]
