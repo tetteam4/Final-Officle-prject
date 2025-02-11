@@ -13,6 +13,7 @@ from .models import (
     Services,
     Team,
     Technology,
+    HoerImagesModel
 )
 
 
