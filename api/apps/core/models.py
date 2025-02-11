@@ -164,3 +164,10 @@ class Experiences(TimeStampedUUIDModel):
         verbose_name = _("Experience")
         verbose_name_plural = _("Experiences")
         ordering = ["-created_at"]
+
+
+class HoerImagesModel(TimeStampedUUIDModel):
+    image = models.ImageField(upload_to="images/hero")
+    head = models.CharField(max_length=255)
+    description = RichTextUploadingField()
+    

@@ -16,6 +16,7 @@ from .models import (
     BlogPost,
     Category,
     Experiences,
+    HoerImagesModel,
     Portfolio,
     Section,
     Team,
@@ -26,6 +27,7 @@ from .serializers import (
     BlogPostSerializer,
     CategorySerializer,
     ExperienceSerializer,
+    HoerImagesModelSerializer,
     PortfolioSerializer,
     SectionSerializer,
     TeamSerializer,
@@ -236,4 +238,16 @@ class ExperienceListView(generics.ListCreateAPIView):
 class ExperienceDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Experiences.objects.all()
     serializer_class = ExperienceSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class HoerImagesModelListView(generics.ListCreateAPIView):
+    queryset = HoerImagesModel.objects.all()
+    serializer_class = HoerImagesModelSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class HoerImagesModelDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = HoerImagesModel.objects.all()
+    serializer_class = HoerImagesModelSerializer
     permission_classes = [permissions.AllowAny]
