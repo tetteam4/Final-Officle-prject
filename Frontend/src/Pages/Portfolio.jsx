@@ -14,7 +14,7 @@ const Portfolio = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cardsPerPage, setCardsPerPage] = useState(6);
-  const [portfolioData, setPortfolioData] = useState([]); 
+  const [portfolioData, setPortfolioData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedSort, setSelectedSort] = useState("A-Z");
@@ -199,11 +199,11 @@ const Portfolio = () => {
           <ProjectNameList Portfolio_Data={portfolioData} />
         </aside>
       </div>
-      <div>
+      <div className="mt-6">
         <PortfolioFiltering
           selectedCategory={selectedCategory}
           onCategoryChange={handleCategoryChange}
-          Portfolio_Data={portfolioData} 
+          Portfolio_Data={portfolioData}
           onSortChange={handleSortChange}
         />
       </div>
@@ -219,11 +219,7 @@ const Portfolio = () => {
           };
 
           return (
-            <PortfolioCard
-              key={index}
-              port={port}
-              onClick={handleClick} 
-            />
+            <PortfolioCard key={index} port={port} onClick={handleClick} />
           );
         })}
       </div>
