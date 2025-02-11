@@ -117,8 +117,7 @@ export const NAV_DATA  = [
         },
       ],
     },
-    { name: "Website SEO", path: "/website-seo" , icon: null,
-      subCategories: null, },
+
     { name: "Blog", path: "/blog" , icon: null,
       subCategories: null, },
     { name: "About Us", path: "/about" , icon: null,
