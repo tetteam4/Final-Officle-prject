@@ -36,7 +36,6 @@ const Blog = () => {
     fetchBlogData();
   }, []);
 
-  // Filter blogData based on selectedCategory
   const filteredData =
     selectedCategory === "All"
       ? blogData
@@ -49,7 +48,7 @@ const Blog = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on page change
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleNextPage = () => {
@@ -115,8 +114,7 @@ const Blog = () => {
 
   return (
     <section className="mx-auto max-w-7xl py-8 px-4">
-      <div className="flex flex-col md:flex-row gap-5 ">
-        {/* Left Aside - Category List */}
+      <div className="flex flex-col md:flex-row gap-5">
         <aside className="w-full md:w-1/4">
           <BlogCategoryList
             onCategoryChange={handleCategoryChange}
@@ -124,10 +122,9 @@ const Blog = () => {
           />
         </aside>
 
-        {/* Main Content */}
         <main className="w-full md:w-3/4">
           <h1 className="text-3xl font-bold mb-6">Our Blog</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
             {currentCards.map((blog, index) => (
               <BlogCard
                 key={index}
@@ -137,10 +134,8 @@ const Blog = () => {
             ))}
           </div>
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center my-10 space-x-2">
-              {/* Previous Button */}
               {currentPage > 1 && (
                 <button
                   onClick={handlePreviousPage}
@@ -150,10 +145,8 @@ const Blog = () => {
                 </button>
               )}
 
-              {/* Render Pagination Buttons */}
               {renderPaginationButtons()}
 
-              {/* Next Button */}
               {currentPage < totalPages && (
                 <button
                   onClick={handleNextPage}
