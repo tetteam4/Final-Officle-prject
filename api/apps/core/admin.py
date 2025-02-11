@@ -11,6 +11,7 @@ from .models import (
     Section,
     Team,
     Technology,
+    HoerImagesModel
 )
 
 # Adding custom CSS for each model admin

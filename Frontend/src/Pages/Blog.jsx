@@ -4,7 +4,7 @@ import BlogCard from "../Components/Blog/BlogCard";
 import BlogCategoryList from "../Components/Blog/BlogCategoryList";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import LoadingSpinner from "../Components/Blog/LoadingSpinner";
-import BackToTopButton from "../Components/Blog/BackToTopButton";
+// import RecentlyBlog from "../Components/Blog/RecentlyBlog";
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -158,6 +158,7 @@ const Blog = () => {
             </div>
           )}
         </main>
+
       </div>
     </section>
   );
