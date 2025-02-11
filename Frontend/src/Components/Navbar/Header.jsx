@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import RespNavbar from "./RespNavbar";
 import { LuLogIn } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.jpg";
+import logo from "../../assets/tet.png";
 import { MdEmail, MdMenu, MdClose } from "react-icons/md";
 import { MdWbSunny, MdNightlight } from "react-icons/md";
 import useDarkMode from "../../hooks/useDarkMode";
+
 const Header = () => {
   const [isClick, setIsClick] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -20,24 +21,24 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-[#FFFFFF] dark:bg-gray-950 fixed top-0 lg:sticky z-30 p-2 border dark:border-gray-950 left-0 right-0">
+    <header className=" dark:bg-gray-950 fixed top-0 lg:sticky z-30 p-2 dark:border-gray-950 left-0 right-0 bg-green-600">
       <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2">
         {/* Logo */}
-        <div className="flex items-center gap-x-5 md:col-span-2 lg:col-span-1 ">
+        <div className="flex items-center gap-x-5 md:col-span-2 lg:col-span-1">
           <div
-            onClick={repsonsiveHandler} // Fixed function name
+            onClick={repsonsiveHandler}
             className="flex lg:hidden cursor-pointer justify-end items-center"
           >
             <span className="hover:bg-gray-400 rounded-full p-2 hover:text-white transition duration-300">
               {isOpne ? <MdClose size={30} /> : <MdMenu size={30} />}
             </span>
           </div>
-          <div className="texFt-3xl font-bold text-red-600">
+          <div className="text-3xl font-bold">
             <Link to="/" className="text-lg font-bold">
               <img
                 src={logo}
-                alt=""
-                className="h-14 w-auto mix-blend-multiply dark:mix-blend-normal dark:rounded-md"
+                alt="TET Logo"
+                className="h-16 w-auto dark:mix-blend-normal dark:rounded-md"
               />
             </Link>
           </div>

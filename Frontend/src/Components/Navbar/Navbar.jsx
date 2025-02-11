@@ -32,10 +32,18 @@ const Navbar = () => {
   return (
     <nav
       className={`w-full hidden lg:block z-30 transition-all duration-500 ${
-        isScrolled ? "fixed top-0 left-0 bg-white shadow-md border-b border-gray-200" : "relative bg-transparent"
+        isScrolled
+          ? "fixed top-0 left-0 bg-white shadow-md"
+          : "relative bg-transparent"
       }`}
     >
-      <div className="bg-white px-4 py-1.5 flex justify-center items-center">
+      <div
+        className={`px-4 py-1.5 flex justify-center items-center ${
+          isScrolled
+            ? " bg-green-600"
+            : "relative bg-transparent bg-white"
+        }`}
+      >
         <ul className="lg:flex lg:gap-4 p-4 lg:p-0 space-y-4 lg:space-y-0 flex justify-center items-center w-full">
           {NAV_DATA.map((item, index) => (
             <li
@@ -50,7 +58,9 @@ const Navbar = () => {
             >
               <Link
                 to={item.path}
-                className="text-gray-600 transition-colors flex items-center text-md font-sans font-semibold duration-300 hover:text-gray-900"
+                className={` transition-colors flex items-center text-md font-sans font-semibold duration-300 hover:text-gray-900 ${
+                  isScrolled ? "text-white" : "text-gray-600"
+                }`}
                 aria-haspopup={!!item.subCategories}
                 aria-expanded={delayedItem === index}
               >
@@ -73,7 +83,10 @@ const Navbar = () => {
                       isScrolled ? "fixed top-[50px] " : "absolute top-12"
                     } left-0 w-full  z-40`}
                   >
-                    <MegaMenu subCategories={item.subCategories} isVisible={true} />
+                    <MegaMenu
+                      subCategories={item.subCategories}
+                      isVisible={true}
+                    />
                   </div>
                 </>
               )}
