@@ -6,6 +6,7 @@ from .models import (
     BlogPost,
     Category,
     Experiences,
+    HoerImagesModel,
     Portfolio,
     Section,
     Team,
@@ -123,3 +124,9 @@ class ExperienceSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+
+class HoerImagesModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HoerImagesModel
+        fields = ["id", "image", "head", "description", "created_at", "updated_at"]

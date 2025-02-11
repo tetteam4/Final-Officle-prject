@@ -48,4 +48,14 @@ urlpatterns = [
         views.ExperienceDetailView.as_view(),
         name="experience_detail_api",
     ),
+    path(
+        "hero-images/",
+        views.HoerImagesModelListView.as_view(),
+        name="hoer_images_list_api",
+    ),
+    path(
+        "hero-images/<int:pk>/",
+        views.HoerImagesModelDetailView.as_view(),
+        name="hoer_images_detail_api",
+    ),
 ]
