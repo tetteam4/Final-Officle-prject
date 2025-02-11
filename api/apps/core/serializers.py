@@ -129,4 +129,12 @@ class ExperienceSerializer(serializers.ModelSerializer):
 class HoerImagesModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = HoerImagesModel
-        fields = ["id", "image", "head", "description", "created_at", "updated_at"]
+        fields = [
+            "id",
+            "image",
+            "head",
+            "description",
+            "video",
+            "created_at",
+            "updated_at",
+        ]
