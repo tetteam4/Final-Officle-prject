@@ -36,6 +36,16 @@ urlpatterns = [
         name="portfolio-detail",
     ),
     path("", include(router.urls)),
-    path("about/", views.AboutCreateView.as_view(), name="about-create"),  # Handle POST
+    path("about/", views.AboutCreateView.as_view(), name="about-create"),
     path("about/<uuid:pk>/", views.AboutView.as_view(), name="about-detail"),
+    path(
+        "experiences/",
+        views.ExperienceListView.as_view(),
+        name="experience_list_api",
+    ),
+    path(
+        "experiences/<int:pk>/",
+        views.ExperienceDetailView.as_view(),
+        name="experience_detail_api",
+    ),
 ]

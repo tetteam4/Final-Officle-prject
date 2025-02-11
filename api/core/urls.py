@@ -25,4 +25,5 @@ urlpatterns = [
     path("", schema_view.with_ui("redoc", cache_timeout=0)),
     path("admin/", admin.site.urls),
     path("api/", include("apps.core.urls")),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

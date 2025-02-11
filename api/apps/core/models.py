@@ -1,5 +1,6 @@
 from apps.common.models import TimeStampedUUIDModel
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
@@ -50,8 +51,7 @@ class Portfolio(TimeStampedUUIDModel):
     top_images = models.ImageField(upload_to="portfolio/", null=True, blank=True)
     dashboard_images = models.ImageField(upload_to="portfolio/", null=True, blank=True)
     nav_images = models.ImageField(upload_to="portfolio/", null=True, blank=True)
-    # description = RichTextField(blank=True, null=True)
-    description = models.TextField()
+    description = RichTextUploadingField()
     deployment = models.CharField(blank=True, null=True, max_length=255)
     echnologies = TaggableManager()
 
@@ -69,8 +69,8 @@ class BlogPost(TimeStampedUUIDModel):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     hero_image = models.ImageField(upload_to="blogs/heroes/")
     section = models.ManyToManyField("Section")
-    general_info = models.TextField()
-    conclusion = models.TextField()
+    general_info = RichTextUploadingField()
+    conclusion = RichTextUploadingField()
 
     def __str__(self):
         return self.title
@@ -84,7 +84,7 @@ class BlogPost(TimeStampedUUIDModel):
 class Section(TimeStampedUUIDModel):
     subtitle = models.CharField(max_length=200)
     image = models.ImageField(upload_to="blogs/sections/")
-    description = models.TextField()
+    description = RichTextUploadingField()
 
     def __str__(self):
         return self.subtitle
@@ -97,7 +97,7 @@ class Section(TimeStampedUUIDModel):
 class Team(TimeStampedUUIDModel):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    designation = models.CharField(max_length=255)
+    designation = RichTextUploadingField()
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/")
     whatsapp = models.URLField(max_length=100)
     twitter_link = models.URLField(max_length=100)
@@ -116,9 +116,7 @@ class About(TimeStampedUUIDModel):
         OTHER = "Other", _("Other")
 
     name = models.CharField(max_length=200, verbose_name=_("Company Name"))
-    description = models.TextField(
-        blank=True, null=True, verbose_name=_("Company Description")
-    )
+    description = RichTextUploadingField()
     company_story = models.TextField(
         blank=True, null=True, verbose_name=_("Company Story")
     )
@@ -151,3 +149,18 @@ class About(TimeStampedUUIDModel):
     class Meta:
         verbose_name = _("About Us")
         verbose_name_plural = _("About Us")
+
+
+class Experiences(TimeStampedUUIDModel):
+    title = models.CharField(max_length=200)
+    company_name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="images/experiences")
+    points = RichTextUploadingField()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _("Experience")
+        verbose_name_plural = _("Experiences")
+        ordering = ["-created_at"]

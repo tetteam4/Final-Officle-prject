@@ -1,12 +1,18 @@
 from django.contrib import admin
 
-from .models import BlogPost, Category, Portfolio, Section, Technology
-from .models import Team
+from .models import (
+    BlogPost,
+    Category,
+    Experiences,
+    Portfolio,
+    Section,
+    Team,
+    Technology,
+)
+
 admin.site.register(Portfolio)
 admin.site.register(Technology)
 admin.site.register(Category)
 admin.site.register(Section)
 admin.site.register(BlogPost)
-admin.site.register(Team)
-
-
+admin.site.register(Experiences)
