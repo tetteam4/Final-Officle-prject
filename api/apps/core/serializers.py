@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from taggit.serializers import TagListSerializerField
 
+from . import models as core_models
 from .models import (
     About,
     BlogPost,
@@ -16,7 +17,7 @@ from .models import (
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Category
+        model = core_models.Category
         fields = ["id", "name"]
 
 
@@ -138,3 +139,18 @@ class HoerImagesModelSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+
+class BenefitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = core_models.Benefits
+        fields = ["id", "title", "description"]
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    benefit = BenefitSerializer(many=True)
+    category = CategorySerializer()
+
+    class Meta:
+        model = core_models.Services
+        fields = ["id", "category", "description", "video", "image", "icon", "benefit"]

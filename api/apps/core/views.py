@@ -13,23 +13,27 @@ from rest_framework.response import Response
 
 from .models import (
     About,
+    Benefits,
     BlogPost,
     Category,
     Experiences,
     HoerImagesModel,
     Portfolio,
     Section,
+    Services,
     Team,
     Technology,
 )
 from .serializers import (
     AboutSerializer,
+    BenefitSerializer,
     BlogPostSerializer,
     CategorySerializer,
     ExperienceSerializer,
     HoerImagesModelSerializer,
     PortfolioSerializer,
     SectionSerializer,
+    ServiceSerializer,
     TeamSerializer,
     TechnologySerializer,
 )
@@ -250,4 +254,26 @@ class HoerImagesModelListView(generics.ListCreateAPIView):
 class HoerImagesModelDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = HoerImagesModel.objects.all()
     serializer_class = HoerImagesModelSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class BenefitsListView(generics.ListAPIView):
+    queryset = Benefits.objects.all()
+    serializer_class = BenefitSerializer
+
+
+class BenefitsDetailView(generics.RetrieveAPIView):
+    queryset = Benefits.objects.all()
+    serializer_class = BenefitSerializer
+
+
+class ServicesListView(generics.ListAPIView):
+    queryset = Services.objects.all()
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class ServicesDetailView(generics.RetrieveAPIView):
+    queryset = Services.objects.all()
+    serializer_class = ServiceSerializer
     permission_classes = [permissions.AllowAny]

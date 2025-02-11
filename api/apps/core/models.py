@@ -171,3 +171,23 @@ class HoerImagesModel(TimeStampedUUIDModel):
     image = models.ImageField(upload_to="images/hero")
     head = models.CharField(max_length=255)
     description = RichTextUploadingField()
+
+
+class Benefits(TimeStampedUUIDModel):
+    title = models.CharField(max_length=200)
+    description = RichTextUploadingField()
+
+    def __str__(self):
+        return self.title
+
+
+class Services(TimeStampedUUIDModel):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    description = RichTextUploadingField()
+    image = models.ImageField(upload_to="services/", null=True, blank=True)
+    icon = models.ImageField(upload_to="services/icon/")
+    video = models.FileField(upload_to="videos/services", null=True, blank=True)
+    benefit = models.ManyToManyField(Benefits)
+
+    def __str__(self):
+        return f"{self.category.name} - {self.description[:30]}"

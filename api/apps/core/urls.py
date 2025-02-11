@@ -58,4 +58,12 @@ urlpatterns = [
         views.HoerImagesModelDetailView.as_view(),
         name="hoer_images_detail_api",
     ),
+    path("benefits/", views.BenefitsListView.as_view(), name="benefits-list"),
+    path(
+        "benefits/<int:pk>/", views.BenefitsDetailView.as_view(), name="benefits-detail"
+    ),
+    path("services/", views.ServicesListView.as_view(), name="services-list"),
+    path(
+        "services/<int:pk>/", views.ServicesDetailView.as_view(), name="services-detail"
+    ),
 ]

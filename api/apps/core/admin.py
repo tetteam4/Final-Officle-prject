@@ -3,17 +3,17 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import (
     About,
+    Benefits,
     BlogPost,
     Category,
     Experiences,
     HoerImagesModel,
     Portfolio,
     Section,
+    Services,
     Team,
     Technology,
 )
-
-# Adding custom CSS for each model admin
 
 
 @admin.register(Category)
@@ -23,7 +23,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ("created_at",)
 
     class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}  # Path to your custom CSS
+        css = {"all": ("admin/css/admin_custom.css",)}
 
 
 @admin.register(Technology)
@@ -33,7 +33,7 @@ class TechnologyAdmin(admin.ModelAdmin):
     list_filter = ("created_at",)
 
     class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}  # Path to your custom CSS
+        css = {"all": ("admin/css/admin_custom.css",)}
 
 
 @admin.register(Portfolio)
@@ -47,7 +47,7 @@ class PortfolioAdmin(admin.ModelAdmin):
     list_filter = ("category", "rating", "created_at")
 
     class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}  # Path to your custom CSS
+        css = {"all": ("admin/css/admin_custom.css",)}
 
 
 @admin.register(BlogPost)
@@ -61,7 +61,7 @@ class BlogPostAdmin(admin.ModelAdmin):
     filter_horizontal = ("section",)
 
     class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}  # Path to your custom CSS
+        css = {"all": ("admin/css/admin_custom.css",)}
 
 
 @admin.register(Section)
@@ -71,7 +71,7 @@ class SectionAdmin(admin.ModelAdmin):
     list_filter = ("created_at",)
 
     class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}  # Path to your custom CSS
+        css = {"all": ("admin/css/admin_custom.css",)}
 
 
 @admin.register(Team)
@@ -81,7 +81,7 @@ class TeamAdmin(admin.ModelAdmin):
     list_filter = ("created_at",)
 
     class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}  # Path to your custom CSS
+        css = {"all": ("admin/css/admin_custom.css",)}
 
 
 @admin.register(About)
@@ -95,7 +95,7 @@ class AboutAdmin(admin.ModelAdmin):
     filter_horizontal = ("technologies_used",)
 
     class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}  # Path to your custom CSS
+        css = {"all": ("admin/css/admin_custom.css",)}
 
 
 @admin.register(Experiences)
@@ -108,7 +108,7 @@ class ExperiencesAdmin(admin.ModelAdmin):
     list_filter = ("created_at",)
 
     class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}  # Path to your custom CSS
+        css = {"all": ("admin/css/admin_custom.css",)}
 
 
 @admin.register(HoerImagesModel)
@@ -118,4 +118,8 @@ class HoerImagesModelAdmin(admin.ModelAdmin):
     list_filter = ("created_at",)
 
     class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}  # Path to your custom CSS
+        css = {"all": ("admin/css/admin_custom.css",)}
+
+
+admin.site.register(Services)
+admin.site.register(Benefits)
