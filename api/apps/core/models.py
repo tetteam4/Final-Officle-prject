@@ -167,7 +167,7 @@ class Experiences(TimeStampedUUIDModel):
 
 
 class HoerImagesModel(TimeStampedUUIDModel):
+    video = models.FileField(upload_to="videos/hero", null=True, blank=True)
     image = models.ImageField(upload_to="images/hero")
     head = models.CharField(max_length=255)
     description = RichTextUploadingField()
-    
