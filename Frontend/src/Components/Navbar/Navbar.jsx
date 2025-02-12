@@ -31,17 +31,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`w-full hidden lg:block z-30 transition-all duration-500 ${
+      className={`w-full hidden lg:block z-30 transition-all duration-500  dark:bg-gray-900 ${
         isScrolled
-          ? "fixed top-0 left-0 bg-white shadow-md"
-          : "relative bg-transparent"
+          ? "fixed top-0 left-0  shadow-md"
+          : "relative bg-transparent bg-white "
       }`}
     >
       <div
-        className={`px-4 py-1.5 flex justify-center items-center ${
-          isScrolled
-            ? " bg-green-600"
-            : "relative bg-transparent bg-white"
+        className={`px-4 py-1.5 flex justify-center   items-center ${
+          isScrolled ? " bg-white text-gray-900 " : "relative bg-white  "
         }`}
       >
         <ul className="lg:flex lg:gap-4 p-4 lg:p-0 space-y-4 lg:space-y-0 flex justify-center items-center w-full">
@@ -59,7 +57,7 @@ const Navbar = () => {
               <Link
                 to={item.path}
                 className={` transition-colors flex items-center text-md font-sans font-semibold duration-300 hover:text-gray-900 ${
-                  isScrolled ? "text-white" : "text-gray-600"
+                  isScrolled ? "" : "text-gray-600"
                 }`}
                 aria-haspopup={!!item.subCategories}
                 aria-expanded={delayedItem === index}

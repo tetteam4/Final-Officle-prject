@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   return (
-    <header className=" dark:bg-gray-950 fixed top-0 lg:sticky z-30 p-2 dark:border-gray-950 left-0 right-0 bg-green-600">
+    <header className=" dark:bg-gray-950 fixed top-0 lg:sticky z-30 p-2 dark:border-gray-900 left-0 right-0 bg-purple-950">
       <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2">
         {/* Logo */}
         <div className="flex items-center gap-x-5 md:col-span-2 lg:col-span-1">
