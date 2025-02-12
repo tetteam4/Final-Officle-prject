@@ -8,6 +8,7 @@ import PortfolioHome from '../Components/Portfolio/PortfolioHome';
 
 import RecentlyHomeBlog from '../Components/Home/RecentlyHomeBlog';
 import ProjectStats from '../Components/Home/ProjectStats';
+import CodeGenerationAnimation from './CodeGenerationAnimation';
 
 
 
@@ -15,11 +16,12 @@ const HomePage = () => {
  
   return (
     <div className="font-sans ">
-    <Hero_Home /> 
-    <BeCreative />
-    <ProjectStats />
-    <PortfolioHome />
-    <RecentlyHomeBlog />
+      <Hero_Home />
+      <BeCreative />
+      <CodeGenerationAnimation />
+      <ProjectStats />
+      <PortfolioHome />
+      <RecentlyHomeBlog />
     </div>
   );
 };

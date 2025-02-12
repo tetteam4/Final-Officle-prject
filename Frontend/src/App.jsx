@@ -22,6 +22,7 @@ import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme.jsx";
 import useDarkMode from "./hooks/useDarkMode";
 import BlogDetailsPage from "./Components/Blog/BlogDetailsPage.jsx";
+import '../src/Pages/ani.css'
 
 const App = () => {
   const [theme, toggleTheme] = useDarkMode();

@@ -7,12 +7,11 @@ import {
   FaChartLine,
 } from "react-icons/fa";
 
-import Slider from "./Slider";
 
 const BeCreativeAndDistinct = () => {
   return (
     <div className="text-center py-12 px-6">
-      <h1 className="text-4xl font-bold text-gray-800 mb-6">
+      <h1 className="text-4xl font-bold text-gray-800 ">
         Be Creative and Distinct
       </h1>
       <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
@@ -57,7 +56,6 @@ const BeCreativeAndDistinct = () => {
       </div>
 
       <div className="w-full relative mx-auto">
-        <Slider />
       </div>
     </div>
   );
