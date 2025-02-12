@@ -37,9 +37,7 @@ THIRD_PARTY_APPS = [
     "ckeditor_uploader",
 ]
 
-LOCAL_APPS = [
-    "apps.core",
-]
+LOCAL_APPS = ["apps.core", "apps.users"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -159,3 +157,4 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 # Site ID
 SITE_ID = 1
 CKEDITOR_UPLOAD_PATH = "uploads/ckeditor/"
+AUTH_USER_MODEL = "users.User"
