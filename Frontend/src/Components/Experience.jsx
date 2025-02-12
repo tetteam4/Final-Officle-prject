@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
@@ -8,16 +8,16 @@ import { motion } from "framer-motion";
 import "react-vertical-timeline-component/style.min.css";
 
 import { styles } from "../Pages/styles.js";
-import { experiences } from "../constants";
 import { SectionWrapper } from "../hoc";
 import { textVariant } from "../Utilities/motion.js";
 import styled from "styled-components";
+
 const CustomVerticalTimeline = styled(VerticalTimeline)`
   &::before {
-    background: ${(props) =>
-      props.theme.secondary}; 
+    background: ${(props) => props.theme.secondary};
   }
 `;
+
 const ExperienceCard = ({ experience }) => (
   <VerticalTimelineElement
     contentStyle={{
@@ -25,14 +25,14 @@ const ExperienceCard = ({ experience }) => (
       color: "#fff",
     }}
     contentArrowStyle={{ borderRight: "7px solid  #232631" }}
-    date={experience.date}
-    iconStyle={{ background: experience.iconBg }}
+    date={new Date(experience.created_at).toLocaleDateString()}
+    iconStyle={{ background: "#0a7927", color: "#fff" }} // Consistent background
     icon={
       <div className="flex justify-center items-center w-full h-full">
         <img
-          src={experience.icon}
+          src={experience.image}
           alt={experience.company_name}
-          className="w-[60%] h-[60%] object-contain"
+          className="w-[60px] h-[60px] object-cover rounded-full"
         />
       </div>
     }
@@ -48,12 +48,12 @@ const ExperienceCard = ({ experience }) => (
     </div>
 
     <ul className="mt-5 list-disc ml-5 space-y-2">
-      {experience.points.map((point, index) => (
+      {experience.points.split(",").map((point, index) => (
         <li
           key={`experience-point-${index}`}
           className="text-white-100 text-[14px] pl-1 tracking-wider"
         >
-          {point}
+          {point.trim()}
         </li>
       ))}
     </ul>
@@ -61,11 +61,31 @@ const ExperienceCard = ({ experience }) => (
 );
 
 const Experience = () => {
+  const [experiences, setExperiences] = useState([]);
+  const API_URL = "http://127.0.0.1:8000/api/experiences/";
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setExperiences(data);
+      } catch (error) {
+        console.error("Could not fetch experiences:", error);
+      }
+    };
+
+    fetchExperiences();
+  }, []);
+
   return (
     <>
       <motion.div variants={textVariant()}>
         <p className={`${styles.sectionSubText} text-center`}>
-          What we Work So far 
+          What we Work So far
         </p>
         <h2 className={`${styles.sectionHeadText} text-center`}>
           Our Experinces.

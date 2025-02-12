@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -12,7 +12,8 @@ const PortfolioHome = () => {
   const [activeProject, setActiveProject] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
- const navigate=useNavigate()
+  const navigate = useNavigate()
+  
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
@@ -37,6 +38,9 @@ const PortfolioHome = () => {
     fetchProjects();
   }, []);
 
+  const handleMore = (id) => {
+    navigate(`/portfolio/${id}`);
+  }
   const handleSlideChange = (swiper) => {
     setActiveProject(projects[swiper.realIndex].name);
   };
@@ -68,7 +72,7 @@ const PortfolioHome = () => {
         className="w-full"
       >
         {projects.map((project) => (
-          <SwiperSlide key={project.id}>
+          <SwiperSlide key={project.id} onClick={() => handleMore(project.id)}>
             <div className="flex flex-col items-center gap-8">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="relative border-2 border-gray-200 p-1 rounded-lg shadow-2xl w-[400px] h-[300px] md:w-[650px] md:h-[400px]">

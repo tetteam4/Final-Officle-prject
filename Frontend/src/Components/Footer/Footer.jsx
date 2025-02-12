@@ -8,7 +8,7 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 import { SiNike } from "react-icons/si";
-import logo from "../../assets/logo.jpg"
+import logo from "../../assets/tet.png"
 
 const Footer = () => {
     const [email, setEmail] = useState('');
@@ -30,11 +30,11 @@ const Footer = () => {
       }
     };
   return (
-    <footer className="bg-secondary  text-gray-700 border-t border-gray-300">
+    <footer className="bg-gray-500  text-gray-700 border-t border-gray-300">
       <div className="w-full mx-auto container mb-5  flex justify-between items-center ">
         <div className="text-md">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="" className="w-[200px] mix-blend-multiply" />
+            <img src={logo} alt="" className="w-[200px] " />
           </div>
           <div className="flex items-center gap-x-7">
             <p>Telephone : +93772387935</p>
