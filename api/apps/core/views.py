@@ -305,5 +305,3 @@ class WebCategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = webCategory.objects.all()
     serializer_class = WebCategorySerializer
     permission_classes = [permissions.AllowAny]
-
-

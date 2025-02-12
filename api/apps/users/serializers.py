@@ -1,179 +1,69 @@
-from profile import Profile
-
-from django.contrib.auth import authenticate
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from django.core.files.storage import default_storage
-from django.db import transaction
+from allauth.account.adapter import get_adapter
+from allauth.account.utils import setup_user_email
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from django.contrib.auth import get_user_model
+from django_countries.serializer_fields import CountryField
+from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import User, UserProfile
-
-
-class CreateUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True)
-    password_confirm = serializers.CharField(write_only=True, required=True)
-
-    class Meta:
-        model = User
-        fields = [
-            "first_name",
-            "last_name",
-            "email",
-            "role",
-            "password",
-            "password_confirm",
-        ]
-
-    def validate(self, data):
-
-        if data["password"] != data["password_confirm"]:
-            raise ValidationError("Passwords must match.")
-
-        return data
-
-    def create(self, validated_data):
-        """Create a new user with encrypted password."""
-        try:
-
-            validated_data.pop("password_confirm", None)
-
-            with transaction.atomic():
-                password = validated_data.pop("password", None)
-                user = User.objects.create(**validated_data)
-                user.set_password(password)
-                user.save()
-                return user
-        except Exception as e:
-            raise ValidationError(f"Error creating user: {e}")
+User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+    gender = serializers.CharField(source="profile.gender")
+    phone_number = PhoneNumberField(source="profile.phone_number")
+    profile_photo = serializers.ReadOnlyField(source="profile.profile_photo.url")
+    country = CountryField(source="profile.country")
+    city = serializers.CharField(source="profile.city")
 
     class Meta:
         model = User
         fields = [
             "id",
+            "email",
             "first_name",
             "last_name",
-            "email",
-            "role",
-            "is_staff",
-            "is_active",
-            "is_superadmin",
+            "gender",
+            "phone_number",
+            "profile_photo",
+            "country",
+            "city",
         ]
 
-
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        token["email"] = user.email
-        token["first_name"] = user.first_name
-        token["role"] = user.role
-
-        return token
+    def to_representation(self, instance):
+        representation = super(UserSerializer, self).to_representation(instance)
+        if instance.is_superuser:
+            representation["admin"] = True
+        return representation
 
 
-class UpdateUserSerializer(serializers.ModelSerializer):
-    confirm_password = serializers.CharField(write_only=True)
-    old_password = serializers.CharField(write_only=True)
+class CustomRegisterSerializer(RegisterSerializer):
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    email = serializers.EmailField(required=True)
+    password1 = serializers.CharField(write_only=True)
+    password2 = serializers.CharField(write_only=True)
 
-    class Meta:
-        model = User
-        fields = [
-            "email",
-            "old_password",
-            "password",
-            "confirm_password",
-        ]
+    def get_cleaned_data(self):
+        super().get_cleaned_data()
+        return {
+            "email": self.validated_data.get("email", ""),
+            "first_name": self.validated_data.get("first_name", ""),
+            "last_name": self.validated_data.get("last_name", ""),
+            "password1": self.validated_data.get("password1", ""),
+        }
 
-    def validate(self, data):
-        password = data.get("password")
-        confirm_password = data.get("confirm_password")
-        old_password = data.get("old_password")
+    def save(self, request):
+        adapter = get_adapter()
+        user = adapter.new_user(request)
+        self.cleaned_data = self.get_cleaned_data()
+        user = adapter.save_user(request, user, self)
+        user.save()
 
-        # Get the current user
-        user = self.context["request"].user
+        setup_user_email(request, user, [])
+        user.email = self.cleaned_data.get("email")
+        user.password = self.cleaned_data.get("password1")
+        user.first_name = self.cleaned_data.get("first_name")
+        user.last_name = self.cleaned_data.get("last_name")
 
-        # Check if old password is correct
-        if old_password:
-            user = authenticate(email=user.email, password=old_password)
-            if not user:
-                raise ValidationError(
-                    {"old_password": "The old password is incorrect."}
-                )
-
-        # Check if password and confirm password match
-        if password and confirm_password and password != confirm_password:
-            raise ValidationError(
-                {"confirm_password": "Password and Confirm password do not match."}
-            )
-
-        # Validate the new password (optional, you can add more validation rules here)
-        if password:
-            try:
-                validate_password(
-                    password, user
-                )  # This will validate the new password against the system's rules
-            except ValidationError as e:
-                raise ValidationError({"password": list(e.messages)})
-
-        return data
-
-    def update(self, instance, validated_data):
-        password = validated_data.get("password", None)
-        if password:
-            instance.set_password(password)  # Securely set the new password
-            validated_data.pop(
-                "confirm_password", None
-            )  # Don't save confirm_password in the instance
-            validated_data.pop(
-                "old_password", None
-            )  # Don't save old_password in the instance
-
-        # Update email and phone_number
-        instance.email = validated_data.get("email", instance.email)
-
-        instance.save()
-        return instance
-
-
-class ProfilePicUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ["profile_pic"]
-
-    def update(self, instance, validated_data):
-        profile_pic = validated_data.get("profile_pic", None)
-        if profile_pic:
-            instance.profile_pic = profile_pic
-            instance.save()
-        return instance
-
-
-class PasswordChangeSerializer(serializers.Serializer):
-    otp = serializers.CharField(required=True)
-    uuidb64 = serializers.CharField(required=True)
-    password = serializers.CharField(required=True)
-
-
-class ProfileSerializer(serializers.ModelSerializer):
-    full_name = serializers.SerializerMethodField()
-
-    class Meta:
-        model = UserProfile  # Your model name
-        fields = [
-            "id",
-            "user",
-            "full_name",
-            "profile_pic",
-            "created_at",
-            "updated_at",
-        ]
-
-    def get_full_name(self, obj):
-        return f"{obj.user.first_name} {obj.user.last_name}"
+        return user
