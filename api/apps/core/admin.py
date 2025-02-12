@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.forms import inlineformset_factory
 from django.utils.translation import gettext_lazy as _
 
 from .models import (
@@ -13,7 +14,9 @@ from .models import (
     Services,
     Team,
     Technology,
-    HoerImagesModel
+    WebModel,
+    WebModelImage,
+    webCategory,
 )
 
 
@@ -122,5 +125,51 @@ class HoerImagesModelAdmin(admin.ModelAdmin):
         css = {"all": ("admin/css/admin_custom.css",)}
 
 
-admin.site.register(Services)
-admin.site.register(Benefits)
+@admin.register(Benefits)
+class BenefitsAdmin(admin.ModelAdmin):
+    list_display = ("title", "description")
+    search_fields = ("title",)
+
+
+@admin.register(Services)
+class ServicesAdmin(admin.ModelAdmin):
+    list_display = ("category", "description", "image", "icon")
+    search_fields = ("category__name",)
+    filter_horizontal = ("benefit",)
+
+
+from django import forms
+
+
+# Form for WebModelImageInline
+class WebModelImageInlineForm(forms.ModelForm):
+    class Meta:
+        model = WebModel
+        fields = ["images"]
+
+    def clean_images(self):
+        images = self.cleaned_data.get("images")
+        # Ensure images are unique by removing duplicates
+        return list(set(images))  # Removing duplicates
+
+
+# Inline admin for WebModelImage to allow adding images directly inside WebModel
+class WebModelImageInline(admin.TabularInline):
+    model = WebModel.images.through  # Reference the through table for ManyToManyField
+    form = WebModelImageInlineForm
+    extra = 1
+
+
+# WebModelAdmin to customize the admin interface
+class WebModelAdmin(admin.ModelAdmin):
+    list_display = ("description", "category")
+    search_fields = ("description",)
+
+    # Add the inline for adding images directly in WebModel form
+    # inlines = [WebModelImageInline]
+
+
+# Register the models with the admin interface
+admin.site.register(webCategory)
+admin.site.register(WebModelImage)
+admin.site.register(WebModel, WebModelAdmin)

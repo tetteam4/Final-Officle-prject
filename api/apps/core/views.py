@@ -23,6 +23,8 @@ from .models import (
     Services,
     Team,
     Technology,
+    WebModel,
+    webCategory,
 )
 from .serializers import (
     AboutSerializer,
@@ -36,6 +38,8 @@ from .serializers import (
     ServiceSerializer,
     TeamSerializer,
     TechnologySerializer,
+    WebCategorySerializer,
+    WebModelSerializer,
 )
 
 
@@ -277,3 +281,29 @@ class ServicesDetailView(generics.RetrieveAPIView):
     queryset = Services.objects.all()
     serializer_class = ServiceSerializer
     permission_classes = [permissions.AllowAny]
+
+
+class WebModelListView(generics.ListCreateAPIView):
+    queryset = WebModel.objects.all()
+    serializer_class = WebModelSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class WebModelDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = WebModel.objects.all()
+    serializer_class = WebModelSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class WebCategoryListView(generics.ListCreateAPIView):
+    queryset = webCategory.objects.all()
+    serializer_class = WebCategorySerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class WebCategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = webCategory.objects.all()
+    serializer_class = WebCategorySerializer
+    permission_classes = [permissions.AllowAny]
+
+
