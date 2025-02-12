@@ -1,9 +1,10 @@
-from apps.common.models import TimeStampedUUIDModel
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
+
+from apps.common.models import TimeStampedUUIDModel
 
 
 class Category(TimeStampedUUIDModel):
@@ -171,3 +172,47 @@ class HoerImagesModel(TimeStampedUUIDModel):
     image = models.ImageField(upload_to="images/hero")
     head = models.CharField(max_length=255)
     description = RichTextUploadingField()
+
+
+class Benefits(TimeStampedUUIDModel):
+    title = models.CharField(max_length=200)
+    description = RichTextUploadingField()
+
+    def __str__(self):
+        return self.title
+
+
+class Services(TimeStampedUUIDModel):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    description = RichTextUploadingField()
+    image = models.ImageField(upload_to="services/", null=True, blank=True)
+    icon = models.ImageField(upload_to="services/icon/")
+    video = models.FileField(upload_to="videos/services", null=True, blank=True)
+    benefit = models.ManyToManyField(Benefits)
+
+    def __str__(self):
+        return f"{self.category.name} - {self.description[:30]}"
+
+
+class webCategory(TimeStampedUUIDModel):
+    icon = models.ImageField(upload_to="web/icon/")
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+
+
+class WebModelImage(models.Model):
+    image = models.ImageField(upload_to="web/multi_images/")
+
+    def __str__(self):
+        return f"Image for {self.id}"
+
+class WebModel(models.Model):
+    category = models.ForeignKey(webCategory, on_delete=models.CASCADE)
+    description = models.CharField(max_length=255)
+
+    images = models.ManyToManyField(WebModelImage, related_name="web_models")
+
+    def __str__(self):
+        return self.description[:40]

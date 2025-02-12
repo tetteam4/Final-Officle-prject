@@ -13,25 +13,33 @@ from rest_framework.response import Response
 
 from .models import (
     About,
+    Benefits,
     BlogPost,
     Category,
     Experiences,
     HoerImagesModel,
     Portfolio,
     Section,
+    Services,
     Team,
     Technology,
+    WebModel,
+    webCategory,
 )
 from .serializers import (
     AboutSerializer,
+    BenefitSerializer,
     BlogPostSerializer,
     CategorySerializer,
     ExperienceSerializer,
     HoerImagesModelSerializer,
     PortfolioSerializer,
     SectionSerializer,
+    ServiceSerializer,
     TeamSerializer,
     TechnologySerializer,
+    WebCategorySerializer,
+    WebModelSerializer,
 )
 
 
@@ -251,3 +259,51 @@ class HoerImagesModelDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = HoerImagesModel.objects.all()
     serializer_class = HoerImagesModelSerializer
     permission_classes = [permissions.AllowAny]
+
+
+class BenefitsListView(generics.ListAPIView):
+    queryset = Benefits.objects.all()
+    serializer_class = BenefitSerializer
+
+
+class BenefitsDetailView(generics.RetrieveAPIView):
+    queryset = Benefits.objects.all()
+    serializer_class = BenefitSerializer
+
+
+class ServicesListView(generics.ListAPIView):
+    queryset = Services.objects.all()
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class ServicesDetailView(generics.RetrieveAPIView):
+    queryset = Services.objects.all()
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class WebModelListView(generics.ListCreateAPIView):
+    queryset = WebModel.objects.all()
+    serializer_class = WebModelSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class WebModelDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = WebModel.objects.all()
+    serializer_class = WebModelSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class WebCategoryListView(generics.ListCreateAPIView):
+    queryset = webCategory.objects.all()
+    serializer_class = WebCategorySerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class WebCategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = webCategory.objects.all()
+    serializer_class = WebCategorySerializer
+    permission_classes = [permissions.AllowAny]
+
+

@@ -58,4 +58,26 @@ urlpatterns = [
         views.HoerImagesModelDetailView.as_view(),
         name="hoer_images_detail_api",
     ),
+    path("benefits/", views.BenefitsListView.as_view(), name="benefits-list"),
+    path(
+        "benefits/<int:pk>/", views.BenefitsDetailView.as_view(), name="benefits-detail"
+    ),
+    path("services/", views.ServicesListView.as_view(), name="services-list"),
+    path(
+        "services/<int:pk>/", views.ServicesDetailView.as_view(), name="services-detail"
+    ),
+    path("webmodels/", views.WebModelListView.as_view(), name="webmodel-list"),
+    path(
+        "webmodels/<int:pk>/",
+        views.WebModelDetailView.as_view(),
+        name="webmodel-detail",
+    ),
+    path(
+        "webcategories/", views.WebCategoryListView.as_view(), name="webcategory-list"
+    ),
+    path(
+        "webcategories/<int:pk>/",
+        views.WebCategoryDetailView.as_view(),
+        name="webcategory-detail",
+    ),
 ]
