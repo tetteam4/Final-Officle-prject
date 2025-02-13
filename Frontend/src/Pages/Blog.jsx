@@ -158,7 +158,6 @@ const Blog = () => {
             </div>
           )}
         </main>
-
       </div>
     </section>
   );
