@@ -5,7 +5,9 @@ from . import views
 
 router = DefaultRouter()
 router.register("teams", views.TeamViewSet)
-
+router.register(
+    "services-category", views.ServicesCategoryViewSet, basename="services-category"
+),
 urlpatterns = [
     path("categories/", views.CategoryListView.as_view(), name="category-list"),
     path(
@@ -36,8 +38,6 @@ urlpatterns = [
         name="portfolio-detail",
     ),
     path("", include(router.urls)),
-    path("about/", views.AboutCreateView.as_view(), name="about-create"),
-    path("about/<uuid:pk>/", views.AboutView.as_view(), name="about-detail"),
     path(
         "experiences/",
         views.ExperienceListView.as_view(),

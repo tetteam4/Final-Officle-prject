@@ -12,7 +12,6 @@ from rest_framework.mixins import (
 from rest_framework.response import Response
 
 from .models import (
-    About,
     Benefits,
     BlogPost,
     Category,
@@ -21,13 +20,13 @@ from .models import (
     Portfolio,
     Section,
     Services,
+    ServicesCategoryModel,
     Team,
     Technology,
     WebModel,
     webCategory,
 )
 from .serializers import (
-    AboutSerializer,
     BenefitSerializer,
     BlogPostSerializer,
     CategorySerializer,
@@ -35,6 +34,7 @@ from .serializers import (
     HoerImagesModelSerializer,
     PortfolioSerializer,
     SectionSerializer,
+    ServicesCategorySerializer,
     ServiceSerializer,
     TeamSerializer,
     TechnologySerializer,
@@ -212,31 +212,6 @@ class TeamViewSet(viewsets.ModelViewSet):
             raise NotFound("Team not found")
 
 
-class AboutCreateView(generics.ListCreateAPIView):
-    queryset = About.objects.all()
-    serializer_class = AboutSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            about = serializer.save()
-            return Response(
-                AboutSerializer(about).data,
-                status=status.HTTP_201_CREATED,
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class AboutView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = About.objects.all()
-    serializer_class = AboutSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def get_object(self):
-        return About.objects.first()
-
-
 class ExperienceListView(generics.ListCreateAPIView):
     queryset = Experiences.objects.all().order_by("-created_at")
     serializer_class = ExperienceSerializer
@@ -305,3 +280,8 @@ class WebCategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = webCategory.objects.all()
     serializer_class = WebCategorySerializer
     permission_classes = [permissions.AllowAny]
+
+
+class ServicesCategoryViewSet(viewsets.ModelViewSet):
+    queryset = ServicesCategoryModel.objects.all()
+    serializer_class = ServicesCategorySerializer

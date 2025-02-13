@@ -3,7 +3,6 @@ from django.forms import inlineformset_factory
 from django.utils.translation import gettext_lazy as _
 
 from .models import (
-    About,
     Benefits,
     BlogPost,
     Category,
@@ -83,20 +82,6 @@ class TeamAdmin(admin.ModelAdmin):
     list_display = ("first_name", "last_name", "designation", "created_at")
     search_fields = ("first_name", "last_name", "designation")
     list_filter = ("created_at",)
-
-    class Media:
-        css = {"all": ("admin/css/admin_custom.css",)}
-
-
-@admin.register(About)
-class AboutAdmin(admin.ModelAdmin):
-    list_display = ("name", "services", "created_at", "updated_at")
-    search_fields = (
-        "name",
-        "services",
-    )
-    list_filter = ("services", "created_at")
-    filter_horizontal = ("technologies_used",)
 
     class Media:
         css = {"all": ("admin/css/admin_custom.css",)}

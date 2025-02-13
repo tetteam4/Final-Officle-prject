@@ -1,10 +1,9 @@
 # from ckeditor.fields import RichTextField
 # from ckeditor_uploader.fields import models.TextField
+from apps.common.models import TimeStampedUUIDModel
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
-
-from apps.common.models import TimeStampedUUIDModel
 
 
 class Category(TimeStampedUUIDModel):
@@ -109,49 +108,6 @@ class Team(TimeStampedUUIDModel):
         return self.first_name
 
 
-class About(TimeStampedUUIDModel):
-    class ServiceChoices(models.TextChoices):
-        DEVELOPMENT = "Development", _("Development")
-        DESIGN = "Design", _("Design")
-        MARKETING = "Hosting", _("Hosting")
-        OTHER = "Other", _("Other")
-
-    name = models.CharField(max_length=200, verbose_name=_("Company Name"))
-    description = models.TextField()
-    company_story = models.TextField(
-        blank=True, null=True, verbose_name=_("Company Story")
-    )
-    services = models.CharField(
-        max_length=200,
-        choices=ServiceChoices.choices,
-        default=ServiceChoices.DEVELOPMENT,
-        verbose_name=_("Main Service"),
-    )
-    technologies_used = models.ManyToManyField(
-        Technology,
-        related_name="technologies",
-        blank=True,
-        verbose_name=_("Technologies Used"),
-    )
-
-    address = models.CharField(
-        max_length=255, blank=True, null=True, verbose_name=_("Company Address")
-    )
-    contact_email = models.EmailField(
-        blank=True, null=True, verbose_name=_("Contact Email")
-    )
-    contact_phone = models.CharField(
-        max_length=20, blank=True, null=True, verbose_name=_("Contact Phone")
-    )
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _("About Us")
-        verbose_name_plural = _("About Us")
-
-
 class Experiences(TimeStampedUUIDModel):
     title = models.CharField(max_length=200)
     company_name = models.CharField(max_length=200)
@@ -182,8 +138,16 @@ class Benefits(TimeStampedUUIDModel):
         return self.title
 
 
+class ServicesCategoryModel(TimeStampedUUIDModel):
+    icon = models.ImageField(upload_to="service/icon/")
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+
+
 class Services(TimeStampedUUIDModel):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(ServicesCategoryModel, on_delete=models.CASCADE)
     description = models.TextField()
     image = models.ImageField(upload_to="services/", null=True, blank=True)
     icon = models.ImageField(upload_to="services/icon/")
@@ -207,6 +171,7 @@ class WebModelImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.id}"
+
 
 class WebModel(models.Model):
     category = models.ForeignKey(webCategory, on_delete=models.CASCADE)

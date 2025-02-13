@@ -5,25 +5,22 @@ from pathlib import Path
 import environ
 from decouple import config
 
-# # CORS
-CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins (works for development)
+# CORS
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_NAME = "csrftoken"
 
 env = environ.Env()
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 APP_DIR = ROOT_DIR / "apps"
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv(
     "DJANGO_SECRET_KEY",
     default="django-insecure-06%0*w^u*r^g&jg^!o2w%kz-w906e*=ok5+^h#-gss8$o7*p9m",
 )
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["*"])
@@ -48,7 +45,7 @@ THIRD_PARTY_APPS = [
     "django_filters",
     "django_countries",
     "drf_yasg",
-    "corsheaders",  # Ensure that this is present
+    "corsheaders",
     "djcelery_email",
     "rest_framework.authtoken",
     "allauth",
@@ -63,7 +60,7 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 # Middleware configuration
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",  # Ensure this is first in the middleware stack
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
