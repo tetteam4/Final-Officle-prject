@@ -3,13 +3,13 @@ from taggit.serializers import TagListSerializerField
 
 from . import models as core_models
 from .models import (
-    About,
     BlogPost,
     Category,
     Experiences,
     HoerImagesModel,
     Portfolio,
     Section,
+    ServicesCategoryModel,
     Team,
     Technology,
     WebModel,
@@ -98,24 +98,6 @@ class TeamSerializer(serializers.ModelSerializer):
         ]
 
 
-class AboutSerializer(serializers.ModelSerializer):
-    technologies_used = TechnologySerializer(many=True, read_only=True)
-
-    class Meta:
-        model = About
-        fields = [
-            "id",
-            "name",
-            "description",
-            "company_story",
-            "services",
-            "technologies_used",
-            "address",
-            "contact_email",
-            "contact_phone",
-        ]
-
-
 class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Experiences
@@ -150,15 +132,6 @@ class BenefitSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "description"]
 
 
-class ServiceSerializer(serializers.ModelSerializer):
-    benefit = BenefitSerializer(many=True)
-    category = CategorySerializer()
-
-    class Meta:
-        model = core_models.Services
-        fields = ["id", "category", "description", "video", "image", "icon", "benefit"]
-
-
 class WebCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = webCategory
@@ -178,3 +151,22 @@ class WebModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = WebModel
         fields = ["id", "category", "description", "images"]
+
+
+class ServicesCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServicesCategoryModel
+        fields = [
+            "id",
+            "icon",
+            "title",
+        ]
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    benefit = BenefitSerializer(many=True)
+    category = ServicesCategorySerializer()
+
+    class Meta:
+        model = core_models.Services
+        fields = ["id", "category", "description", "video", "image", "icon", "benefit"]
