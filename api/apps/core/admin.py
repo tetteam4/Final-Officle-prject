@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from django.forms import inlineformset_factory
 from django.utils.translation import gettext_lazy as _
@@ -120,11 +121,7 @@ class BenefitsAdmin(admin.ModelAdmin):
 @admin.register(Services)
 class ServicesAdmin(admin.ModelAdmin):
     list_display = ("category", "description", "image", "icon")
-    search_fields = ("category__name",)
-    filter_horizontal = ("benefit",)
-
-
-from django import forms
+    search_fields = ("category__title",)
 
 
 # Form for WebModelImageInline
@@ -135,13 +132,12 @@ class WebModelImageInlineForm(forms.ModelForm):
 
     def clean_images(self):
         images = self.cleaned_data.get("images")
-        # Ensure images are unique by removing duplicates
-        return list(set(images))  # Removing duplicates
+
+        return list(set(images))
 
 
-# Inline admin for WebModelImage to allow adding images directly inside WebModel
 class WebModelImageInline(admin.TabularInline):
-    model = WebModel.images.through  # Reference the through table for ManyToManyField
+    model = WebModel.images.through
     form = WebModelImageInlineForm
     extra = 1
 
@@ -151,11 +147,9 @@ class WebModelAdmin(admin.ModelAdmin):
     list_display = ("description", "category")
     search_fields = ("description",)
 
-    # Add the inline for adding images directly in WebModel form
     # inlines = [WebModelImageInline]
 
 
-# Register the models with the admin interface
 admin.site.register(webCategory)
 admin.site.register(WebModelImage)
 admin.site.register(WebModel, WebModelAdmin)
