@@ -1,4 +1,3 @@
-
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -7,18 +6,12 @@ import environ
 from decouple import config
 
 # # CORS
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins (works for development)
 CORS_ALLOW_CREDENTIALS = True
 
-# # Middleware
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_NAME = "csrftoken"
 
-
-# Initialize environment variables
 env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
@@ -55,7 +48,7 @@ THIRD_PARTY_APPS = [
     "django_filters",
     "django_countries",
     "drf_yasg",
-    "corsheaders",
+    "corsheaders",  # Ensure that this is present
     "djcelery_email",
     "rest_framework.authtoken",
     "allauth",
@@ -68,8 +61,9 @@ THIRD_PARTY_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
-# Middleware
+# Middleware configuration
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # Ensure this is first in the middleware stack
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -86,7 +80,7 @@ ROOT_URLCONF = "core.urls"
 # WSGI application
 WSGI_APPLICATION = "core.wsgi.application"
 
-# Templates
+# Templates configuration
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -108,7 +102,6 @@ STATIC_URL = "/static/"
 STATIC_ROOT = ROOT_DIR / "staticfiles/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = ROOT_DIR / "media/"
-
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -142,9 +135,10 @@ DATABASES = {
 ADMIN_URL = "supersecret/"
 AUTH_USER_MODEL = "users.User"
 
+# Ensure you allow CORS for API routes
+# CORS_URLS_REGEX = "^api/.*$"
 
-CORS_URLS_REGEX = "^api/.*$"
-
+# REST Framework settings
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASS": [
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
@@ -153,7 +147,7 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
-
+# JWT Authentication settings
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": (
         "Bearer",
@@ -186,7 +180,7 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 
-
+# Email settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = config("EMAIL_HOST")
 EMAIL_PORT = config("EMAIL_PORT", cast=int)
@@ -195,6 +189,7 @@ EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
+# Celery settings
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER")
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_ACCEPT_CONTENT = ["json"]
@@ -205,22 +200,3 @@ CELERY_TASK_SEND_SENT_EVENT = True
 
 if USE_TZ:
     CELERY_TIMEZONE = TIME_ZONE
-
-
-# LOGGING = {
-#     "version": 1,
-#     "disable_existing_loggers": False,
-#     "handlers": {
-#         "console": {
-#             "level": "DEBUG",
-#             "class": "logging.StreamHandler",
-#         },
-#     },
-#     "loggers": {
-#         "django": {
-#             "handlers": ["console"],
-#             "level": "DEBUG",
-#             "propagate": True,
-#         },
-#     },
-# }

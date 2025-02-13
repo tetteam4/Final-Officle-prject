@@ -1,5 +1,5 @@
 from apps.users.views import CustomUserDetailsView
-from dj_rest_auth.views import LoginView, PasswordResetConfirmView
+from dj_rest_auth.views import PasswordResetConfirmView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -10,11 +10,16 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Authors Haven API",
+        title="TET MIS system Backend APIs",
         default_version="v1",
-        description="API endpoints for Authors Haven API Course",
-        contact=openapi.Contact(email="api.imperfect@gmail.com"),
-        license=openapi.License(name="MIT License"),
+        description=(
+            "This is the API documentation for TET company.\n\n"
+            "Contacts:\n"
+            "- Ali Sina Sultani: alisinasultani@gmail.com\n"
+            "- Hussain Mohammadi: hussain.mohammadi1380@gmail.com"
+        ),
+        contact=openapi.Contact(email="alisinasultani@gmail.com"),
+        license=openapi.License(name="MIT"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
@@ -31,11 +36,11 @@ urlpatterns = [
         PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
-    path("core/", include("apps.core.urls")),
+    path("api/", include("apps.core.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-admin.site.site_header = "Authors Haven API Admin"
+admin.site.site_header = "TET Admin API Admin"
 
-admin.site.site_title = "Authors Haven API Admin Portal"
+admin.site.site_title = "TET Admin API Admin Portal"
 
-admin.site.index_title = "Welcome to Authors Haven API Portal"
+admin.site.index_title = "Welcome to TET Admin API Portal"
