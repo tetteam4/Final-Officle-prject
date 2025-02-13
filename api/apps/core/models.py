@@ -13,8 +13,8 @@ class Category(TimeStampedUUIDModel):
         return f"Categories: {self.name}"
 
     class Meta:
-        verbose_name = _("Category")
-        verbose_name_plural = _("Categories")
+        verbose_name = _("Port Category")
+        verbose_name_plural = _("Port Categories")
 
 
 class Technology(TimeStampedUUIDModel):
@@ -90,8 +90,8 @@ class Section(TimeStampedUUIDModel):
         return self.subtitle
 
     class Meta:
-        verbose_name = _("Section")
-        verbose_name_plural = _("Sections")
+        verbose_name = _("Block Section")
+        verbose_name_plural = _("Block Sections")
 
 
 class Team(TimeStampedUUIDModel):
@@ -145,6 +145,10 @@ class ServicesCategoryModel(TimeStampedUUIDModel):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = _("Services Category")
+        verbose_name_plural = _("Services Categories")
+
 
 class Services(TimeStampedUUIDModel):
     category = models.ForeignKey(ServicesCategoryModel, on_delete=models.CASCADE)
@@ -157,6 +161,10 @@ class Services(TimeStampedUUIDModel):
     def __str__(self):
         return f"{self.category.name} - {self.description[:30]}"
 
+    class Meta:
+        verbose_name = _("Service")
+        verbose_name_plural = _("Services")
+
 
 class webCategory(TimeStampedUUIDModel):
     icon = models.ImageField(upload_to="web/icon/")
@@ -165,12 +173,20 @@ class webCategory(TimeStampedUUIDModel):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = _("Web Category")
+        verbose_name_plural = _("Web Categories")
+
 
 class WebModelImage(models.Model):
     image = models.ImageField(upload_to="web/multi_images/")
 
     def __str__(self):
         return f"Image for {self.id}"
+
+    class Meta:
+        verbose_name = _("Web image")
+        verbose_name_plural = _("Web Images")
 
 
 class WebModel(models.Model):
@@ -181,3 +197,7 @@ class WebModel(models.Model):
 
     def __str__(self):
         return self.description[:40]
+
+    class Meta:
+        verbose_name = _("Web Model")
+        verbose_name_plural = _("Web Models")
