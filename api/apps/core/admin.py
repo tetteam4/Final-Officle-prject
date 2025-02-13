@@ -11,6 +11,7 @@ from .models import (
     Portfolio,
     Section,
     Services,
+    ServicesCategoryModel,
     Team,
     Technology,
     WebModel,
@@ -158,3 +159,11 @@ class WebModelAdmin(admin.ModelAdmin):
 admin.site.register(webCategory)
 admin.site.register(WebModelImage)
 admin.site.register(WebModel, WebModelAdmin)
+
+
+@admin.register(ServicesCategoryModel)
+class ServicesCategoryModelAdmin(admin.ModelAdmin):
+    list_display = ["id", "title", "icon"]
+    search_fields = ["title"]
+    list_filter = ["title"]
+    ordering = ["title"]
