@@ -60,7 +60,7 @@ const Header = () => {
           <div className="flex items-center justify-between py-1.5 gap-x-5">
             {/* Dark Mode Toggle */}
             <div
-              className={`relative flex items-center w-[110px] h-[40px] cursor-pointer rounded-full border 
+              className={`relative flex items-center w-[110px] h-[40px] cursor-pointer rounded-full  
       ${
         darkMode === "dark" ? "bg-zinc-700" : "bg-white"
       } shadow-sm transition-all duration-300`}

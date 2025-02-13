@@ -12,6 +12,7 @@ import React, { useState, useEffect } from "react"; // Import React, useState, u
 
 export const useNavData = () => {
   // Changed NAV_DATA to a function to use hooks
+  // add the category list of 
 
   const [navData, setNavData] = useState([]); // State to store the fetched data
   const [loading, setLoading] = useState(true); // State to track loading
