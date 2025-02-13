@@ -117,12 +117,12 @@ class BenefitsAdmin(admin.ModelAdmin):
     search_fields = ("title",)
 
 
-@admin.register(Services)
-class ServicesAdmin(admin.ModelAdmin):
-    list_display = ("category", "description", "image", "icon")
-    search_fields = ("category__name",)
-    filter_horizontal = ("benefit",)
-
+# @admin.register(Services)
+# class ServicesAdmin(admin.ModelAdmin):
+#     list_display = ("category", "description", "image", "icon")
+#     search_fields = ("category__title",)
+#     filter_horizontal = ("benefit",)
+admin.site.register(Services)
 
 from django import forms
 

@@ -3,9 +3,9 @@ import { FaPlus } from "react-icons/fa";
 
 const ProjectStats = () => {
   const stats = {
-    successfulProjects: 10,
-    suggestedProjects: 15,
-    upcomingProjects: 45,
+    successfulProjects: 70,
+    suggestedProjects: 25,
+    upcomingProjects: 100,
   };
 
   const [successfulProjects, setSuccessfulProjects] = useState(0);
@@ -91,9 +91,7 @@ const ProjectStats = () => {
               </p>
               <p className="text-2xl  text-gray-600">Upcoming Projects</p>
             </div>
-          </div>
-
-        
+          </div>        
         </div>
       </div>
     </div>

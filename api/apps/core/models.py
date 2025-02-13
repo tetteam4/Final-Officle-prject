@@ -159,7 +159,7 @@ class Services(TimeStampedUUIDModel):
     benefit = models.ManyToManyField(Benefits)
 
     def __str__(self):
-        return f"{self.category.name} - {self.description[:30]}"
+        return f"{self.category.title} - {self.description[:30]}"
 
     class Meta:
         verbose_name = _("Service")
