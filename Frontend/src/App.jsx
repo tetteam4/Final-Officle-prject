@@ -9,9 +9,7 @@ import Dashboard from "./Components/dashboard/dashboard.jsx";
 import Layout from "./Layout/Layout.jsx";
 import Services from "./Pages/services.jsx";
 import Portfolio from "./Pages/Portfolio.jsx";
-import Web_Design from "./Pages/Web_Design.jsx";
 import Blog from "./Pages/Blog.jsx";
-import Web_Seo from "./Pages/Web_Seo.jsx";
 import PortfolioDetialsPage from "./Components/Portfolio/PortfolioDetialsPage.jsx";
 import CategoryPage from "./Components/Portfolio/CategoryPage.jsx";
 import NotFound from "./Pages/NotFound.jsx";
@@ -24,6 +22,7 @@ import useDarkMode from "./hooks/useDarkMode";
 import BlogDetailsPage from "./Components/Blog/BlogDetailsPage.jsx";
 import "../src/Pages/ani.css";
 import ServiceDetailsPage from "./Components/serveices/ServiceDetailsPage.jsx";
+import WebsiteDesign from "./Components/WebsiteDesign/Web_Design.jsx";
 
 const App = () => {
   const [theme, toggleTheme] = useDarkMode();
@@ -51,8 +50,7 @@ const App = () => {
                 element={<CategoryPage />}
               />
               <Route path="/portfolio/:id" element={<PortfolioDetialsPage />} />
-              <Route path="/webdesign" element={<Web_Design />} />
-              <Route path="/website-seo" element={<Web_Seo />} />
+              <Route path="/website-design" element={<WebsiteDesign />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogDetailsPage />} />
             </Route>

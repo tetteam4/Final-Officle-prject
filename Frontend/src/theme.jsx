@@ -16,3 +16,4 @@ export const darkTheme = {
   primary: '#2d9469',
   secondary: '#02DB81',
 };
+

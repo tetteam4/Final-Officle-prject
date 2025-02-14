@@ -93,13 +93,6 @@ const Header = () => {
                 }`}
               />
             </div>
-            {/* Email Icon */}
-            <a
-              href="mailto:user@example.com"
-              className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-all duration-300"
-            >
-              <MdEmail className="w-6 h-6" />
-            </a>
 
             {/* Login Button */}
             <Link
@@ -111,6 +104,7 @@ const Header = () => {
                 <LuLogIn className="text-gray-700" size={24} />
               </span>
             </Link>
+            
           </div>
         </div>
       </div>
