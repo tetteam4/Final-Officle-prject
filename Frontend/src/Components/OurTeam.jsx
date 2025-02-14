@@ -1,175 +1,105 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion"; // Import motion
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { styles } from "../Pages/styles.js";
+import { SectionWrapper } from "../hoc";
+import { fadeIn, textVariant } from "../Utilities/motion.js";
 
-const ServiceDetailsPage = () => {
-  const { pkid } = useParams();
-  const navigate = useNavigate();
-  const [service, setService] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+import { FaWhatsapp, FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
+
+const OurTeam = () => {
+  const [teamMembers, setTeamMembers] = useState([]);
 
   useEffect(() => {
-    const fetchServiceDetails = async () => {
-      setLoading(true);
+    const fetchTeamMembers = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8000/api/services/${pkid}/`
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+        const response = await fetch("http://127.0.0.1:8000/api/teams/");
         const data = await response.json();
-        setService(data);
+        setTeamMembers(data);
       } catch (error) {
-        setError(error);
-        console.error("Error fetching service details:", error);
-      } finally {
-        setLoading(false);
+        console.error("Error fetching team members:", error);
       }
     };
 
-    fetchServiceDetails();
-    window.scrollTo(0, 0); //scroll to top
-  }, [pkid]);
-
-  const containerVariants = {
-    initial: { opacity: 0 },
-    animate: { opacity: 1, transition: { delay: 0.2, duration: 0.5 } },
-    exit: { opacity: 0, transition: { duration: 0.3 } },
-  };
-
-  if (loading) {
-    return <div>Loading service details...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  if (!service) {
-    return (
-      <motion.div
-        variants={containerVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        className="text-center mt-10"
-      >
-        <h1 className="text-2xl font-bold">No Service Data Available</h1>
-        <button
-          onClick={() => navigate("/services")}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Go Back to Services
-        </button>
-      </motion.div>
-    );
-  }
+    fetchTeamMembers();
+  }, []);
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      className="max-w-3xl mx-auto py-10 px-5 bg-white shadow-lg rounded-md"
-    >
-      <h1 className="text-3xl font-extrabold mb-5 text-gray-900 dark:text-white text-center">
-        {service.name}
-      </h1>
+    <>
+      <motion.div variants={textVariant()}>
+        <p className={styles.sectionSubText}>Meet Our Team</p>
+        <h2 className={styles.sectionHeadText}>Our Team.</h2>
+      </motion.div>
 
-      {/* Category Information */}
-      <div className="mb-4">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-          Category
-        </h2>
-        <div className="flex items-center">
-          {service.category.icon && (
-            <img
-              src={service.category.icon}
-              alt={service.category.title}
-              className="w-6 h-6 mr-2 rounded-full"
-            />
-          )}
-          <span className="text-gray-600 dark:text-gray-400">
-            {service.category.title}
-          </span>
-        </div>
-      </div>
-
-      {/* Service Image */}
-      <div className="mb-6">
-        <img
-          src={service.image}
-          alt={service.name}
-          className="w-full rounded-md shadow-md"
-        />
-      </div>
-
-      {/* Description */}
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-          Description
-        </h2>
-        <p className="text-gray-700 dark:text-gray-300 text-justify">
-          {service.description}
-        </p>
-      </div>
-
-      {/* Video Link */}
-      {service.video && (
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-            Video
-          </h2>
-          <a
-            href={service.video}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:underline"
+      <div className="mt-20  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 ">
+        {teamMembers.map((member, index) => (
+          <motion.div
+            key={member.id}
+            variants={fadeIn("up", "spring", index * 0.5, 0.75)}
+            className="relative flex flex-col rounded-xl bg-gray-100 bg-clip-border text-gray-700 shadow-md w-full max-w-xs mx-auto"
           >
-            Watch Video
-          </a>
-        </div>
-      )}
+            <div className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 bg-gradient-to-r from-blue-500 to-blue-600">
+              <img
+                src={member.photo}
+                alt={`${member.first_name} ${member.last_name}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="p-6">
+              <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
+                {member.first_name} {member.last_name}
+              </h5>
+              <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
+                {member.designation}
+              </p>
+            </div>
+            <div className="p-6 pt-0 flex justify-center space-x-4">
+              {member.whatsapp && (
+                <a
+                  href={member.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-500 hover:text-green-700 transition-colors duration-200"
+                >
+                  <FaWhatsapp className="w-6 h-6" />
+                </a>
+              )}
+              {member.linkedin && (
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
+                >
+                  <FaLinkedin className="w-6 h-6" />
+                </a>
+              )}
 
-      {/* Benefits */}
-      <div>
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">
-          Benefits
-        </h2>
-        {service.benefit && service.benefit.length > 0 ? (
-          <ul className="list-disc pl-5">
-            {service.benefit.map((benefit) => (
-              <li key={benefit.id} className="mb-2">
-                <h3 className="font-semibold text-gray-700 dark:text-gray-300">
-                  {benefit.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {benefit.description}
-                </p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-600 dark:text-gray-400">
-            No benefits listed for this service.
-          </p>
-        )}
+              {member.github && (
+                <a
+                  href={member.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-900 hover:text-black transition-colors duration-200"
+                >
+                  <FaGithub className="w-6 h-6" />
+                </a>
+              )}
+              {member.twitter_link && (
+                <a
+                  href={member.twitter_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-700 transition-colors duration-200"
+                >
+                  <FaTwitter className="w-6 h-6" />
+                </a>
+              )}
+            </div>
+          </motion.div>
+        ))}
       </div>
-
-      {/* Back to Services Button */}
-      <div className="mt-8 text-center">
-        <Link
-          to="/services"
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 inline-block"
-        >
-          Back to Services
-        </Link>
-      </div>
-    </motion.div>
+    </>
   );
 };
 
-export default ServiceDetailsPage;
+export default SectionWrapper(OurTeam, "team");
