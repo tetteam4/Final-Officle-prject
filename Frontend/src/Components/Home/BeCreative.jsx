@@ -1,3 +1,4 @@
+// BeCreative.js
 import React from "react";
 import {
   FaUsers,
@@ -7,14 +8,17 @@ import {
   FaChartLine,
 } from "react-icons/fa";
 
-
 const BeCreativeAndDistinct = () => {
   return (
-    <div className="text-center py-12 px-6">
-      <h1 className="text-4xl font-bold text-gray-800 ">
+    <div className="text-center py-8 px-4 sm:py-12 sm:px-6">
+      <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-gray-100">
+        {" "}
+        {/* Dark mode text color */}
         Be Creative and Distinct
       </h1>
-      <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
+      <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 sm:mb-12 max-w-3xl mx-auto">
+        {" "}
+        {/* Dark mode text color */}
         At the heart of our company, we believe in the power of creativity and
         distinction. We strive to offer solutions that not only meet the needs
         of today but pave the way for tomorrow. Our team is committed to
@@ -22,40 +26,66 @@ const BeCreativeAndDistinct = () => {
         Join us in creating a future that stands out!
       </p>
 
-      <div className=" mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5 mb-12">
+      <div className="mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 sm:gap-5 mb-8 sm:mb-12">
         <div className="flex flex-col items-center">
-          <FaUsers size={40} className="text-blue-500 mb-4" />
-          <h3 className="text-md font-semibold text-gray-700">
-            1 Years of Customer Loyalty
+          <FaUsers
+            size={30}
+            sm:size={40}
+            className="text-blue-500 mb-2 sm:mb-4"
+          />
+          <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
+            {" "}
+            {/* Dark mode text color */}1 Years of Customer Loyalty
           </h3>
         </div>
         <div className="flex flex-col items-center">
-          <FaHeadset size={40} className="text-green-500 mb-4" />
-          <h3 className="text-md font-semibold text-gray-700">
+          <FaHeadset
+            size={30}
+            sm:size={40}
+            className="text-green-500 mb-2 sm:mb-4"
+          />
+          <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
+            {" "}
+            {/* Dark mode text color */}
             Professional and Expert Team
           </h3>
         </div>
         <div className="flex flex-col items-center">
-          <FaRegHandshake size={40} className="text-yellow-500 mb-4" />
-          <h3 className="text-md font-semibold text-gray-700">
+          <FaRegHandshake
+            size={30}
+            sm:size={40}
+            className="text-yellow-500 mb-2 sm:mb-4"
+          />
+          <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
+            {" "}
+            {/* Dark mode text color */}
             24/7 Customer Support
           </h3>
         </div>
         <div className="flex flex-col items-center">
-          <FaRegStar size={40} className="text-purple-500 mb-4" />
-          <h3 className="text-md font-semibold text-gray-700">
+          <FaRegStar
+            size={30}
+            sm:size={40}
+            className="text-purple-500 mb-2 sm:mb-4"
+          />
+          <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
+            {" "}
+            {/* Dark mode text color */}
             Sales Solutions
           </h3>
         </div>
         <div className="flex flex-col items-center">
-          <FaChartLine size={40} className="text-red-500 mb-4" />
-          <h3 className="text-md  font-semibold text-gray-700">
+          <FaChartLine
+            size={30}
+            sm:size={40}
+            className="text-red-500 mb-2 sm:mb-4"
+          />
+          <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
+            {" "}
+            {/* Dark mode text color */}
             Full Service Solutions
           </h3>
         </div>
-      </div>
-
-      <div className="w-full relative mx-auto">
       </div>
     </div>
   );

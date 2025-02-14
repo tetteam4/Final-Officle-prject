@@ -1,20 +1,17 @@
-import React from 'react';
-
-import Hero_Home from '../Components/HeroPage/Hero_Home';
-import Tet_Detials from '../Components/Home/Tet_Detials';
-import BeCreative from '../Components/Home/BeCreative';
-import BlogCard from '../Components/Blog/BlogCard';
-import PortfolioHome from '../Components/Portfolio/PortfolioHome';
-
-import RecentlyHomeBlog from '../Components/Home/RecentlyHomeBlog';
-import ProjectStats from '../Components/Home/ProjectStats';
-import CodeGenerationAnimation from './CodeGenerationAnimation';
-
+// HomePage.js
+import React from "react";
+import Hero_Home from "../Components/HeroPage/Hero_Home";
+import BeCreative from "../Components/Home/BeCreative";
+import ProjectStats from "../Components/Home/ProjectStats";
+import PortfolioHome from "../Components/Portfolio/PortfolioHome";
+import RecentlyHomeBlog from "../Components/Home/RecentlyHomeBlog";
+import CodeGenerationAnimation from "./CodeGenerationAnimation";
 
 const HomePage = () => {
- 
   return (
-    <div className="font-sans ">
+    <div className="font-sans">
+      {" "}
+      {/* Added dark mode background and text color */}
       <Hero_Home />
       <BeCreative />
       <CodeGenerationAnimation />

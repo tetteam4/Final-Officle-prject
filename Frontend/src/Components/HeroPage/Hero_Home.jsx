@@ -1,3 +1,4 @@
+// Hero_Home.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -53,17 +54,22 @@ const Hero_Home = () => {
         {/* Dynamic video source */}
         Your browser does not support the video tag.
       </video>
-
       {/* Overlay */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
-
+      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 dark:bg-opacity-70"></div>{" "}
+      {/* Dark mode overlay adjustment */}
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center text-white h-full">
-        <h1 className="text-4xl md:text-4xl font-bold mb-6">{hero.head}</h1>
-        <p className="text-lg md:text-xl mb-8">{hero.description}</p>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6">
+          {hero.head}
+        </h1>{" "}
+        {/* Responsive font sizes */}
+        <p className="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8">
+          {hero.description}
+        </p>{" "}
+        {/* Responsive font sizes */}
         <Link
           to="/services"
-          className="px-7 py-3 bg-[#02DB81] hover:bg-[#2d9469] text-white rounded-full font-semibold transition shadow-md duration-200 hover:shadow-[1px_5px_20px_2px_rgba(2,219,129,0.5)]"
+          className="px-5 py-2 sm:px-7 sm:py-3 bg-[#02DB81] hover:bg-[#2d9469] text-white rounded-full font-semibold transition shadow-md duration-200 hover:shadow-[1px_5px_20px_2px_rgba(2,219,129,0.5)]"
         >
           Discover Our Services
         </Link>
