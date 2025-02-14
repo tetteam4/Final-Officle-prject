@@ -11,19 +11,16 @@ import {
 import React, { useState, useEffect } from "react"; // Import React, useState, useEffect
 
 export const useNavData = () => {
-  // Changed NAV_DATA to a function to use hooks
-  // add the category list of 
-
-  const [navData, setNavData] = useState([]); // State to store the fetched data
-  const [loading, setLoading] = useState(true); // State to track loading
-  const [error, setError] = useState(null); // State to track errors
+  const [navData, setNavData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const categoryResponse = await fetch(
           "http://localhost:8000/api/services-category/"
-        ); // Fetch categories
+        );
         if (!categoryResponse.ok) {
           throw new Error(`HTTP error! status: ${categoryResponse.status}`);
         }
@@ -31,13 +28,12 @@ export const useNavData = () => {
 
         const servicesResponse = await fetch(
           "http://localhost:8000/api/services/"
-        ); // Fetch services
+        );
         if (!servicesResponse.ok) {
           throw new Error(`HTTP error! status: ${servicesResponse.status}`);
         }
         const services = await servicesResponse.json();
 
-        // Transform the data to match NAV_DATA structure
         const transformedNavData = [
           { name: "Home", path: "/", icon: null, subCategories: null },
           {
@@ -48,12 +44,11 @@ export const useNavData = () => {
                 size={24}
                 className="transition-transform duration-300"
               />
-            ), 
-            
+            ),
             subCategories: [
               {
                 category: "Financial Websites Group",
-                icon: <FaMoneyBillWave />, // Icon for financial websites
+                icon: <FaMoneyBillWave />,
                 items: [
                   {
                     name: "Currency Exchange Website Design",
@@ -80,7 +75,7 @@ export const useNavData = () => {
               },
               {
                 category: "Business Websites Group",
-                icon: <FaBuilding />, // Icon for business websites
+                icon: <FaBuilding />,
                 items: [
                   {
                     name: "E-commerce Website Design",
@@ -110,7 +105,7 @@ export const useNavData = () => {
               },
               {
                 category: "Engineering Websites Group",
-                icon: <FaTools />, // Icon for engineering websites
+                icon: <FaTools />,
                 items: [
                   {
                     name: "Corporate Website Design",
@@ -140,7 +135,7 @@ export const useNavData = () => {
               },
               {
                 category: "Artistic Websites Group",
-                icon: <FaPencilRuler />, // Icon for artistic websites
+                icon: <FaPencilRuler />,
                 items: [
                   {
                     name: "Beauty Salon Website Design",
@@ -170,7 +165,7 @@ export const useNavData = () => {
               },
               {
                 category: "Medical Websites Group",
-                icon: <FaIndustry />, // Icon for medical websites
+                icon: <FaIndustry />,
                 items: [
                   {
                     name: "Medical Website Design",
@@ -207,24 +202,16 @@ export const useNavData = () => {
               />
             ),
             subCategories: categories.map((category) => ({
-              // Dynamically create subcategories
               category: category.title,
-              icon: category.icon ? (
-                <img
-                  className="w-12 h-12"
-                src={category.icon} alt={category.title} />
-              ) : (
-                <FaPalette />
-              ), // Use image icon if available, else default
+              icon: category.icon ? category.icon : <FaPalette />, // Use image icon if available, else default
               items: services
                 .filter((service) => service.category.id === category.id)
                 .map((service) => ({
-                  name: service.title, // Assuming 'description' is a suitable name
-                  path: `/service/${service.id}`, // Create dynamic path
+                  name: service.name,
+                  path: `/service/${service.id}`,
                 })),
             })),
           },
-
           { name: "Blog", path: "/blog", icon: null, subCategories: null },
           { name: "About Us", path: "/about", icon: null, subCategories: null },
           {
@@ -244,7 +231,7 @@ export const useNavData = () => {
     };
 
     fetchData();
-  }, []); // Empty dependency array means this runs only once on mount
+  }, []);
 
-  return { navData, loading, error }; // Return the state values
+  return { navData, loading, error };
 };

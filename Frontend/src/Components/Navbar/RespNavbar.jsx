@@ -1,7 +1,7 @@
-// RespNavbar.jsx (or whatever your filename is)
+// RespNavbar.jsx
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.jpg";
-import { useNavData } from "./navdata"; // Changed import to useNavData
+import { useNavData } from "./navdata";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
@@ -16,7 +16,7 @@ function RespNavbar({
   setDarkMode,
   isOpne,
 }) {
-  const { navData, loading, error } = useNavData(); // Use the hook
+  const { navData, loading, error } = useNavData();
   const [expandedMenus, setExpandedMenus] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
 
@@ -50,9 +50,9 @@ function RespNavbar({
     <AnimatePresence mode="wait">
       {isOpne && (
         <motion.div
-          initial={{ opacity: 0, x: "-100%" }} // Start from left
-          animate={{ opacity: 1, x: 0 }} // Move to original position
-          exit={{ opacity: 0, x: "-100%" }} // Exit to left
+          initial={{ opacity: 0, x: "-100%" }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: "-100%" }}
           transition={{ duration: 0.1, ease: "easeInOut" }}
           role="dialog"
           aria-hidden={!isOpne}
@@ -116,7 +116,18 @@ function RespNavbar({
                               aria-controls={`category-${index}-${catIndex}`}
                             >
                               <span className="flex items-center">
-                                <span className="">{category.category}</span>
+                                {typeof category.icon === "string" ? (
+                                  <img
+                                    className="w-6 h-6 mr-1"
+                                    src={category.icon}
+                                    alt={category.category}
+                                  />
+                                ) : (
+                                  React.cloneElement(category.icon, {
+                                    className: "w-6 h-6 mr-1",
+                                  }) // Clone and apply class
+                                )}
+                                <span>{category.category}</span>
                               </span>
                               {expandedCategories[`${index}-${catIndex}`] ? (
                                 <IoMdRemove size={18} />

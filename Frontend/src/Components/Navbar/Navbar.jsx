@@ -49,7 +49,7 @@ const Navbar = () => {
             <li>Loading navigation...</li>
           ) : error ? (
             <li>Error loading navigation: {error.message}</li>
-          ) : (
+            ) : (
             navData.map((item, index) => (
               <li
                 key={index}
@@ -95,6 +95,7 @@ const Navbar = () => {
                     </div>
                   </>
                 )}
+                
               </li>
             ))
           )}

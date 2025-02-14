@@ -31,7 +31,17 @@ const MegaMenu = ({ subCategories = [], isVisible }) => {
           subCategories.map((category, index) => (
             <div key={index} className="w-full">
               <div className="space-y-4">
-                <span className="text-3xl text-red-600">{category.icon}</span>
+                {typeof category.icon === "string" ? (
+                  <img
+                    className="w-6 h-6 mr-1"
+                    src={category.icon}
+                    alt={category.category}
+                  />
+                ) : (
+                  React.cloneElement(category.icon, {
+                    className: "w-6 h-6 mr-1",
+                  }) // Clone and apply class
+                )}
                 <h3 className="font-bold text-md mb-2 border-b-2 pb-2">
                   {category.category}
                 </h3>
@@ -44,7 +54,7 @@ const MegaMenu = ({ subCategories = [], isVisible }) => {
                         href={item.path}
                         className="hover:text-gray-500 cursor-pointer text-sm text-slate-800 block"
                       >
-                        {item.titel}
+                        {item.name}
                       </a>
                     </li>
                   ))}
