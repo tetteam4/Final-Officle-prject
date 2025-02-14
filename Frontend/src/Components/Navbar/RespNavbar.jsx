@@ -1,6 +1,7 @@
+// RespNavbar.jsx (or whatever your filename is)
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.jpg";
-import { NAV_DATA } from "./navdata";
+import { useNavData } from "./navdata"; // Changed import to useNavData
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
@@ -15,6 +16,7 @@ function RespNavbar({
   setDarkMode,
   isOpne,
 }) {
+  const { navData, loading, error } = useNavData(); // Use the hook
   const [expandedMenus, setExpandedMenus] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
 
@@ -71,117 +73,125 @@ function RespNavbar({
             </form>
 
             {/* Navigation Links */}
-            <ul className="flex flex-col space-y-2 p-4">
-              {NAV_DATA.map((navItem, index) => (
-                <li key={index} className="border-b border-gray-300 pb-2">
-                  <div
-                    className="flex items-center justify-between cursor-pointer"
-                    onClick={() => toggleMenu(index)}
-                    aria-expanded={expandedMenus[index]}
-                    aria-controls={`menu-${index}`}
-                  >
-                    <span className="text-xl">{navItem.name}</span>
-                    {navItem.subCategories ? (
-                      expandedMenus[index] ? (
-                        <IoMdRemove size={20} />
-                      ) : (
-                        <IoMdAdd size={20} />
-                      )
-                    ) : null}
-                  </div>
-                  {navItem.subCategories && expandedMenus[index] && (
-                    <ul
-                      id={`menu-${index}`}
-                      className=" mt-2 space-y-3 "
-                      role="list"
+            {loading ? (
+              <div>Loading navigation...</div>
+            ) : error ? (
+              <div>Error: {error.message}</div>
+            ) : (
+              <ul className="flex flex-col space-y-2 p-4">
+                {navData.map((navItem, index) => (
+                  <li key={index} className="border-b border-gray-300 pb-2">
+                    <div
+                      className="flex items-center justify-between cursor-pointer"
+                      onClick={() => toggleMenu(index)}
+                      aria-expanded={expandedMenus[index]}
+                      aria-controls={`menu-${index}`}
                     >
-                      {navItem.subCategories.map((category, catIndex) => (
-                        <li
-                          key={catIndex}
-                          className="border-t border-gray-300 "
-                        >
-                          <div
-                            className="flex items-center justify-between cursor-pointer text-md"
-                            onClick={() => toggleCategory(index, catIndex)}
-                            aria-expanded={
-                              expandedCategories[`${index}-${catIndex}`]
-                            }
-                            aria-controls={`category-${index}-${catIndex}`}
+                      <span className="text-xl">{navItem.name}</span>
+                      {navItem.subCategories ? (
+                        expandedMenus[index] ? (
+                          <IoMdRemove size={20} />
+                        ) : (
+                          <IoMdAdd size={20} />
+                        )
+                      ) : null}
+                    </div>
+                    {navItem.subCategories && expandedMenus[index] && (
+                      <ul
+                        id={`menu-${index}`}
+                        className=" mt-2 space-y-3 "
+                        role="list"
+                      >
+                        {navItem.subCategories.map((category, catIndex) => (
+                          <li
+                            key={catIndex}
+                            className="border-t border-gray-300 "
                           >
-                            <span className="flex items-center">
-                              <span className="">{category.category}</span>
-                            </span>
-                            {expandedCategories[`${index}-${catIndex}`] ? (
-                              <IoMdRemove size={18} />
-                            ) : (
-                              <IoMdAdd size={18} />
-                            )}
-                          </div>
-                          {expandedCategories[`${index}-${catIndex}`] && (
-                            <ul
-                              id={`category-${index}-${catIndex}`}
-                              className="ml-5 mt-2 space-y-2"
-                              role="list"
+                            <div
+                              className="flex items-center justify-between cursor-pointer text-md"
+                              onClick={() => toggleCategory(index, catIndex)}
+                              aria-expanded={
+                                expandedCategories[`${index}-${catIndex}`]
+                              }
+                              aria-controls={`category-${index}-${catIndex}`}
                             >
-                              {category.items.map((item, itemIndex) => (
-                                <li
-                                  key={itemIndex}
-                                  className="border-t border-gray-300 py-1"
-                                >
-                                  <Link
-                                    to={item.path}
-                                    className="block text-gray-700 hover:text-white"
-                                    onClick={repsonsiveHandler}
+                              <span className="flex items-center">
+                                <span className="">{category.category}</span>
+                              </span>
+                              {expandedCategories[`${index}-${catIndex}`] ? (
+                                <IoMdRemove size={18} />
+                              ) : (
+                                <IoMdAdd size={18} />
+                              )}
+                            </div>
+                            {expandedCategories[`${index}-${catIndex}`] && (
+                              <ul
+                                id={`category-${index}-${catIndex}`}
+                                className="ml-5 mt-2 space-y-2"
+                                role="list"
+                              >
+                                {category.items.map((item, itemIndex) => (
+                                  <li
+                                    key={itemIndex}
+                                    className="border-t border-gray-300 py-1"
                                   >
-                                    {item.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
+                                    <Link
+                                      to={item.path}
+                                      className="block text-gray-700 hover:text-white"
+                                      onClick={repsonsiveHandler}
+                                    >
+                                      {item.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Footer */}
           <div className="absolute  z-20 flex border bg-white p-3 items-center w-full justify-between px-5">
-           <div
-                         className={`relative flex items-center w-[110px] h-[40px] cursor-pointer rounded-full border 
+            <div
+              className={`relative flex items-center w-[110px] h-[40px] cursor-pointer rounded-full border 
                  ${
                    darkMode ? "bg-zinc-700" : "bg-white"
                  } shadow-sm transition-all duration-300`}
-                       >
-                         {/* Toggle Circle */}
-                         <div
-                           className={`absolute w-[35px] h-[35px] rounded-full top-[2px] transition-all duration-300 shadow-md
+            >
+              {/* Toggle Circle */}
+              <div
+                className={`absolute w-[35px] h-[35px] rounded-full top-[2px] transition-all duration-300 shadow-md
                    ${
                      darkMode
                        ? "left-[102px] translate-x-[-100%] bg-zinc-900"
                        : "left-[4px] bg-gradient-to-r from-orange-500 to-yellow-400"
                    }`}
-                         ></div>
-           
-                         {/* Sun Icon (Light Mode) */}
-                         <MdWbSunny
-                           onClick={() => setDarkMode(false)}
-                           className={`absolute left-[13px] w-5 h-5 transition-all ${
-                             darkMode ? "opacity-50" : "opacity-100"
-                           }`}
-                         />
-           
-                         {/* Moon Icon (Dark Mode) */}
-                         <MdNightlight
-                           onClick={() => setDarkMode(true)}
-                           className={`absolute right-[13px] w-5 h-5 transition-all ${
-                             darkMode ? "opacity-100 text-blue-700" : "opacity-50 text-black"
-                           }`}
-                         />
-                       </div>
+              ></div>
+
+              {/* Sun Icon (Light Mode) */}
+              <MdWbSunny
+                onClick={() => setDarkMode(false)}
+                className={`absolute left-[13px] w-5 h-5 transition-all ${
+                  darkMode ? "opacity-50" : "opacity-100"
+                }`}
+              />
+
+              {/* Moon Icon (Dark Mode) */}
+              <MdNightlight
+                onClick={() => setDarkMode(true)}
+                className={`absolute right-[13px] w-5 h-5 transition-all ${
+                  darkMode
+                    ? "opacity-100 text-blue-700"
+                    : "opacity-50 text-black"
+                }`}
+              />
+            </div>
             <a
               href="mailto:user@example.com"
               className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-all duration-300"

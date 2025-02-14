@@ -47,14 +47,14 @@ const RecentlyHomeBlog = () => {
   }
 
   return (
-    <div className="h-auto bg-secondary p-5">
+    <div className="h-auto p-5">
       <div className="text-center space-y-4">
         <p className="text-3xl font-semibold">Articles & Events</p>
         <p className="text-xl text-gray-600">
           The latest articles, insights, and events of TET (Tech Elevate Team)
         </p>
       </div>
-      <div className="mt-10 w-full border">
+      <div className="mt-10 w-full">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {latestBlogs.map((blog, index) => (
             <div className="bg-white flex flex-col justify-between rounded-t-xl h-[500px] w-[350px] shadow-xl ga">

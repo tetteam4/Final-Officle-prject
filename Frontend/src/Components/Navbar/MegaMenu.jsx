@@ -30,23 +30,24 @@ const MegaMenu = ({ subCategories = [], isVisible }) => {
         {Array.isArray(subCategories) &&
           subCategories.map((category, index) => (
             <div key={index} className="w-full">
-             <div className="space-y-4">
-             <span className="text-3xl text-red-600"> {category.icon}</span>
-              <h3 className="font-bold text-md mb-2 border-b-2 pb-2">
-                {category.category}
-              </h3>
-             </div>
+              <div className="space-y-4">
+                <span className="text-3xl text-red-600">{category.icon}</span>
+                <h3 className="font-bold text-md mb-2 border-b-2 pb-2">
+                  {category.category}
+                </h3>
+              </div>
               <ul className="space-y-2 mt-3">
-                {category.items.map((item, idx) => (
-                  <li key={idx}>
-                    <a
-                      href={item.path}
-                      className="hover:text-gray-500 cursor-pointer text-sm text-slate-800 block"
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
+                {Array.isArray(category.items) &&
+                  category.items.map((item, idx) => (
+                    <li key={idx}>
+                      <a
+                        href={item.path}
+                        className="hover:text-gray-500 cursor-pointer text-sm text-slate-800 block"
+                      >
+                        {item.titel}
+                      </a>
+                    </li>
+                  ))}
               </ul>
             </div>
           ))}

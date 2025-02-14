@@ -11,7 +11,6 @@ import ProjectStats from '../Components/Home/ProjectStats';
 import CodeGenerationAnimation from './CodeGenerationAnimation';
 
 
-
 const HomePage = () => {
  
   return (
