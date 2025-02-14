@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BlogCard from "../Components/Blog/BlogCard";
-import BlogCategoryList from "../Components/Blog/BlogCategoryList";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import LoadingSpinner from "../Components/Blog/LoadingSpinner";
-// import RecentlyBlog from "../Components/Blog/RecentlyBlog";
+import '../Components/serveices/sevicew.css'
 
 const Blog = () => {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [cardsPerPage, setCardsPerPage] = useState(6);
-  const [blogData, setBlogData] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const [sortBy, setSortBy] = useState("title");
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 6;
 
   useEffect(() => {
     const fetchBlogData = async () => {
@@ -24,7 +28,23 @@ const Blog = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        setBlogData(data);
+        setBlogs(data);
+      } catch (error) {
+        setError(error);
+        console.error("Error fetching blog data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchCategoriesData = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/blogs/");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setCategories(data);
       } catch (error) {
         setError(error);
         console.error("Error fetching blog data:", error);
@@ -34,17 +54,41 @@ const Blog = () => {
     };
 
     fetchBlogData();
+    fetchCategoriesData()
   }, []);
 
-  const filteredData =
-    selectedCategory === "All"
-      ? blogData
-      : blogData.filter((blog) => blog.category.name === selectedCategory);
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    setCurrentPage(1);
+  };
 
-  const totalPages = Math.ceil(filteredData.length / cardsPerPage);
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
+  };
+
+  const handleSortOrderChange = (e) => {
+    setSortOrder(e.target.value);
+  };
+
+  const filteredBlogs =
+    selectedCategory === "All"
+      ? blogs
+      : blogs.filter((blog) => blog.category.name === selectedCategory);
+
+  const sortedBlogs = [...filteredBlogs].sort((a, b) => {
+    const order = sortOrder === "asc" ? 1 : -1;
+    if (sortBy === "category") {
+      return a.category.name.localeCompare(b.category.name) * order;
+    } else if (sortBy === "title") {
+      return a.title.localeCompare(b.title) * order;
+    }
+    return 0;
+  });
+
+  const totalPages = Math.ceil(sortedBlogs.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = filteredData.slice(indexOfFirstCard, indexOfLastCard);
+  const currentCards = sortedBlogs.slice(indexOfFirstCard, indexOfLastCard);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -63,11 +107,6 @@ const Blog = () => {
       setCurrentPage(currentPage - 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  };
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
   };
 
   const renderPaginationButtons = () => {
@@ -116,10 +155,59 @@ const Blog = () => {
     <section className="mx-auto max-w-7xl py-8 px-4">
       <div className="flex flex-col md:flex-row gap-5">
         <aside className="w-full md:w-1/4">
-          <BlogCategoryList
-            onCategoryChange={handleCategoryChange}
-            selectedCategory={selectedCategory}
-          />
+          {/* Filtering and Sorting Controls */}
+          <div className="flex flex-col  mb-4">
+            {/* Category Filter */}
+            <div className="mb-2 md:mb-0">
+              <label
+                htmlFor="category"
+                className="mr-2 font-semibold text-gray-700 dark:text-gray-300"
+              >
+                Filter by Category:
+              </label>
+              <select
+                id="category"
+                className="border rounded px-2 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500"
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+              >
+                <option value="All">All Categories</option>
+                {categories.map((category, index) => (
+                  <option key={index} value={category.name} className="text-gray-700 dark:text-gray-300">
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Sorting Options */}
+            <div className="flex items-center">
+              <label
+                htmlFor="sort"
+                className="mr-2 font-semibold text-gray-700 dark:text-gray-300"
+              >
+                Sort By:
+              </label>
+              <select
+                id="sort"
+                className="border rounded px-2 py-1 mr-2 text-gray-700 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500"
+                value={sortBy}
+                onChange={handleSortChange}
+              >
+                <option value="title">Title</option>
+                <option value="category">Category</option>
+              </select>
+              <select
+                id="sortOrder"
+                className="border rounded px-2 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500"
+                value={sortOrder}
+                onChange={handleSortOrderChange}
+              >
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
+            </div>
+          </div>
         </aside>
 
         <main className="w-full md:w-3/4">
