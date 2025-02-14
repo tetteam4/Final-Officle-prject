@@ -152,6 +152,7 @@ class ServicesCategoryModel(TimeStampedUUIDModel):
 
 class Services(TimeStampedUUIDModel):
     category = models.ForeignKey(ServicesCategoryModel, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, blank=True)
     description = models.TextField()
     image = models.ImageField(upload_to="services/", null=True, blank=True)
     icon = models.ImageField(upload_to="services/icon/")
@@ -191,6 +192,8 @@ class WebModelImage(models.Model):
 
 class WebModel(models.Model):
     category = models.ForeignKey(webCategory, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, blank=True)
+
     description = models.CharField(max_length=255)
 
     images = models.ManyToManyField(WebModelImage, related_name="web_models")
