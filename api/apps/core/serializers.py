@@ -171,6 +171,7 @@ class ServiceSerializer(serializers.ModelSerializer):
         model = core_models.Services
         fields = [
             "id",
+            "pkid",
             "category",
             "name",
             "description",

@@ -22,7 +22,8 @@ import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme.jsx";
 import useDarkMode from "./hooks/useDarkMode";
 import BlogDetailsPage from "./Components/Blog/BlogDetailsPage.jsx";
-import '../src/Pages/ani.css'
+import "../src/Pages/ani.css";
+import ServiceDetailsPage from "./Components/serveices/ServiceDetailsPage.jsx";
 
 const App = () => {
   const [theme, toggleTheme] = useDarkMode();
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/services/:pkid" element={<ServiceDetailsPage />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/portfolio" element={<Portfolio />} />
@@ -48,7 +50,7 @@ const App = () => {
                 path="/portfolio_ca/:categoryName"
                 element={<CategoryPage />}
               />
-              <Route path="/portfolio/:id" element={<PortfolioDetialsPage />}/>
+              <Route path="/portfolio/:id" element={<PortfolioDetialsPage />} />
               <Route path="/webdesign" element={<Web_Design />} />
               <Route path="/website-seo" element={<Web_Seo />} />
               <Route path="/blog" element={<Blog />} />

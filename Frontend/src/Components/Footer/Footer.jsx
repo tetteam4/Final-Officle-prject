@@ -30,7 +30,7 @@ const Footer = () => {
       }
     };
   return (
-    <footer className="bg-gray-500  text-gray-700 border-t border-gray-300">
+    <footer className="bg-purple-950 text-gray-100 border-t border-gray-100">
       <div className="w-full mx-auto container mb-5  flex justify-between items-center ">
         <div className="text-md">
           <div className="flex items-center gap-3">
@@ -38,7 +38,7 @@ const Footer = () => {
           </div>
           <div className="flex items-center gap-x-7">
             <p>Telephone : +93772387935</p>
-            <p className="border-r border-l px-5 border-gray-700">
+            <p className="border-r border-l px-5 border-gray-100">
               +93772387935
             </p>
             <p className="text-md">
@@ -216,38 +216,7 @@ const Footer = () => {
               <FaTiktok className="text-black" size={30} />
             </a>
           </div>
-          <div>
-            <h5 className="text-sm mt-5">
-              By registering your email, get notified about the latest
-              discounts.
-            </h5>
-            <form action="" className="flex items-center mt-3 space-x-4">
-      <div className="flex flex-col">
-        <input
-          type="email"
-          value={email}
-          onChange={handleEmailChange}
-          placeholder="Enter your email"
-          className="px-4 py-2 border border-gray-300 focus:outline-none rounded-lg w-64"
-          required
-        />
-        {errorMessage && (
-          <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
-        )}
-      </div>
-      <button
-        type="submit"
-        disabled={!isValidEmail}
-        className={`px-6 py-2 rounded-lg ${
-          isValidEmail
-            ? 'bg-blue-600 text-white hover:bg-blue-700'
-            : 'bg-gray-300 text-gray-600 cursor-not-allowed'
-        }`}
-      >
-        Register
-      </button>
-    </form>
-          </div>
+
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Import Link
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -38,27 +39,30 @@ const Services = () => {
         <h2 className="text-3xl font-bold text-center mb-6">Our Services</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service) => (
-            <div
+            <Link
+              to={`/services/${service.pkid}`}
               key={service.id}
-              className="bg-white shadow-md rounded-lg p-6 text-center transition-transform duration-300 hover:scale-105"
+              className="block"
             >
-              <div className="text-4xl mb-4">
-                {service.icon ? (
-                  <img
-                    src={service.icon}
-                    alt={service.category.title}
-                    style={{ maxWidth: "50px", maxHeight: "50px" }}
-                  />
-                ) : (
-                  "No Icon"
-                )}
+              <div className="bg-white shadow-md rounded-lg p-6 text-center transition-transform duration-300 hover:scale-105">
+                <div className="text-4xl mb-4">
+                  {service.icon ? (
+                    <img
+                      src={service.icon}
+                      alt={service.category.title}
+                      style={{ maxWidth: "50px", maxHeight: "50px" }}
+                    />
+                  ) : (
+                    "No Icon"
+                  )}
+                </div>
+                <h3 className="text-xl font-semibold mb-2">
+                  {service.category.title}
+                </h3>{" "}
+                {/* Using category title */}
+                <p className="text-gray-700">{service.description}</p>
               </div>
-              <h3 className="text-xl font-semibold mb-2">
-                {service.category.title}
-              </h3>{" "}
-              {/* Using category title */}
-              <p className="text-gray-700">{service.description}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
