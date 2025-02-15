@@ -134,9 +134,7 @@ const Services = () => {
         Our Services
       </h2>
 
-      {/* Filtering and Sorting Controls */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-        {/* Category Filter */}
         <div className="mb-2 md:mb-0">
           <label
             htmlFor="category"
@@ -163,7 +161,6 @@ const Services = () => {
           </select>
         </div>
 
-        {/* Sorting Options */}
         <div className="flex items-center">
           <label
             htmlFor="sort"
@@ -227,8 +224,7 @@ const Services = () => {
                 {service.description}
               </p>
 
-              {/* Custom Button */}
-              <div className="buttons mt-12">
+              <div className="buttons mt-24">
                 <button className="btn">
                   <span></span>
                   <p

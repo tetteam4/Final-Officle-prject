@@ -83,7 +83,7 @@ export const useNavData = () => {
                 .filter((webModel) => webModel.category.id === webCategory.id)
                 .map((webModel) => ({
                   name: webModel.name, // Assuming 'name' is a suitable name
-                  path: `/webdesign/${webModel.id}`, // Create dynamic path
+                  path: `/webmodels/${webModel.id}`, // Create dynamic path
                 })),
             })),
           },
@@ -99,12 +99,12 @@ export const useNavData = () => {
             ),
             subCategories: categories.map((category) => ({
               category: category.title,
-              icon: category.icon ? category.icon : <FaPalette />, // Use image icon if available, else default
+              icon: category.icon ? category.icon : <FaPalette />, 
               items: services
                 .filter((service) => service.category.id === category.id)
                 .map((service) => ({
                   name: service.name,
-                  path: `/service/${service.id}`,
+                  path: `/services/${service.pkid}`,
                 })),
             })),
           },

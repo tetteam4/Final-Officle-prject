@@ -23,6 +23,7 @@ import BlogDetailsPage from "./Components/Blog/BlogDetailsPage.jsx";
 import "../src/Pages/ani.css";
 import ServiceDetailsPage from "./Components/serveices/ServiceDetailsPage.jsx";
 import WebsiteDesign from "./Components/WebsiteDesign/Web_Design.jsx";
+import WebModelDetail from "./Components/WebsiteDesign/WebModelDetail.jsx";
 
 const App = () => {
   const [theme, toggleTheme] = useDarkMode();
@@ -51,6 +52,7 @@ const App = () => {
               />
               <Route path="/portfolio/:id" element={<PortfolioDetialsPage />} />
               <Route path="/website-design" element={<WebsiteDesign />} />
+              <Route path="/webmodels/:id" element={<WebModelDetail />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogDetailsPage />} />
             </Route>

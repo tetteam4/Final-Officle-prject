@@ -1,35 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import RespNavbar from "./RespNavbar";
 import { LuLogIn } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import logo from "../../assets/tet.png";
-import { MdEmail, MdMenu, MdClose } from "react-icons/md";
+import { MdMenu, MdClose } from "react-icons/md";
 import { MdWbSunny, MdNightlight } from "react-icons/md";
 import useDarkMode from "../../hooks/useDarkMode";
 
 const Header = () => {
-  const [isClick, setIsClick] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isOpne, setIsOpen] = useState(false);
-  const [cardItems, setCardItems] = useState(0);
   const [darkMode, setDarkMode] = useDarkMode(); // Use the custom hook
 
+  // Toggle responsive navigation
   const repsonsiveHandler = () => {
     setIsOpen(!isOpne);
-    setIsExpanded(true);
-    console.log("IsOpen");
   };
 
   return (
     <header className="fixed top-0 lg:sticky z-30 p-2 dark:bg-purple-950 left-0 right-0 bg-purple-950">
       <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2">
-        {/* Logo */}
+        {/* Logo and Menu Button */}
         <div className="flex items-center gap-x-5 md:col-span-2 lg:col-span-1">
           <div
             onClick={repsonsiveHandler}
             className="flex lg:hidden cursor-pointer justify-end items-center"
           >
-            <span className="hover:bg-gray-400 rounded-full p-2 hover:text-white transition duration-300">
+            <span className="text-white hover:bg-gray-400 rounded-full p-2 hover:text-white transition duration-300">
               {isOpne ? <MdClose size={30} /> : <MdMenu size={30} />}
             </span>
           </div>
@@ -104,7 +100,6 @@ const Header = () => {
                 <LuLogIn className="text-gray-700" size={24} />
               </span>
             </Link>
-            
           </div>
         </div>
       </div>
@@ -112,17 +107,17 @@ const Header = () => {
       {/* Responsive Navbar */}
       {isOpne && (
         <div>
+          {/* Overlay */}
           <div
             onClick={repsonsiveHandler}
             className="fixed left-0 right-0 top-24 bottom-0 bg-black opacity-80 z-10"
           ></div>
+
+          {/* Navbar */}
           <RespNavbar
             repsonsiveHandler={repsonsiveHandler}
-            isExpanded={isExpanded}
             setDarkMode={setDarkMode}
             darkMode={darkMode}
-            isClick={isClick}
-            setIsClick={setIsClick}
             isOpne={isOpne}
           />
         </div>

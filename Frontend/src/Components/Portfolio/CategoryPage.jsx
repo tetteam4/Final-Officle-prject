@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams , useNavigate } from "react-router-dom";
-import { Portfolio_Data } from "./portfiliodata";// Import your data
+// import { Portfolio_Data } from "./portfiliodata";// Import your data
 import PortfolioCard from "./PortfolioCard";
 import Breadcrumb from "./Breadcrumb";
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Portfolio_Data } from "./portfiliodata"; // Import your data
 import PortfolioCard from "./PortfolioCard"; // Reuse the PortfolioCard component
 import { useNavigate } from "react-router-dom";
 

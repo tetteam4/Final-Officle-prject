@@ -1,6 +1,4 @@
-// RespNavbar.jsx
 import React, { useEffect, useState } from "react";
-import logo from "../../assets/logo.jpg";
 import { useNavData } from "./navdata";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
@@ -9,27 +7,10 @@ import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import { MdWbSunny, MdNightlight } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 
-function RespNavbar({
-  repsonsiveHandler,
-  isExpanded,
-  darkMode,
-  setDarkMode,
-  isOpne,
-}) {
+function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
   const { navData, loading, error } = useNavData();
   const [expandedMenus, setExpandedMenus] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
-
-  useEffect(() => {
-    if (isExpanded) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isExpanded]);
 
   const toggleMenu = (index) => {
     setExpandedMenus((prev) => ({
@@ -125,7 +106,7 @@ function RespNavbar({
                                 ) : (
                                   React.cloneElement(category.icon, {
                                     className: "w-6 h-6 mr-1",
-                                  }) // Clone and apply class
+                                  })
                                 )}
                                 <span>{category.category}</span>
                               </span>
