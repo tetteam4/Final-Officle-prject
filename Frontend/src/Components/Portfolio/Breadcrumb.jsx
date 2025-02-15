@@ -8,7 +8,7 @@ const Breadcrumb = () => {
   const portfoliotitle = location.state?.port?.name;
 
   return (
-    <nav className="text-md flex justify-center md:justify-start  text-gray-500 dark:text-gray-100 py-2 px-5 dark:bg-primary bg-gray-100 rounded-lg mb-4">
+    <nav className="text-md flex justify-center md:justify-start  text-gray-500 dark:text-gray-100 dark:bg-gray-500 py-2 px-5  bg-gray-100 rounded-lg mb-4">
       <ul className="inline-flex  font-semibold items-center">
         <li>
           <Link to="/" className="hover:text-gray-800">

@@ -12,13 +12,9 @@ const BeCreativeAndDistinct = () => {
   return (
     <div className="text-center py-8 px-4 sm:py-12 sm:px-6">
       <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-gray-100">
-        {" "}
-        {/* Dark mode text color */}
         Be Creative and Distinct
       </h1>
       <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 sm:mb-12 max-w-3xl mx-auto">
-        {" "}
-        {/* Dark mode text color */}
         At the heart of our company, we believe in the power of creativity and
         distinction. We strive to offer solutions that not only meet the needs
         of today but pave the way for tomorrow. Our team is committed to
@@ -34,8 +30,7 @@ const BeCreativeAndDistinct = () => {
             className="text-blue-500 mb-2 sm:mb-4"
           />
           <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
-            {" "}
-            {/* Dark mode text color */}1 Years of Customer Loyalty
+          1 Years of Customer Loyalty
           </h3>
         </div>
         <div className="flex flex-col items-center">
@@ -45,8 +40,6 @@ const BeCreativeAndDistinct = () => {
             className="text-green-500 mb-2 sm:mb-4"
           />
           <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
-            {" "}
-            {/* Dark mode text color */}
             Professional and Expert Team
           </h3>
         </div>
@@ -57,8 +50,6 @@ const BeCreativeAndDistinct = () => {
             className="text-yellow-500 mb-2 sm:mb-4"
           />
           <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
-            {" "}
-            {/* Dark mode text color */}
             24/7 Customer Support
           </h3>
         </div>
@@ -69,8 +60,6 @@ const BeCreativeAndDistinct = () => {
             className="text-purple-500 mb-2 sm:mb-4"
           />
           <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
-            {" "}
-            {/* Dark mode text color */}
             Sales Solutions
           </h3>
         </div>
@@ -81,8 +70,6 @@ const BeCreativeAndDistinct = () => {
             className="text-red-500 mb-2 sm:mb-4"
           />
           <h3 className="text-sm sm:text-md font-semibold text-gray-700 dark:text-gray-300">
-            {" "}
-            {/* Dark mode text color */}
             Full Service Solutions
           </h3>
         </div>

@@ -199,6 +199,7 @@ const Portfolio = () => {
           <ProjectNameList Portfolio_Data={portfolioData} />
         </aside>
       </div>
+      
       <div className="mt-6">
         <PortfolioFiltering
           selectedCategory={selectedCategory}
@@ -208,6 +209,7 @@ const Portfolio = () => {
         />
       </div>
       {/* Portfolio Card */}
+
       <div className="grid grid-cols-3 max-w-7xl gap-5 mt-10 mx-auto">
         {currentCards.map((port, index) => {
           const handleClick = () => {
@@ -236,7 +238,6 @@ const Portfolio = () => {
           )}
 
           {renderPaginationButtons()}
-
           {currentPage < totalPages && (
             <button
               onClick={handleNextPage}
