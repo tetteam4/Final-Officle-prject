@@ -1,4 +1,3 @@
-// PortfolioHome.js
 import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
@@ -19,14 +18,14 @@ const PortfolioHome = () => {
     const fetchProjects = async () => {
       setLoading(true);
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/portfolios/"); // Replace with your API endpoint
+        const response = await fetch("http://127.0.0.1:8000/api/portfolios/");
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
         setProjects(data);
         if (data.length > 0) {
-          setActiveProject(data[0].name); // Set initial active project
+          setActiveProject(data[0].name);
         }
       } catch (error) {
         setError(error);
@@ -48,11 +47,15 @@ const PortfolioHome = () => {
   };
 
   if (loading) {
-    return <div>Loading portfolio data...</div>;
+    return <div className="text-center py-8">Loading portfolio data...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div className="text-center py-8 text-red-500">
+        Error: {error.message}
+      </div>
+    );
   }
 
   return (
@@ -61,6 +64,7 @@ const PortfolioHome = () => {
         Our Website Design Portfolio
       </h2>
 
+      {/* Swiper for Projects */}
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         pagination={{
@@ -75,20 +79,21 @@ const PortfolioHome = () => {
       >
         {projects.map((project) => (
           <SwiperSlide key={project.id} onClick={() => handleMore(project.id)}>
-            <div className="flex flex-col items-center gap-4 sm:gap-8">
+            <div className="flex flex-col items-center gap-4 sm:gap-8 ">
               <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-8">
-                <div className="relative border-2 border-gray-200 dark:border-gray-700 p-1 rounded-lg shadow-2xl w-[300px] h-[200px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[400px]">
+                <div className="relative border-2 border-gray-200 dark:border-gray-700 p-1 rounded-lg shadow-2xl w-[300px] h-[200px] sm:w-[400px] sm:h-[300px] md:w-[600px] md:h-[400px] lg:w-[800px]">
                   <img
-                    src={project.images} // change and used from API
+                    src={project.images}
                     alt={project.name}
                     className="w-full h-full object-cover rounded-lg"
                   />
                 </div>
-                <div className="relative border-2 border-gray-200 dark:border-gray-700 p-1 rounded-lg shadow-lg w-[100px] h-[200px] sm:w-[150px] sm:h-[300px] md:w-[200px] md:h-[400px]">
+
+                <div className="relative border-2 border-gray-200 dark:border-gray-700 p-1 rounded-lg shadow-lg w-[100px] h-[200px] sm:w-[150px] sm:h-[300px] md:w-[200px] md:h-[400px]  ">
                   <img
-                    src={project.log_images} // change and used from API
+                    src={project.log_images}
                     alt={project.name}
-                    className="w-full h-full object-contain rounded-lg"
+                    className="w-full h-full object-cover rounded-lg"
                   />
                 </div>
               </div>
@@ -97,7 +102,7 @@ const PortfolioHome = () => {
         ))}
       </Swiper>
 
-      {/* Custom Pagination, Project Name, and View More Button in One Line */}
+      {/* Custom Pagination, Project Name, and View More Button */}
       <div className="grid grid-cols-1 sm:grid-cols-3 place-content-center items-center w-[90%] mx-auto mt-4">
         {/* Custom Pagination */}
         <div className="custom-pagination min-w-[100px] flex gap-1 justify-center sm:justify-start"></div>
@@ -107,19 +112,14 @@ const PortfolioHome = () => {
           <span className="font-semibold text-md sm:text-lg dark:text-gray-300">
             Project:
           </span>{" "}
-          {/* Dark mode text color */}
           <span className="text-md sm:text-lg dark:text-gray-300">
             {activeProject}
-          </span>{" "}
-          {/* Dark mode text color */}
+          </span>
         </div>
 
         {/* View More Button */}
         <div className="flex items-center justify-center sm:justify-end py-2">
-          <Button
-            text="View More"
-            onClick={() => navigate("/portfolio")} // Fixed navigate
-          />
+          <Button text="View More" onClick={() => navigate("/portfolio")} />
         </div>
       </div>
     </div>

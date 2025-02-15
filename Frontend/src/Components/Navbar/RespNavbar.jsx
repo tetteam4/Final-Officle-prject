@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavData } from "./navdata";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
@@ -40,7 +40,7 @@ function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
           className={`fixed top-[75px] left-0 h-[100vh] bottom-0 z-20 bg-white text-black shadow-md transform transition-transform duration-300 ease-in-out w-[80%] sm:w-[75%] lg:w-[390px]`}
         >
           {/* Scrollable Content */}
-          <div className="h-[calc(100vh-70px-70px)] overflow-y-auto  pb-16">
+          <div className="h-[calc(100vh-70px-70px)] overflow-y-auto pb-16">
             {/* Search Bar */}
             <form className="flex-1 px-5 mt-5 relative">
               <input
@@ -80,13 +80,13 @@ function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
                     {navItem.subCategories && expandedMenus[index] && (
                       <ul
                         id={`menu-${index}`}
-                        className=" mt-2 space-y-3 "
+                        className="mt-2 space-y-3"
                         role="list"
                       >
                         {navItem.subCategories.map((category, catIndex) => (
                           <li
                             key={catIndex}
-                            className="border-t border-gray-300 "
+                            className="border-t border-gray-300"
                           >
                             <div
                               className="flex items-center justify-between cursor-pointer text-md"
@@ -131,6 +131,7 @@ function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
                                       to={item.path}
                                       className="block text-gray-700 hover:text-white"
                                       onClick={repsonsiveHandler}
+                                      
                                     >
                                       {item.name}
                                     </Link>
@@ -149,7 +150,7 @@ function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
           </div>
 
           {/* Footer */}
-          <div className="absolute  z-20 flex border bg-white p-3 items-center w-full justify-between px-5">
+          <div className="absolute z-20 flex border bg-white p-3 items-center w-full justify-between px-5">
             <div
               className={`relative flex items-center w-[110px] h-[40px] cursor-pointer rounded-full border 
                  ${
