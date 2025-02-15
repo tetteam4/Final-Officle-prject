@@ -10,8 +10,6 @@ import CodeGenerationAnimation from "./CodeGenerationAnimation";
 const HomePage = () => {
   return (
     <div className="font-sans">
-      {" "}
-      {/* Added dark mode background and text color */}
       <Hero_Home />
       <BeCreative />
       <CodeGenerationAnimation />

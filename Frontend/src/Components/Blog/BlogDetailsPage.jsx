@@ -110,7 +110,6 @@ const BlogDetailsPage = () => {
       variants={fadeIn}
       className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800"
     >
-      {/* Floating Navigation */}
       <div className="fixed top-4 left-4 right-4 flex justify-between z-50">
         <button
           onClick={() => navigate("/blog")}
@@ -142,9 +141,7 @@ const BlogDetailsPage = () => {
           variants={staggerChildren}
           className="flex flex-col lg:flex-row gap-8"
         >
-          {/* Main Content */}
           <article className="flex-1">
-            {/* Meta Section */}
             <motion.div variants={fadeIn} className="mb-8">
               <div className="flex items-center gap-4 mb-6">
                 <span className="px-4 py-2 bg-[#02DB81]/10 text-[#02DB81] rounded-full text-sm font-medium">
@@ -167,7 +164,6 @@ const BlogDetailsPage = () => {
               </div>
             </motion.div>
 
-            {/* Hero Image */}
             <motion.div
               variants={fadeIn}
               className="relative w-full h-96 rounded-3xl overflow-hidden mb-12"
@@ -181,7 +177,6 @@ const BlogDetailsPage = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/30" />
             </motion.div>
 
-            {/* General Info */}
             <motion.section
               variants={fadeIn}
               className="prose dark:prose-invert max-w-none mb-16"
@@ -190,7 +185,6 @@ const BlogDetailsPage = () => {
               <p className="text-xl leading-relaxed">{blog.general_info}</p>
             </motion.section>
 
-            {/* Sections */}
             {blog.section.map((section, index) => (
               <motion.section
                 key={section.id}
@@ -228,7 +222,6 @@ const BlogDetailsPage = () => {
               </motion.section>
             ))}
 
-            {/* Conclusion */}
             <motion.section
               variants={fadeIn}
               className="prose dark:prose-invert max-w-none mb-16"
@@ -238,11 +231,8 @@ const BlogDetailsPage = () => {
             </motion.section>
           </article>
 
-          {/* Sidebar */}
           <aside className="lg:w-80 xl:w-96">
             <BlogCategoryList />
-
-            {/* Newsletter Form */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl mt-8">
               <h3 className="text-xl font-bold mb-4">Stay Updated</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">

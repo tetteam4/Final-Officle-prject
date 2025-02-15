@@ -7,7 +7,7 @@ import {
   MdSettings,
   MdPlayCircle,
 } from "react-icons/md";
-import  Spinner  from "../../Components/Blog/LoadingSpinner"; // Assume you have a Spinner component
+import Spinner from "../../Components/Blog/LoadingSpinner"; // Assume you have a Spinner component
 
 const ServiceDetailsPage = () => {
   const { pkid } = useParams();
@@ -39,19 +39,19 @@ const ServiceDetailsPage = () => {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
         <Spinner size="lg" />
       </div>
     );
 
   if (error)
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center text-center p-4">
-        <div className="max-w-md bg-red-50 p-6 rounded-lg">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">
+      <div className="min-h-screen flex flex-col items-center justify-center text-center p-4 dark:bg-gray-900">
+        <div className="max-w-md bg-red-50 dark:bg-red-900 p-6 rounded-lg">
+          <h2 className="text-2xl font-bold text-red-600 dark:text-red-100 mb-4">
             Error Loading Service
           </h2>
-          <p className="text-red-700 mb-4">{error.message}</p>
+          <p className="text-red-700 dark:text-red-200 mb-4">{error.message}</p>
           <button
             onClick={() => navigate("/services")}
             className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
@@ -64,9 +64,9 @@ const ServiceDetailsPage = () => {
 
   if (!service)
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center text-center p-4">
-        <div className="max-w-md bg-blue-50 p-6 rounded-lg">
-          <h1 className="text-2xl font-bold text-blue-600 mb-4">
+      <div className="min-h-screen flex flex-col items-center justify-center text-center p-4 dark:bg-gray-900">
+        <div className="max-w-md bg-blue-50 dark:bg-blue-900 p-6 rounded-lg">
+          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-100 mb-4">
             Service Not Found
           </h1>
           <button
@@ -80,7 +80,7 @@ const ServiceDetailsPage = () => {
     );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
       <Breadcrumb
         paths={[
           { name: "Services", href: "/services" },
@@ -92,7 +92,7 @@ const ServiceDetailsPage = () => {
         ]}
       />
 
-      <div className="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
         {/* Hero Section */}
         <div className="relative">
           {service.image && (
@@ -108,7 +108,7 @@ const ServiceDetailsPage = () => {
               {service.name}
             </h1>
             <div className="flex items-center space-x-2">
-              <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+              <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 px-3 py-1 rounded-full text-sm font-medium">
                 {service.category.title}
               </span>
             </div>
@@ -118,7 +118,7 @@ const ServiceDetailsPage = () => {
         {/* Main Content */}
         <div className="p-6 lg:p-8">
           <div className="prose max-w-none mb-8">
-            <p className="text-gray-600 text-lg leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
               {service.description}
             </p>
           </div>
@@ -127,7 +127,7 @@ const ServiceDetailsPage = () => {
           {service.video && (
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-2xl font-bold flex items-center gap-2">
+                <h3 className="text-2xl font-bold flex items-center gap-2 dark:text-white">
                   <MdPlayCircle className="text-green-600" />
                   Video Overview
                 </h3>
@@ -163,7 +163,7 @@ const ServiceDetailsPage = () => {
           {/* Benefits Section */}
           {service.benefit?.length > 0 && (
             <div className="mb-8">
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 dark:text-white">
                 <MdDashboard className="text-green-600" />
                 Key Benefits
               </h3>
@@ -171,12 +171,12 @@ const ServiceDetailsPage = () => {
                 {service.benefit.map((benefit) => (
                   <div
                     key={benefit.id}
-                    className="bg-gray-50 p-6 rounded-lg hover:shadow-md transition-shadow"
+                    className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg hover:shadow-md transition-shadow"
                   >
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800">
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white">
                       {benefit.title}
                     </h4>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                       {benefit.description}
                     </p>
                   </div>
@@ -186,15 +186,15 @@ const ServiceDetailsPage = () => {
           )}
 
           {/* Additional Details */}
-          <div className="border-t pt-8">
+          <div className="border-t pt-8 dark:border-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2 dark:text-white">
                   <MdSettings className="text-green-600" />
                   Service Details
                 </h3>
                 <div className="space-y-2">
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-300">
                     <span className="font-medium">Category:</span>{" "}
                     {service.category.title}
                   </p>
@@ -210,12 +210,12 @@ const ServiceDetailsPage = () => {
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2 dark:text-white">
                   <MdRoomService className="text-green-600" />
                   Need More Information?
                 </h3>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
                   Contact our Tech Elevate Team consultants for detailed
                   information about our {service.category.title} services.
                 </p>

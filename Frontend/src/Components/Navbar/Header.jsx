@@ -9,9 +9,9 @@ import useDarkMode from "../../hooks/useDarkMode";
 
 const Header = () => {
   const [isOpne, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useDarkMode(); // Use the custom hook
+  const [darkMode, setDarkMode] = useDarkMode();
 
-  // Toggle responsive navigation
+ 
   const repsonsiveHandler = () => {
     setIsOpen(!isOpne);
   };
@@ -23,6 +23,7 @@ const Header = () => {
         <div className="flex items-center gap-x-5 md:col-span-2 lg:col-span-1">
           <div
             onClick={repsonsiveHandler}
+            
             className="flex lg:hidden cursor-pointer justify-end items-center"
           >
             <span className="text-white hover:bg-gray-400 rounded-full p-2 hover:text-white transition duration-300">
@@ -93,12 +94,15 @@ const Header = () => {
             {/* Login Button */}
             <Link
               to="/sign-up"
-              className="flex items-center bg-gray-50 hover:bg-gray-100 lg:rounded-lg lg:border py-1 lg:p-2"
             >
-              <span className="px-2 text-sm font-semibold">Login</span>
-              <span>
-                <LuLogIn className="text-gray-700" size={24} />
-              </span>
+              <button
+                className="flex items-center justify-center  bg-gradient-to-r from-[#af40ff] via-[#5b42f3] to-[#00ddeb] rounded-lg shadow-[0_15px_30px_-5px_rgba(151,65,252,0.2)] transition-all duration-300 ease-in-out hover:shadow-[0_20px_40px_-5px_rgba(151,65,252,0.3)] active:scale-90 active:shadow-[0_10px_20px_-5px_rgba(151,65,252,0.2)]"
+                // onClick={onClick}
+              >
+                <span className="bg-[#05062d] px-6 py-4 rounded-lg text-white text-lg font-medium transition-all duration-300 ease-in-out hover:bg-transparent">
+                 get Started
+                </span>
+              </button>
             </Link>
           </div>
         </div>

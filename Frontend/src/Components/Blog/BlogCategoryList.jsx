@@ -30,8 +30,8 @@ const BlogCategoryList = ({ onCategoryChange, selectedCategory }) => {
   }, []);
 
   const handleCategoryClick = (categoryName) => {
-    onCategoryChange(categoryName); // Notify Blog component of category change
-    navigate(`/blog?category=${categoryName}`); // Navigate with category filter
+    onCategoryChange(categoryName);
+    navigate(`/blog?category=${categoryName}`); 
   };
 
   if (loading) {

@@ -64,7 +64,6 @@ const PortfolioHome = () => {
         Our Website Design Portfolio
       </h2>
 
-      {/* Swiper for Projects */}
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         pagination={{
@@ -102,12 +101,8 @@ const PortfolioHome = () => {
         ))}
       </Swiper>
 
-      {/* Custom Pagination, Project Name, and View More Button */}
       <div className="grid grid-cols-1 sm:grid-cols-3 place-content-center items-center w-[90%] mx-auto mt-4">
-        {/* Custom Pagination */}
         <div className="custom-pagination min-w-[100px] flex gap-1 justify-center sm:justify-start"></div>
-
-        {/* Project Name */}
         <div className="text-center py-2">
           <span className="font-semibold text-md sm:text-lg dark:text-gray-300">
             Project:
@@ -117,7 +112,6 @@ const PortfolioHome = () => {
           </span>
         </div>
 
-        {/* View More Button */}
         <div className="flex items-center justify-center sm:justify-end py-2">
           <Button text="View More" onClick={() => navigate("/portfolio")} />
         </div>

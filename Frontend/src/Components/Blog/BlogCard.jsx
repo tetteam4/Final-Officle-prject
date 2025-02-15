@@ -1,6 +1,4 @@
 import React from "react";
-import { RxArrowRight } from "react-icons/rx";
-import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const BlogCard = ({ blog, onClick }) => {
