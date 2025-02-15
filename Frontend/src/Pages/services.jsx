@@ -129,7 +129,7 @@ const Services = () => {
   }
 
   return (
-    <div className="dark:bg-purple-950 p-8">
+    <div className="p-8">
       <h2 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
         Our Services
       </h2>

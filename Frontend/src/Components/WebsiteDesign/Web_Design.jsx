@@ -117,7 +117,7 @@ const WebsiteDesign = () => {
   }
 
   return (
-    <div className="dark:bg-purple-950 p-8 min-h-screen">
+    <div className="p-8 min-h-screen">
       <button
         onClick={() => setDarkMode(!darkMode)}
         className="fixed bottom-4 right-4 p-2 bg-purple-800 text-white rounded-full shadow-lg"

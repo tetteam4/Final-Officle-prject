@@ -39,9 +39,7 @@ function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
           aria-hidden={!isOpne}
           className={`fixed top-[75px] left-0 h-[100vh] bottom-0 z-20 bg-white text-black shadow-md transform transition-transform duration-300 ease-in-out w-[80%] sm:w-[75%] lg:w-[390px]`}
         >
-          {/* Scrollable Content */}
           <div className="h-[calc(100vh-70px-70px)] overflow-y-auto pb-16">
-            {/* Search Bar */}
             <form className="flex-1 px-5 mt-5 relative">
               <input
                 type="text"
@@ -53,7 +51,6 @@ function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
               </span>
             </form>
 
-            {/* Navigation Links */}
             {loading ? (
               <div>Loading navigation...</div>
             ) : error ? (
