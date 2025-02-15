@@ -1,6 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 
+// Skeleton Loader Component
+const SkeletonLoader = () => (
+  <div className="animate-pulse">
+    <div className="bg-gray-300 dark:bg-gray-700 h-8 w-1/2 mb-4 mx-auto"></div>
+    <div className="bg-gray-300 dark:bg-gray-700 h-6 w-1/4 mb-4 mx-auto"></div>
+    <div className="bg-gray-300 dark:bg-gray-700 h-4 w-3/4 mb-4 mx-auto"></div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {[...Array(3)].map((_, index) => (
+        <div
+          key={index}
+          className="bg-gray-300 dark:bg-gray-700 h-48 rounded-lg"
+        ></div>
+      ))}
+    </div>
+  </div>
+);
+
+// Image Component with Fallback
+const ImageWithFallback = ({ src, alt, className }) => {
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  return (
+    <img
+      src={imageError ? "https://via.placeholder.com/150" : src}
+      alt={alt}
+      className={className}
+      onError={handleImageError}
+    />
+  );
+};
+
+ImageWithFallback.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  className: PropTypes.string,
+};
+
+// WebModelDetail Component
 const WebModelDetail = () => {
   const { id } = useParams();
   const [webModel, setWebModel] = useState(null);
@@ -27,7 +70,12 @@ const WebModelDetail = () => {
     fetchWebModel();
   }, [id]);
 
-  if (loading) return <div className="p-8">Loading...</div>;
+  if (loading)
+    return (
+      <div className="p-8">
+        <SkeletonLoader />
+      </div>
+    );
   if (error)
     return <div className="p-8 text-red-500">Error: {error.message}</div>;
   if (!webModel) return <div className="p-8">No data found.</div>;
@@ -41,7 +89,7 @@ const WebModelDetail = () => {
         <div className="text-center">
           {/* Display Category Icon */}
           {webModel.category.icon && (
-            <img
+            <ImageWithFallback
               src={webModel.category.icon}
               alt={webModel.category.title}
               className="w-12 h-12 mx-auto mb-4"
@@ -73,7 +121,7 @@ const WebModelDetail = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {webModel.images.map((image) => (
                 <div key={image.id} className="rounded-lg overflow-hidden">
-                  <img
+                  <ImageWithFallback
                     src={image.image}
                     alt={`Web Model ${webModel.id}`}
                     className="w-full h-auto rounded-lg"
