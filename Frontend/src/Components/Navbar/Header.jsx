@@ -1,35 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import RespNavbar from "./RespNavbar";
 import { LuLogIn } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import logo from "../../assets/tet.png";
-import { MdEmail, MdMenu, MdClose } from "react-icons/md";
+import { MdMenu, MdClose } from "react-icons/md";
 import { MdWbSunny, MdNightlight } from "react-icons/md";
 import useDarkMode from "../../hooks/useDarkMode";
 
 const Header = () => {
-  const [isClick, setIsClick] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isOpne, setIsOpen] = useState(false);
-  const [cardItems, setCardItems] = useState(0);
-  const [darkMode, setDarkMode] = useDarkMode(); // Use the custom hook
+  const [darkMode, setDarkMode] = useDarkMode();
 
+ 
   const repsonsiveHandler = () => {
     setIsOpen(!isOpne);
-    setIsExpanded(true);
-    console.log("IsOpen");
   };
 
   return (
     <header className="fixed top-0 lg:sticky z-30 p-2 dark:bg-purple-950 left-0 right-0 bg-purple-950">
       <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2">
-        {/* Logo */}
+        {/* Logo and Menu Button */}
         <div className="flex items-center gap-x-5 md:col-span-2 lg:col-span-1">
           <div
             onClick={repsonsiveHandler}
+            
             className="flex lg:hidden cursor-pointer justify-end items-center"
           >
-            <span className="hover:bg-gray-400 rounded-full p-2 hover:text-white transition duration-300">
+            <span className="text-white hover:bg-gray-400 rounded-full p-2 hover:text-white transition duration-300">
               {isOpne ? <MdClose size={30} /> : <MdMenu size={30} />}
             </span>
           </div>
@@ -93,23 +90,19 @@ const Header = () => {
                 }`}
               />
             </div>
-            {/* Email Icon */}
-            <a
-              href="mailto:user@example.com"
-              className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-all duration-300"
-            >
-              <MdEmail className="w-6 h-6" />
-            </a>
 
             {/* Login Button */}
             <Link
               to="/sign-up"
-              className="flex items-center bg-gray-50 hover:bg-gray-100 lg:rounded-lg lg:border py-1 lg:p-2"
             >
-              <span className="px-2 text-sm font-semibold">Login</span>
-              <span>
-                <LuLogIn className="text-gray-700" size={24} />
-              </span>
+              <button
+                className="flex items-center justify-center  bg-gradient-to-r from-[#af40ff] via-[#5b42f3] to-[#00ddeb] rounded-lg shadow-[0_15px_30px_-5px_rgba(151,65,252,0.2)] transition-all duration-300 ease-in-out hover:shadow-[0_20px_40px_-5px_rgba(151,65,252,0.3)] active:scale-90 active:shadow-[0_10px_20px_-5px_rgba(151,65,252,0.2)]"
+                // onClick={onClick}
+              >
+                <span className="bg-[#05062d] px-6 py-4 rounded-lg text-white text-lg font-medium transition-all duration-300 ease-in-out hover:bg-transparent">
+                 get Started
+                </span>
+              </button>
             </Link>
           </div>
         </div>
@@ -118,17 +111,17 @@ const Header = () => {
       {/* Responsive Navbar */}
       {isOpne && (
         <div>
+          {/* Overlay */}
           <div
             onClick={repsonsiveHandler}
             className="fixed left-0 right-0 top-24 bottom-0 bg-black opacity-80 z-10"
           ></div>
+
+          {/* Navbar */}
           <RespNavbar
             repsonsiveHandler={repsonsiveHandler}
-            isExpanded={isExpanded}
             setDarkMode={setDarkMode}
             darkMode={darkMode}
-            isClick={isClick}
-            setIsClick={setIsClick}
             isOpne={isOpne}
           />
         </div>

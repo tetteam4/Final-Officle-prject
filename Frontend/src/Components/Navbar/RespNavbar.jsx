@@ -1,6 +1,4 @@
-// RespNavbar.jsx
-import React, { useEffect, useState } from "react";
-import logo from "../../assets/logo.jpg";
+import React, { useState } from "react";
 import { useNavData } from "./navdata";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
@@ -9,27 +7,10 @@ import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import { MdWbSunny, MdNightlight } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 
-function RespNavbar({
-  repsonsiveHandler,
-  isExpanded,
-  darkMode,
-  setDarkMode,
-  isOpne,
-}) {
+function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
   const { navData, loading, error } = useNavData();
   const [expandedMenus, setExpandedMenus] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
-
-  useEffect(() => {
-    if (isExpanded) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isExpanded]);
 
   const toggleMenu = (index) => {
     setExpandedMenus((prev) => ({
@@ -58,9 +39,7 @@ function RespNavbar({
           aria-hidden={!isOpne}
           className={`fixed top-[75px] left-0 h-[100vh] bottom-0 z-20 bg-white text-black shadow-md transform transition-transform duration-300 ease-in-out w-[80%] sm:w-[75%] lg:w-[390px]`}
         >
-          {/* Scrollable Content */}
-          <div className="h-[calc(100vh-70px-70px)] overflow-y-auto  pb-16">
-            {/* Search Bar */}
+          <div className="h-[calc(100vh-70px-70px)] overflow-y-auto pb-16">
             <form className="flex-1 px-5 mt-5 relative">
               <input
                 type="text"
@@ -72,7 +51,6 @@ function RespNavbar({
               </span>
             </form>
 
-            {/* Navigation Links */}
             {loading ? (
               <div>Loading navigation...</div>
             ) : error ? (
@@ -99,13 +77,13 @@ function RespNavbar({
                     {navItem.subCategories && expandedMenus[index] && (
                       <ul
                         id={`menu-${index}`}
-                        className=" mt-2 space-y-3 "
+                        className="mt-2 space-y-3"
                         role="list"
                       >
                         {navItem.subCategories.map((category, catIndex) => (
                           <li
                             key={catIndex}
-                            className="border-t border-gray-300 "
+                            className="border-t border-gray-300"
                           >
                             <div
                               className="flex items-center justify-between cursor-pointer text-md"
@@ -125,7 +103,7 @@ function RespNavbar({
                                 ) : (
                                   React.cloneElement(category.icon, {
                                     className: "w-6 h-6 mr-1",
-                                  }) // Clone and apply class
+                                  })
                                 )}
                                 <span>{category.category}</span>
                               </span>
@@ -150,6 +128,7 @@ function RespNavbar({
                                       to={item.path}
                                       className="block text-gray-700 hover:text-white"
                                       onClick={repsonsiveHandler}
+                                      
                                     >
                                       {item.name}
                                     </Link>
@@ -168,7 +147,7 @@ function RespNavbar({
           </div>
 
           {/* Footer */}
-          <div className="absolute  z-20 flex border bg-white p-3 items-center w-full justify-between px-5">
+          <div className="absolute z-20 flex border bg-white p-3 items-center w-full justify-between px-5">
             <div
               className={`relative flex items-center w-[110px] h-[40px] cursor-pointer rounded-full border 
                  ${

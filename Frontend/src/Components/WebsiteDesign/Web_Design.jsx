@@ -1,62 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import '../Components/serveices/sevicew.css'
 
-const Services = () => {
-  const [services, setServices] = useState([]);
+const WebsiteDesign = () => {
+  const [webModels, setWebModels] = useState([]);
+  const [webCategories, setWebCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [sortBy, setSortBy] = useState("id");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
 
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  const [sortBy, setSortBy] = useState("pkid");
-  const [sortOrder, setSortOrder] = useState("asc");
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 8;
+  const cardsPerPage = 6;
 
   useEffect(() => {
-    const fetchServices = async () => {
+    const fetchWebModels = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/services/");
-        if (!response.ok) {
+        const response = await fetch("http://localhost:8000/api/webmodels/");
+        if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
-        }
         const data = await response.json();
-        setServices(data);
+        setWebModels(data);
       } catch (err) {
         setError(err);
       }
     };
 
-    const fetchCategories = async () => {
+    const fetchWebCategories = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/services-category/"
+          "http://localhost:8000/api/webcategories/"
         );
-        if (!response.ok) {
+        if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
-        }
         const data = await response.json();
-        setCategories(data);
+        setWebCategories(data);
       } catch (err) {
         setError(err);
       }
     };
 
     setLoading(true);
-    Promise.all([fetchServices(), fetchCategories()])
+    Promise.all([fetchWebModels(), fetchWebCategories()])
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
   }, []);
 
-  const filteredServices = selectedCategory
-    ? services.filter((service) => service.category.id === selectedCategory)
-    : services;
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+  }, [darkMode]);
 
-  const sortedServices = [...filteredServices].sort((a, b) => {
+  const filteredWebModels = selectedCategory
+    ? webModels.filter((model) => model.category.id === selectedCategory)
+    : webModels;
+
+  const sortedWebModels = [...filteredWebModels].sort((a, b) => {
     const order = sortOrder === "asc" ? 1 : -1;
     if (sortBy === "category") {
       return a.category.title.localeCompare(b.category.title) * order;
@@ -66,19 +66,20 @@ const Services = () => {
     return (a[sortBy] - b[sortBy]) * order;
   });
 
+  const totalWebModels = sortedWebModels.length;
+  const totalPages = Math.ceil(totalWebModels / cardsPerPage);
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = sortedWebModels.slice(indexOfFirstCard, indexOfLastCard);
+
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
     setCurrentPage(1);
   };
 
-  const handleSortChange = (e) => {
-    setSortBy(e.target.value);
-  };
-
-  const handleSortOrderChange = (e) => {
-    setSortOrder(e.target.value);
-  };
-
+  const handleSortChange = (e) => setSortBy(e.target.value);
+  const handleSortOrderChange = (e) => setSortOrder(e.target.value);
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
   const cardVariants = {
     initial: { opacity: 0, y: 50 },
@@ -88,52 +89,47 @@ const Services = () => {
 
   const transition = { duration: 0.3, ease: "easeInOut" };
 
-  const totalServices = sortedServices.length;
-  const totalPages = Math.ceil(totalServices / cardsPerPage);
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = sortedServices.slice(indexOfFirstCard, indexOfLastCard);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const renderPaginationButtons = () => {
-    const buttons = [];
-
-    for (let i = 1; i <= totalPages; i++) {
-      buttons.push(
-        <button
-          key={i}
-          onClick={() => handlePageChange(i)}
-          className={`px-4 py-2 mx-1 rounded-md ${
-            currentPage === i
-              ? "bg-purple-800 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-        >
-          {i}
-        </button>
-      );
-    }
-
-    return buttons;
-  };
+  const SkeletonLoader = () => (
+    <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg p-6 h-[400px]">
+      <div className="h-8 w-8 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-4"></div>
+      <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mx-auto mb-4"></div>
+      <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-5/6 mx-auto mb-2"></div>
+      <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-4/6 mx-auto"></div>
+    </div>
+  );
 
   if (loading) {
-    return <div>Loading services...</div>;
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-8">
+        {[...Array(cardsPerPage)].map((_, index) => (
+          <SkeletonLoader key={index} />
+        ))}
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error loading services: {error.message}</div>;
+    return (
+      <div className="p-8 text-red-500">
+        Error loading data: {error.message}
+      </div>
+    );
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 min-h-screen">
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        className="fixed bottom-4 right-4 p-2 bg-purple-800 text-white rounded-full shadow-lg"
+      >
+        {darkMode ? "🌙" : "☀️"}
+      </button>
+
       <h2 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
-        Our Services
+        Our Website Designs
       </h2>
 
+      {/* Filtering and Sorting Controls */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-4">
         <div className="mb-2 md:mb-0">
           <label
@@ -149,12 +145,8 @@ const Services = () => {
             onChange={handleCategoryChange}
           >
             <option value="">All Categories</option>
-            {categories.map((category) => (
-              <option
-                key={category.id}
-                value={category.id}
-                className="text-gray-700 dark:text-gray-300"
-              >
+            {webCategories.map((category) => (
+              <option key={category.id} value={category.id}>
                 {category.title}
               </option>
             ))}
@@ -174,7 +166,7 @@ const Services = () => {
             value={sortBy}
             onChange={handleSortChange}
           >
-            <option value="pkid">ID</option>
+            <option value="id">ID</option>
             <option value="category">Category</option>
             <option value="name">Name</option>
           </select>
@@ -190,14 +182,10 @@ const Services = () => {
         </div>
       </div>
 
-      {/* Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {currentCards.map((service) => (
-          <Link
-            to={`/services/${service.pkid}`}
-            key={service.id}
-            className="block"
-          >
+      {/* Website Design Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {currentCards.map((webModel) => (
+          <Link to={`/webmodels/${webModel.id}`} key={webModel.id}>
             <motion.div
               className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 text-center cursor-pointer h-[400px]"
               variants={cardVariants}
@@ -207,33 +195,20 @@ const Services = () => {
               transition={transition}
             >
               <div className="text-4xl mb-4">
-                {service.icon ? (
+                {webModel.category.icon && (
                   <img
-                    src={service.icon}
-                    alt={service.category.title}
-                    style={{ maxWidth: "50px", maxHeight: "50px" }}
+                    src={webModel.category.icon}
+                    alt={webModel.category.title}
+                    className="w-12 h-12 mx-auto"
                   />
-                ) : (
-                  "No Icon"
                 )}
               </div>
               <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                {service.category.title}
+                {webModel.name}
               </h3>
-              <p className="text-gray-700 dark:text-gray-400  h-[75px] overflow-hidden">
-                {service.description}
+              <p className="text-gray-700 dark:text-gray-400 h-[75px] overflow-hidden">
+                {webModel.description}
               </p>
-
-              <div className="buttons mt-24">
-                <button className="btn">
-                  <span></span>
-                  <p
-                    data-start="start"
-                    data-text="Start!"
-                    data-title="Read More "
-                  ></p>
-                </button>
-              </div>
             </motion.div>
           </Link>
         ))}
@@ -242,11 +217,23 @@ const Services = () => {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center mt-8">
-          {renderPaginationButtons()}
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => handlePageChange(index + 1)}
+              className={`px-4 py-2 mx-1 rounded-md ${
+                currentPage === index + 1
+                  ? "bg-purple-800 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       )}
     </div>
   );
 };
 
-export default Services;
+export default WebsiteDesign;

@@ -4,7 +4,6 @@ import { styles } from "../Pages/styles.js";
 import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../Utilities/motion.js";
 
-// Import icons (you can use react-icons or custom SVG icons)
 import { FaWhatsapp, FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const OurTeam = () => {

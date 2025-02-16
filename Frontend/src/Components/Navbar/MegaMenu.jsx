@@ -17,7 +17,7 @@ const MegaMenu = ({ subCategories = [], isVisible }) => {
     <div
       className={`absolute left-0 top-full right-0 w-full ${
         isVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
-      } overflow-hidden bg-white shadow-lg z-20 transition-all duration-500`}
+      } overflow-hidden bg-white dark:bg-gray-800 shadow-lg z-20 transition-all duration-500`}
       style={{
         height: isVisible ? "auto" : "0",
         paddingTop: isVisible ? "1rem" : "0",
@@ -25,7 +25,7 @@ const MegaMenu = ({ subCategories = [], isVisible }) => {
       }}
     >
       <div
-        className={`grid ${gridColsClass} gap-y-10 mx-40 gap-x-6 place-items-center items-start  pb-10`}
+        className={`grid ${gridColsClass} gap-y-10 mx-40 gap-x-6 place-items-center items-start pb-10`}
       >
         {Array.isArray(subCategories) &&
           subCategories.map((category, index) => (
@@ -42,7 +42,7 @@ const MegaMenu = ({ subCategories = [], isVisible }) => {
                     className: "w-6 h-6 mr-1",
                   }) // Clone and apply class
                 )}
-                <h3 className="font-bold text-md mb-2 border-b-2 pb-2">
+                <h3 className="font-bold text-md mb-2 border-b-2 pb-2 text-gray-900 dark:text-gray-300">
                   {category.category}
                 </h3>
               </div>
@@ -52,7 +52,7 @@ const MegaMenu = ({ subCategories = [], isVisible }) => {
                     <li key={idx}>
                       <a
                         href={item.path}
-                        className="hover:text-gray-500 cursor-pointer text-sm text-slate-800 block"
+                        className="hover:text-gray-500 cursor-pointer text-sm text-slate-800 dark:text-gray-300 block"
                       >
                         {item.name}
                       </a>

@@ -1,163 +1,273 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import BlogCard from "../Components/Blog/BlogCard";
-import BlogCategoryList from "../Components/Blog/BlogCategoryList";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import {
+  FaChevronLeft,
+  FaChevronRight,
+  FaFilter,
+  FaSort,
+  FaClock,
+} from "react-icons/fa";
+import "../Components/Blog/css.css"
 import LoadingSpinner from "../Components/Blog/LoadingSpinner";
-// import RecentlyBlog from "../Components/Blog/RecentlyBlog";
+import NesCard from "../Components/Blog/NesCard";
 
+// // BlogCard Component
+// const BlogCard = ({ blog, onClick, className }) => (
+//   <div
+//     className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden cursor-pointer group ${className}`}
+//     onClick={onClick}
+//   >
+//     <div className="relative h-48 overflow-hidden">
+//       <img
+//         src={blog.hero_image}
+//         alt={blog.title}
+//         className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-110"
+//       />
+//       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+//     </div>
+
+//     <div className="p-6">
+//       <div className="flex items-center gap-3 mb-4">
+//         <span className="px-3 py-1 bg-[#02DB81]/10 text-[#02DB81] rounded-full text-sm font-medium">
+//           {blog.category.name}
+//         </span>
+//         <div className="flex items-center text-gray-500 text-sm">
+//           <FaClock className="mr-1" /> {blog.read_time} min read
+//         </div>
+//       </div>
+
+//       <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2">
+//         {blog.title}
+//       </h3>
+//       <p className="text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
+//         {blog.description}
+//       </p>
+
+//       <div className="flex items-center text-[#02DB81] font-medium">
+//         Read Article
+//         <FaChevronRight className="ml-2 transition-transform group-hover:translate-x-1" />
+//       </div>
+//     </div>
+//   </div>
+// );
+
+// Main Blog Component
 const Blog = () => {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [cardsPerPage, setCardsPerPage] = useState(6);
-  const [blogData, setBlogData] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("title");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 4;
 
   useEffect(() => {
     const fetchBlogData = async () => {
-      setLoading(true);
       try {
         const response = await fetch("http://127.0.0.1:8000/api/blogs/");
-        if (!response.ok) {
+        if (!response.ok)
           throw new Error(`HTTP error! Status: ${response.status}`);
-        }
         const data = await response.json();
-        setBlogData(data);
+        setBlogs(data);
       } catch (error) {
         setError(error);
-        console.error("Error fetching blog data:", error);
       } finally {
         setLoading(false);
       }
     };
 
+    const fetchCategoriesData = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/categories/");
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
     fetchBlogData();
+    fetchCategoriesData();
   }, []);
 
-  const filteredData =
+  const filteredBlogs =
     selectedCategory === "All"
-      ? blogData
-      : blogData.filter((blog) => blog.category.name === selectedCategory);
+      ? blogs
+      : blogs.filter((blog) => blog.category.name === selectedCategory);
 
-  const totalPages = Math.ceil(filteredData.length / cardsPerPage);
+  const sortedBlogs = [...filteredBlogs].sort((a, b) => {
+    const order = sortOrder === "asc" ? 1 : -1;
+    if (sortBy === "category")
+      return a.category.name.localeCompare(b.category.name) * order;
+    if (sortBy === "title") return a.title.localeCompare(b.title) * order;
+    return 0;
+  });
+
+  // Pagination logic
+  const totalPages = Math.ceil(sortedBlogs.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = filteredData.slice(indexOfFirstCard, indexOfLastCard);
+  const currentCards = sortedBlogs.slice(indexOfFirstCard, indexOfLastCard);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
+  const handlePreviousPage = () =>
+    currentPage > 1 && handlePageChange(currentPage - 1);
+  const handleNextPage = () =>
+    currentPage < totalPages && handlePageChange(currentPage + 1);
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-  };
-
-  const renderPaginationButtons = () => {
-    const buttons = [];
-    const maxButtonsToShow = 5;
-
-    let startPage = Math.max(1, currentPage - Math.floor(maxButtonsToShow / 2));
-    let endPage = Math.min(totalPages, startPage + maxButtonsToShow - 1);
-
-    if (endPage - startPage + 1 < maxButtonsToShow) {
-      startPage = Math.max(1, endPage - maxButtonsToShow + 1);
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      buttons.push(
-        <button
-          key={i}
-          onClick={() => handlePageChange(i)}
-          className={`px-3 py-1 text-sm rounded-md border font-medium ${
-            currentPage === i
-              ? "bg-[#02DB81] text-white border-[#02DB81]"
-              : "bg-white text-gray-700 hover:bg-gray-100"
-          } transition-all shadow-md`}
-        >
-          {i}
-        </button>
-      );
-    }
-
-    return buttons;
-  };
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  if (error) {
+  if (loading) return <LoadingSpinner />;
+  if (error)
     return (
-      <div className="text-red-500 text-center py-10">
+      <div className="text-center py-20 text-red-500">
         Error: {error.message}
       </div>
     );
-  }
 
   return (
-    <section className="mx-auto max-w-7xl py-8 px-4">
-      <div className="flex flex-col md:flex-row gap-5">
-        <aside className="w-full md:w-1/4">
-          <BlogCategoryList
-            onCategoryChange={handleCategoryChange}
-            selectedCategory={selectedCategory}
-          />
-        </aside>
+    <section className="min-h-screen ">
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            Latest Insights
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Discover expert perspectives and stay updated with industry trends
+          </p>
+        </div>
 
-        <main className="w-full md:w-3/4">
-          <h1 className="text-3xl font-bold mb-6">Our Blog</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-            {currentCards.map((blog, index) => (
-              <BlogCard
-                key={index}
-                blog={blog}
-                onClick={() => navigate(`/blog/${blog.id}`)}
-              />
-            ))}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-12">
+          <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex-1">
+              <label className="flex items-center gap-2 text-gray-700 dark:text-gray-300 mb-2">
+                <FaFilter className="text-[#02DB81]" />
+                <span className="font-medium">Category</span>
+              </label>
+              <select
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 
+                         bg-white dark:bg-gray-800 focus:ring-2 focus:ring-[#02DB81] transition-all"
+                value={selectedCategory}
+                onChange={(e) => {
+                  setSelectedCategory(e.target.value);
+                  setCurrentPage(1);
+                }}
+              >
+                <option value="All">All Categories</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Sorting */}
+            <div className="flex-1">
+              <label className="flex items-center gap-2 text-gray-700 dark:text-gray-300 mb-2">
+                <FaSort className="text-[#02DB81]" />
+                <span className="font-medium">Sort By</span>
+              </label>
+              <div className="flex gap-2">
+                <select
+                  className="flex-1 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 
+                           bg-white dark:bg-gray-800 focus:ring-2 focus:ring-[#02DB81] transition-all"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                >
+                  <option value="title">Title</option>
+                  <option value="category">Category</option>
+                </select>
+                <select
+                  className="px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 
+                           bg-white dark:bg-gray-800 focus:ring-2 focus:ring-[#02DB81] transition-all"
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                >
+                  <option value="asc">Asc</option>
+                  <option value="desc">Desc</option>
+                </select>
+              </div>
+            </div>
           </div>
+        </div>
 
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center my-10 space-x-2">
-              {currentPage > 1 && (
+        {/* Blog Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          {currentCards.map((blog) => (
+            <NesCard
+              key={blog.id}
+              blog={blog}
+              onClick={() => navigate(`/blog/${blog.id}`)}
+              className="transform transition-transform duration-300 hover:scale-[1.02]"
+            />
+          ))}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="text-gray-600 dark:text-gray-300">
+                Page {currentPage} of {totalPages}
+              </div>
+
+              <div className="flex items-center gap-2">
                 <button
                   onClick={handlePreviousPage}
-                  className="flex items-center px-3 py-1.5 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-[#02DB81] hover:text-white transition-all shadow-sm"
+                  disabled={currentPage === 1}
+                  className="p-3 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-[#02DB81] 
+                           hover:text-white disabled:opacity-50 disabled:hover:bg-gray-100 transition-all"
                 >
-                  <FaChevronLeft className="mr-2" /> Previous
+                  <FaChevronLeft />
                 </button>
-              )}
 
-              {renderPaginationButtons()}
+                <div className="flex gap-2">
+                  {Array.from({ length: totalPages }, (_, i) => {
+                    const page = i + 1;
+                    const isCurrent = page === currentPage;
+                    const showPage =
+                      page === 1 ||
+                      page === totalPages ||
+                      Math.abs(page - currentPage) <= 1;
 
-              {currentPage < totalPages && (
+                    return showPage ? (
+                      <button
+                        key={page}
+                        onClick={() => handlePageChange(page)}
+                        className={`px-4 py-2 rounded-lg font-medium ${
+                          isCurrent
+                            ? "bg-gradient-to-br from-[#02DB81] to-emerald-500 text-white shadow-lg"
+                            : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                        } transition-all`}
+                      >
+                        {page}
+                      </button>
+                    ) : page === 2 || page === totalPages - 1 ? (
+                      <span key={page} className="px-4 py-2">
+                        ...
+                      </span>
+                    ) : null;
+                  })}
+                </div>
+
                 <button
                   onClick={handleNextPage}
-                  className="flex items-center px-3 py-1.5 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-[#02DB81] hover:text-white transition-all shadow-sm"
+                  disabled={currentPage === totalPages}
+                  className="p-3 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-[#02DB81] 
+                           hover:text-white disabled:opacity-50 disabled:hover:bg-gray-100 transition-all"
                 >
-                  Next <FaChevronRight className="ml-2" />
+                  <FaChevronRight />
                 </button>
-              )}
+              </div>
             </div>
-          )}
-        </main>
+          </div>
+        )}
       </div>
     </section>
   );
