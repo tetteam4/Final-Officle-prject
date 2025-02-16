@@ -77,6 +77,7 @@ const WebsiteDesign = () => {
     setCurrentPage(1);
   };
 
+
   const handleSortChange = (e) => setSortBy(e.target.value);
   const handleSortOrderChange = (e) => setSortOrder(e.target.value);
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
@@ -88,10 +89,9 @@ const WebsiteDesign = () => {
   };
 
   const transition = { duration: 0.3, ease: "easeInOut" };
-
   const SkeletonLoader = () => (
     <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg p-6 h-[400px]">
-      <div className="h-8 w-8 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-4"></div>
+      <div className="h-48 w-full bg-gray-300 dark:bg-gray-600 rounded-lg mb-4"></div>
       <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mx-auto mb-4"></div>
       <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-5/6 mx-auto mb-2"></div>
       <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-4/6 mx-auto"></div>
@@ -116,7 +116,9 @@ const WebsiteDesign = () => {
     );
   }
 
+
   return (
+
     <div className="p-8 min-h-screen">
       <button
         onClick={() => setDarkMode(!darkMode)}
@@ -129,7 +131,6 @@ const WebsiteDesign = () => {
         Our Website Designs
       </h2>
 
-      {/* Filtering and Sorting Controls */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-4">
         <div className="mb-2 md:mb-0">
           <label
@@ -187,28 +188,35 @@ const WebsiteDesign = () => {
         {currentCards.map((webModel) => (
           <Link to={`/webmodels/${webModel.id}`} key={webModel.id}>
             <motion.div
-              className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 text-center cursor-pointer h-[400px]"
+              className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden cursor-pointer h-[400px]" // Removed p-6 and text-center
               variants={cardVariants}
               initial="initial"
               animate="animate"
               whileHover="hover"
               transition={transition}
             >
-              <div className="text-4xl mb-4">
-                {webModel.category.icon && (
+              <div className="h-48 w-full overflow-hidden">
+                {webModel.images && webModel.images.length > 0 ? (
                   <img
-                    src={webModel.category.icon}
-                    alt={webModel.category.title}
-                    className="w-12 h-12 mx-auto"
+                    src={webModel.images[0].image} // Display first image
+                    alt={webModel.name}
+                    className="w-full h-full object-cover"
                   />
+                ) : (
+                  <div className="w-full h-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center">
+                    No Image
+                  </div>
                 )}
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                {webModel.name}
-              </h3>
-              <p className="text-gray-700 dark:text-gray-400 h-[75px] overflow-hidden">
-                {webModel.description}
-              </p>
+
+              <div className="p-4">
+                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                  {webModel.name}
+                </h3>
+                <p className="text-gray-700 dark:text-gray-400 h-[75px] overflow-hidden">
+                  {webModel.description}
+                </p>
+              </div>
             </motion.div>
           </Link>
         ))}
