@@ -37,10 +37,7 @@ DJANGO_APPS = [
     "ckeditor",
 ]
 
-LOCAL_APPS = [
-    "apps.users",
-    "apps.core",
-]
+LOCAL_APPS = ["apps.users", "apps.core", "apps.attendance"]
 
 THIRD_PARTY_APPS = [
     "rest_framework",
@@ -117,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kabul"
 USE_I18N = True
 USE_TZ = True
 
@@ -127,7 +124,7 @@ SITE_ID = 1
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",  # Default for development
-        "NAME": APP_DIR / "db.sqlite3",  # SQLite path
+        "NAME": ROOT_DIR / "db.sqlite3",  # SQLite path
     }
 }
 
