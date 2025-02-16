@@ -127,7 +127,7 @@ SITE_ID = 1
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",  # Default for development
-        "NAME": ROOT_DIR / "db.sqlite3",  # SQLite path
+        "NAME": APP_DIR / "db.sqlite3",  # SQLite path
     }
 }
 
