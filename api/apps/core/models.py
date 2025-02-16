@@ -1,4 +1,5 @@
 from apps.common.models import TimeStampedUUIDModel
+from bs4 import BeautifulSoup
 from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -62,6 +63,14 @@ class Portfolio(TimeStampedUUIDModel):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        soup = BeautifulSoup(self.description, "html.parser")
+        for tag in soup.find_all(["h1", "p"]):
+            tag.unwrap()
+        self.description = str(soup)
+
+        super(Portfolio, self).save(*args, **kwargs)
+
 
 class BlogPost(TimeStampedUUIDModel):
     title = models.CharField(max_length=200)
@@ -88,6 +97,14 @@ class Section(TimeStampedUUIDModel):
     def __str__(self):
         return self.subtitle
 
+    def save(self, *args, **kwargs):
+        soup = BeautifulSoup(self.description, "html.parser")
+        for tag in soup.find_all(["h1", "p"]):
+            tag.unwrap()
+        self.description = str(soup)
+
+        super(Section, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = _("Block Section")
         verbose_name_plural = _("Block Sections")
@@ -105,6 +122,14 @@ class Team(TimeStampedUUIDModel):
 
     def __str__(self):
         return self.first_name
+
+    def save(self, *args, **kwargs):
+        soup = BeautifulSoup(self.designation, "html.parser")
+        for tag in soup.find_all(["h1", "p"]):
+            tag.unwrap()
+        self.designation = str(soup)
+
+        super(Team, self).save(*args, **kwargs)
 
 
 class Experiences(TimeStampedUUIDModel):
@@ -128,6 +153,14 @@ class HoerImagesModel(TimeStampedUUIDModel):
     head = models.CharField(max_length=255)
     description = RichTextField()
 
+    def save(self, *args, **kwargs):
+        soup = BeautifulSoup(self.description, "html.parser")
+        for tag in soup.find_all(["h1", "p"]):
+            tag.unwrap()
+        self.description = str(soup)
+
+        super(HoerImagesModel, self).save(*args, **kwargs)
+
 
 class Benefits(TimeStampedUUIDModel):
     title = models.CharField(max_length=200)
@@ -135,6 +168,14 @@ class Benefits(TimeStampedUUIDModel):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        soup = BeautifulSoup(self.description, "html.parser")
+        for tag in soup.find_all(["h1", "p"]):
+            tag.unwrap()
+        self.description = str(soup)
+
+        super(Benefits, self).save(*args, **kwargs)
 
 
 class ServicesCategoryModel(TimeStampedUUIDModel):
@@ -164,6 +205,14 @@ class Services(TimeStampedUUIDModel):
     class Meta:
         verbose_name = _("Service")
         verbose_name_plural = _("Services")
+
+    def save(self, *args, **kwargs):
+        soup = BeautifulSoup(self.description, "html.parser")
+        for tag in soup.find_all(["h1", "p"]):
+            tag.unwrap()
+        self.description = str(soup)
+
+        super(Services, self).save(*args, **kwargs)
 
 
 class webCategory(TimeStampedUUIDModel):
@@ -200,6 +249,14 @@ class WebModel(models.Model):
 
     def __str__(self):
         return self.description[:40]
+
+    def save(self, *args, **kwargs):
+        soup = BeautifulSoup(self.description, "html.parser")
+        for tag in soup.find_all(["h1", "p"]):
+            tag.unwrap()
+        self.description = str(soup)
+
+        super(WebModel, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _("Web Model")
