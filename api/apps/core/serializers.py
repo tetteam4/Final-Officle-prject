@@ -150,7 +150,7 @@ class WebModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WebModel
-        fields = ["id", "category", "name", "description", "images"]
+        fields = ["id", "category", "workflow", "name", "description", "images"]
 
 
 class ServicesCategorySerializer(serializers.ModelSerializer):

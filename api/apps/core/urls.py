@@ -64,7 +64,9 @@ urlpatterns = [
     ),
     path("services/", views.ServicesListView.as_view(), name="services-list"),
     path(
-        "services/<int:pk>/", views.ServicesDetailView.as_view(), name="services-detail"
+        "services/<uuid:pk>/",
+        views.ServicesDetailView.as_view(),
+        name="services-detail",
     ),
     path("webmodels/", views.WebModelListView.as_view(), name="webmodel-list"),
     path(

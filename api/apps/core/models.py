@@ -1,6 +1,5 @@
-# from ckeditor.fields import RichTextField
-# from ckeditor_uploader.fields import models.TextField
 from apps.common.models import TimeStampedUUIDModel
+from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
@@ -51,7 +50,7 @@ class Portfolio(TimeStampedUUIDModel):
     top_images = models.ImageField(upload_to="portfolio/", null=True, blank=True)
     dashboard_images = models.ImageField(upload_to="portfolio/", null=True, blank=True)
     nav_images = models.ImageField(upload_to="portfolio/", null=True, blank=True)
-    description = models.TextField()
+    description = RichTextField()
     deployment = models.CharField(blank=True, null=True, max_length=255)
     echnologies = TaggableManager()
 
@@ -84,7 +83,7 @@ class BlogPost(TimeStampedUUIDModel):
 class Section(TimeStampedUUIDModel):
     subtitle = models.CharField(max_length=200)
     image = models.ImageField(upload_to="blogs/sections/")
-    description = models.TextField()
+    description = RichTextField()
 
     def __str__(self):
         return self.subtitle
@@ -97,7 +96,7 @@ class Section(TimeStampedUUIDModel):
 class Team(TimeStampedUUIDModel):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    designation = models.TextField()
+    designation = RichTextField()
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/")
     whatsapp = models.URLField(max_length=100)
     twitter_link = models.URLField(max_length=100)
@@ -127,12 +126,12 @@ class HoerImagesModel(TimeStampedUUIDModel):
     video = models.FileField(upload_to="videos/hero", null=True, blank=True)
     image = models.ImageField(upload_to="images/hero")
     head = models.CharField(max_length=255)
-    description = models.TextField()
+    description = RichTextField()
 
 
 class Benefits(TimeStampedUUIDModel):
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = RichTextField()
 
     def __str__(self):
         return self.title
@@ -153,7 +152,7 @@ class ServicesCategoryModel(TimeStampedUUIDModel):
 class Services(TimeStampedUUIDModel):
     category = models.ForeignKey(ServicesCategoryModel, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, blank=True)
-    description = models.TextField()
+    description = RichTextField()
     image = models.ImageField(upload_to="services/", null=True, blank=True)
     icon = models.ImageField(upload_to="services/icon/")
     video = models.FileField(upload_to="videos/services", null=True, blank=True)
@@ -194,7 +193,8 @@ class WebModel(models.Model):
     category = models.ForeignKey(webCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, blank=True)
 
-    description = models.CharField(max_length=255)
+    description = RichTextField()
+    workflow = RichTextField(blank=True)
 
     images = models.ManyToManyField(WebModelImage, related_name="web_models")
 

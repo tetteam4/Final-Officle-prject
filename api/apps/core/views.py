@@ -258,6 +258,25 @@ class ServicesDetailView(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
 
 
+class ServiceDetailsAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Services.objects.all()
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_object(self):
+        logger.debug(f"Fetching serivces with ID: {self.kwargs['pk']}")
+        try:
+            return Services.objects.get(id=self.kwargs["pk"])
+        except Portfolio.DoesNotExist:
+            logger.error(f"Services with ID {self.kwargs['pk']} not found")
+            raise Http404("Services not found")
+
+    def perform_destroy(self, instance):
+        logger.debug(f"Deleting Services with ID: {instance.id}")
+        instance.delete()
+        logger.info(f"Services with ID {instance.id} deleted successfully")
+
+
 class WebModelListView(generics.ListCreateAPIView):
     queryset = WebModel.objects.all()
     serializer_class = WebModelSerializer
