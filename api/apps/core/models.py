@@ -255,9 +255,9 @@ class WebModel(models.Model):
         for tag in soup.find_all(["h1", "p"]):
             tag.unwrap()
         self.description = str(soup)
-
         super(WebModel, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _("Web Model")
         verbose_name_plural = _("Web Models")
+
