@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import '../Components/serveices/sevicew.css'
+import "../Components/serveices/sevicew.css";
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -78,7 +78,6 @@ const Services = () => {
   const handleSortOrderChange = (e) => {
     setSortOrder(e.target.value);
   };
-
 
   const cardVariants = {
     initial: { opacity: 0, y: 50 },
@@ -174,7 +173,7 @@ const Services = () => {
             value={sortBy}
             onChange={handleSortChange}
           >
-            <option value="pkid">ID</option>
+            <option value="id">ID</option>
             <option value="category">Category</option>
             <option value="name">Name</option>
           </select>
@@ -194,45 +193,53 @@ const Services = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {currentCards.map((service) => (
           <Link
-            to={`/services/${service.pkid}`}
+            to={`/services/${service.id}`}
             key={service.id}
             className="block"
           >
             <motion.div
-              className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 text-center cursor-pointer h-[400px]"
+              className="bg-white dark:bg-gray-800 shadow-md rounded-lg cursor-pointer overflow-hidden" // Removed p-6 and text-center
               variants={cardVariants}
               initial="initial"
               animate="animate"
               whileHover="hover"
               transition={transition}
             >
-              <div className="text-4xl mb-4">
-                {service.icon ? (
+              <div className="h-48 overflow-hidden">
+                {" "}
+                {/* Image Container */}
+                {service.image ? (
                   <img
-                    src={service.icon}
-                    alt={service.category.title}
-                    style={{ maxWidth: "50px", maxHeight: "50px" }}
+                    src={service.image}
+                    alt={service.name}
+                    className="w-full h-full object-cover"
                   />
                 ) : (
-                  "No Icon"
+                  <div className="w-full h-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center">
+                    No Image
+                  </div>
                 )}
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                {service.category.title}
-              </h3>
-              <p className="text-gray-700 dark:text-gray-400  h-[75px] overflow-hidden">
-                {service.description}
-              </p>
 
-              <div className="buttons mt-24">
-                <button className="btn">
-                  <span></span>
-                  <p
-                    data-start="start"
-                    data-text="Start!"
-                    data-title="Read More "
-                  ></p>
-                </button>
+              <div className="p-4">
+                {" "}
+                {/* Content Container */}
+                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                  {service.name}
+                </h3>
+                <p className=" text-gray-700 dark:text-gray-400 h-20 overflow-hidden ">
+                  {service.description}
+                </p>
+                <div className="buttons mt-4">
+                  <button className="btn">
+                    <span></span>
+                    <p
+                      data-start="start"
+                      data-text="Start!"
+                      data-title="Read More"
+                    ></p>
+                  </button>
+                </div>
               </div>
             </motion.div>
           </Link>

@@ -10,7 +10,7 @@ import {
 import Spinner from "../../Components/Blog/LoadingSpinner"; // Assume you have a Spinner component
 
 const ServiceDetailsPage = () => {
-  const { pkid } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ const ServiceDetailsPage = () => {
     const fetchServiceDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/services/${pkid}/`
+          `http://localhost:8000/api/services/${id}/`
         );
         if (!response.ok)
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -35,7 +35,7 @@ const ServiceDetailsPage = () => {
 
     fetchServiceDetails();
     window.scrollTo(0, 0);
-  }, [pkid]);
+  }, [id]);
 
   if (loading)
     return (
