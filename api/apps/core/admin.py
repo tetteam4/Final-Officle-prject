@@ -1,4 +1,6 @@
+from apps.attendance.models import WorkflowModel
 from django import forms
+from django.apps import apps
 from django.contrib import admin
 from django.forms import inlineformset_factory
 from django.utils.translation import gettext_lazy as _
@@ -142,17 +144,16 @@ class WebModelImageInline(admin.TabularInline):
     extra = 1
 
 
-# WebModelAdmin to customize the admin interface
-class WebModelAdmin(admin.ModelAdmin):
-    list_display = ("description", "category")
-    search_fields = ("description",)
+# class WebModelAdmin(admin.ModelAdmin):
+#     list_display = ("description", "category")
+#     search_fields = ("description",)
 
-    # inlines = [WebModelImageInline]
+#     # inlines = [WebModelImageInline]
 
 
 admin.site.register(webCategory)
 admin.site.register(WebModelImage)
-admin.site.register(WebModel, WebModelAdmin)
+admin.site.register(WebModel)
 
 
 @admin.register(ServicesCategoryModel)
@@ -161,3 +162,10 @@ class ServicesCategoryModelAdmin(admin.ModelAdmin):
     search_fields = ["title"]
     list_filter = ["title"]
     ordering = ["title"]
+
+
+@admin.register(WorkflowModel)
+class WorkflowAdmin(admin.ModelAdmin):
+    list_display = ["id", "title", "description", "image"]
+    search_fields = ["title"]
+    list_filter = ["title"]
