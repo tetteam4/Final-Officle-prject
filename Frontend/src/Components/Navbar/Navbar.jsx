@@ -36,7 +36,7 @@ const Navbar = () => {
       className={`w-full hidden lg:block z-30 transition-all duration-500 dark:bg-gray-900 ${
         isScrolled
           ? "fixed top-0 left-0 shadow-md"
-          : "relative bg-transparent bg-white"
+          : "relative bg-transparent "
       }`}
     >
       <div

@@ -1,44 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid"; // Or any icon library you prefer
+import Breadcrumb from "../Portfolio/Breadcrumb";
+import {
+  MdModelTraining,
+  MdDesignServices,
+  MdInfo,
+  Md3dRotation,
+} from "react-icons/md";
+import Spinner from "../../Components/Blog/LoadingSpinner";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
-// Skeleton Loader Component
-const SkeletonLoader = () => (
-  <div className="animate-pulse">{/* Skeleton Loader Content */}</div>
-);
-
-// Image Component with Fallback
-const ImageWithFallback = ({ src, alt, className }) => {
-  const [imageError, setImageError] = useState(false);
-
-  const handleImageError = () => {
-    setImageError(true);
-  };
-
-  return (
-    <img
-      src={imageError ? "https://via.placeholder.com/150" : src}
-      alt={alt}
-      className={className}
-      onError={handleImageError}
-    />
-  );
-};
-
-ImageWithFallback.propTypes = {
-  src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-  className: PropTypes.string,
-};
-
-// WebModelDetail Component
 const WebModelDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [webModel, setWebModel] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const carouselRef = useRef(null); // Ref for the carousel container
+  const carouselRef = useRef(null);
 
   useEffect(() => {
     const fetchWebModel = async () => {
@@ -58,91 +37,209 @@ const WebModelDetail = () => {
     };
 
     fetchWebModel();
+    window.scrollTo(0, 0);
   }, [id]);
 
   const scrollLeft = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollLeft -= carouselRef.current.offsetWidth;
-    }
+    carouselRef.current?.scrollBy({
+      left: -carouselRef.current.offsetWidth,
+      behavior: "smooth",
+    });
   };
 
   const scrollRight = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollLeft += carouselRef.current.offsetWidth;
-    }
+    carouselRef.current?.scrollBy({
+      left: carouselRef.current.offsetWidth,
+      behavior: "smooth",
+    });
   };
 
-  if (loading) return <SkeletonLoader />;
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center dark:bg-purple-950">
+        <Spinner size="lg" />
+      </div>
+    );
+
   if (error)
-    return <div className="p-8 text-red-500">Error: {error.message}</div>;
-  if (!webModel) return <div className="p-8">No data found.</div>;
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-center p-4 dark:bg-purple-950">
+        <div className="max-w-md bg-red-50 dark:bg-red-900 p-6 rounded-lg">
+          <h2 className="text-2xl font-bold text-red-600 dark:text-red-100 mb-4">
+            Error Loading Model
+          </h2>
+          <p className="text-red-700 dark:text-red-200 mb-4">{error.message}</p>
+          <button
+            onClick={() => navigate("/webmodels")}
+            className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          >
+            Return to Models
+          </button>
+        </div>
+      </div>
+    );
+
+  if (!webModel)
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-center p-4 dark:bg-purple-950">
+        <div className="max-w-md bg-blue-50 dark:bg-blue-900 p-6 rounded-lg">
+          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-100 mb-4">
+            Model Not Found
+          </h1>
+          <button
+            onClick={() => navigate("/webmodels")}
+            className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          >
+            Browse All Models
+          </button>
+        </div>
+      </div>
+    );
 
   return (
-    <div className="dark:bg-purple-950 p-8 min-h-screen">
-      {/* Web Model Details */}
-      <h2 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
-        {webModel.name}
-      </h2>
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-        {/* Carousel */}
-        <div className="carousel-container relative mb-4">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen">
+      <Breadcrumb
+        paths={[
+          { name: "Web Models", href: "/webmodels" },
+          {
+            name: webModel.category.title,
+            href: `/webmodels/category/${webModel.category.id}`,
+          },
+          { name: webModel.name },
+        ]}
+      />
+
+      <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+        {/* Image Carousel */}
+        <div className="relative">
           <div
-            className="carousel-inner flex overflow-x-auto snap-x snap-mandatory scroll-smooth"
             ref={carouselRef}
+            className="carousel-inner flex overflow-x-auto snap-x snap-mandatory scroll-smooth"
           >
             {webModel.images.map((image, index) => (
               <div
                 key={image.id}
                 className="carousel-item snap-start w-full shrink-0"
               >
-                <ImageWithFallback
+                <img
                   src={image.image}
-                  alt={`Web Model ${webModel.id} - Image ${index + 1}`}
-                  className="w-full h-64 object-contain rounded-lg"
+                  alt={`${webModel.name} - ${index + 1}`}
+                  className="w-full h-96 object-cover object-center"
+                  onError={(e) => {
+                    e.target.src = "https://via.placeholder.com/600x400";
+                  }}
                 />
               </div>
             ))}
           </div>
 
-          {/* Navigation Buttons */}
           <button
             onClick={scrollLeft}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 dark:bg-gray-700 rounded-full p-2 opacity-50 hover:opacity-100 transition-opacity"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm rounded-full p-3 hover:bg-white/50 transition-all"
           >
-            <ChevronLeftIcon className="h-6 w-6" />
+            <ChevronLeftIcon className="w-8 h-8 text-purple-600" />
           </button>
           <button
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 dark:bg-gray-700 rounded-full p-2 opacity-50 hover:opacity-100 transition-opacity"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm rounded-full p-3 hover:bg-white/50 transition-all"
           >
-            <ChevronRightIcon className="h-6 w-6" />
+            <ChevronRightIcon className="w-8 h-8 text-purple-600" />
           </button>
         </div>
 
-        {/* Text-Based Information */}
-        <div className="text-center">
-          {/* Category Information */}
-          <p className="text-gray-700 dark:text-gray-400 mb-2">
-            <span className="font-semibold">Category:</span>{" "}
-            {webModel.category.title}
-          </p>
+        {/* Main Content */}
+        <div className="p-6 lg:p-8">
+          <div className="prose max-w-none mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              {webModel.name}
+            </h1>
+            <div className="flex items-center gap-2 mb-6">
+              <span className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100 px-3 py-1 rounded-full text-sm font-medium">
+                {webModel.category.title}
+              </span>
+            </div>
+            <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+              {webModel.description}
+            </p>
+          </div>
 
-          {/* Web Model Name and Description */}
-          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-            {webModel.name}
-          </h3>
-          <p className="text-gray-700 dark:text-gray-400 mb-4">
-            <span className="font-semibold">Description:</span>{" "}
-            {webModel.description}
-          </p>
-          
-          {webModel.category.icon && (
-            <ImageWithFallback
-              src={webModel.category.icon}
-              alt={webModel.category.title}
-              className="w-12 h-12 mx-auto mb-4"
-            />
+          {/* Workflow Section */}
+          {webModel.workflow && (
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 dark:text-white">
+                <MdDesignServices className="text-purple-600" />
+                Design Workflow
+              </h3>
+              <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {webModel.workflow.split("\n").map((step, index) => (
+                    <div
+                      key={index}
+                      className="flex items-start gap-4 p-4 bg-white dark:bg-gray-600 rounded-lg"
+                    >
+                      <div className="bg-purple-100 dark:bg-purple-900 p-2 rounded-full">
+                        <span className="text-purple-600 dark:text-purple-300 font-bold">
+                          {index + 1}
+                        </span>
+                      </div>
+                      <p className="text-gray-600 dark:text-gray-300">{step}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           )}
+
+          {/* Model Details */}
+          <div className="border-t pt-8 dark:border-gray-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2 dark:text-white">
+                  <MdInfo className="text-purple-600" />
+                  Model Details
+                </h3>
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-medium text-gray-700 dark:text-gray-200">
+                      Category:
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      {webModel.category.title}
+                    </p>
+                  </div>
+                  {webModel.category.icon && (
+                    <div className="mt-4">
+                      <img
+                        src={webModel.category.icon}
+                        alt="Category icon"
+                        className="w-20 h-20 object-contain"
+                        onError={(e) => {
+                          e.target.src = "https://via.placeholder.com/100";
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2 dark:text-white">
+                  <Md3dRotation className="text-purple-600" />
+                  Custom Model Solution
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Need a customized web model solution? Our design team can
+                  create bespoke models tailored to your specific requirements.
+                </p>
+                <button
+                  onClick={() => navigate("/contact")}
+                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                >
+                  Request Custom Model
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

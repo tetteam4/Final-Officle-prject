@@ -194,13 +194,17 @@ const WebsiteDesign = () => {
               whileHover="hover"
               transition={transition}
             >
-              <div className="text-4xl mb-4">
-                {webModel.category.icon && (
+              <div className="h-48 overflow-hidden mb-4">
+                {webModel.images && webModel.images.length > 0 ? (
                   <img
-                    src={webModel.category.icon}
-                    alt={webModel.category.title}
-                    className="w-12 h-12 mx-auto"
+                    src={webModel.images[0].image}
+                    alt={webModel.name}
+                    className="w-full h-full object-cover"
                   />
+                ) : (
+                  <div className="w-full h-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center">
+                    No Image
+                  </div>
                 )}
               </div>
               <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">

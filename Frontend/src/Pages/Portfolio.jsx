@@ -208,8 +208,7 @@ const Portfolio = () => {
           onSortChange={handleSortChange}
         />
       </div>
-      {/* Portfolio Card */}
-
+     
       <div className="grid grid-cols-3 max-w-7xl gap-5 mt-10 mx-auto">
         {currentCards.map((port, index) => {
           const handleClick = () => {

@@ -222,8 +222,6 @@ const Services = () => {
               </div>
 
               <div className="p-4">
-                {" "}
-                {/* Content Container */}
                 <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
                   {service.name}
                 </h3>
