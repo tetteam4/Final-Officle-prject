@@ -93,7 +93,6 @@ const ServiceDetailsPage = () => {
       />
 
       <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-        {/* Hero Section */}
         <div className="relative">
           {service.image && (
             <img
@@ -115,7 +114,6 @@ const ServiceDetailsPage = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="p-6 lg:p-8">
           <div className="prose max-w-none mb-8">
             <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
@@ -123,7 +121,6 @@ const ServiceDetailsPage = () => {
             </p>
           </div>
 
-          {/* Video Section */}
           {service.video && (
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
@@ -160,7 +157,6 @@ const ServiceDetailsPage = () => {
             </div>
           )}
 
-          {/* Benefits Section */}
           {service.benefit?.length > 0 && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 dark:text-white">
@@ -185,7 +181,6 @@ const ServiceDetailsPage = () => {
             </div>
           )}
 
-          {/* Additional Details */}
           <div className="border-t pt-8 dark:border-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">

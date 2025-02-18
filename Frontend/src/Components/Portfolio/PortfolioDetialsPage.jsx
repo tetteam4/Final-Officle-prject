@@ -3,7 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "./Breadcrumb";
 import CategoryList from "./CategoryList";
 import RelatedCategoryPortfolio from "./RelatedCategoryPortfolio";
-import { MdDashboard, MdRoomService, MdSettings } from "react-icons/md";
+import {
+  MdDashboard,
+  MdRoomService,
+  MdSettings,
+  MdCloud,
+  MdCode,
+} from "react-icons/md"; //Import new icons
 
 const PortfolioDetialsPage = () => {
   const { id } = useParams();
@@ -61,10 +67,10 @@ const PortfolioDetialsPage = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto ">
       <Breadcrumb />
       <div className="flex flex-col md:flex-row gap-5">
-        <div className="lg:w-[25%] border bg-green-100/95 h-full">
+        <div className="lg:w-[25%] bg-green-100/95 h-full">
           <CategoryList />
         </div>
         <div className="md:w-[75%] lg:w-[75%]  w-full h-fit mt-5 p-2  rounded-md">
@@ -74,17 +80,17 @@ const PortfolioDetialsPage = () => {
             </h1>
           </div>
           <div className="">
-            <p className="text-justify text-gray-600 text-base">
+            <p className="text-justify text-gray-600 dark:text-gray-300 text-base">
               {portfolio.description}
             </p>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               For more information about
               <span className="font-bold text-green-600">
                 {portfolio.category.name} website design
               </span>
               , contact Tech Elevate Team consultants.
             </p>
-            <p className="mt-5 text-black font-semibold">
+            <p className="mt-5 text-black dark:text-white  font-semibold">
               In the image below, you can see the overall layout of the
               {portfolio.name} website and the elements used in its design.
             </p>
@@ -122,7 +128,7 @@ const PortfolioDetialsPage = () => {
             <h3 className="text-center text-xl font-bold">{portfolio.name}</h3>
             {/* dashboard image */}
             <div className="mt-5 border-t border-gray-500">
-              <div className="mt-5 flex justify-between text-gray-700 items-center ">
+              <div className="mt-5 flex justify-between text-gray-700  dark:text-gray-300 items-center ">
                 <span className="text-md font-bold">Dashboard Design</span>
                 <span>
                   <MdDashboard size={32} />
@@ -139,19 +145,51 @@ const PortfolioDetialsPage = () => {
               </div>
             </div>
             <div className="mt-12">
-              <p className="text-justify text-gray-600 text-base">
+              <p className="text-justify text-gray-600 dark:text-gray-100 text-base">
                 {portfolio.description}
               </p>
             </div>
-            <div className="mt-10 border-t border-gray-500">
-              <div className="mt-5 flex justify-between text-gray-700 items-center ">
-                <span className="text-md font-bold">Technology</span>
+            <div className="mt-10 border-t border-gray-500 ">
+              <div className="mt-5 flex justify-between text-gray-700 dark:text-gray-300 items-center ">
+                <span className="text-md font-bold">
+                  {" "}
+                  The Technologies Used for this :{" "}
+                </span>
                 <span>
                   <MdSettings size={32} />
                 </span>
               </div>
+
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* Deployment Details */}
+                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow-md flex items-center gap-2">
+                  <MdCloud size={24} className="text-blue-500" />{" "}
+                  {/* Cloud Icon */}
+                  <div>
+                    <h4 className="font-semibold text-lg dark:text-gray-200">
+                      Deployment
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      {portfolio.deployment || "Not specified"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Technologies Used */}
+                <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow-md flex items-center gap-2">
+                  <MdCode size={24} className="text-green-500" />{" "}
+                  {/* Code Icon */}
+                  <div>
+                    <h4 className="font-semibold text-lg dark:text-gray-200">
+                      Technologies
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      {portfolio.echnologies || "Not specified"}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            {/* Add RelatedPosts component */}
           </div>
         </div>
         <RelatedCategoryPortfolio

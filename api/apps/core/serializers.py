@@ -154,11 +154,10 @@ class WorkflowSerializer(serializers.ModelSerializer):
 class WebModelSerializer(serializers.ModelSerializer):
     category = WebCategorySerializer()
     images = WebModelImageSerializer(many=True)
-    workflow = WorkflowSerializer(many=True)
 
     class Meta:
         model = WebModel
-        fields = ["id", "category", "workflow", "name", "description", "images"]
+        fields = ["id", "category", "name", "description", "images"]
 
 
 class ServicesCategorySerializer(serializers.ModelSerializer):

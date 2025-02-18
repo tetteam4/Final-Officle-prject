@@ -195,17 +195,13 @@ const WebsiteDesign = () => {
               whileHover="hover"
               transition={transition}
             >
-              <div className="h-48 w-full overflow-hidden">
-                {webModel.images && webModel.images.length > 0 ? (
+              <div className="text-4xl mb-4">
+                {webModel.category.icon && (
                   <img
-                    src={webModel.images[0].image} // Display first image
-                    alt={webModel.name}
-                    className="w-full h-full object-cover"
+                    src={webModel.category.icon}
+                    alt={webModel.category.title}
+                    className="w-12 h-12 mx-auto"
                   />
-                ) : (
-                  <div className="w-full h-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center">
-                    No Image
-                  </div>
                 )}
               </div>
 

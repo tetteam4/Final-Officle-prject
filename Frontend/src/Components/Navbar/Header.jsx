@@ -90,20 +90,6 @@ const Header = () => {
                 }`}
               />
             </div>
-
-            {/* Login Button */}
-            <Link
-              to="/sign-up"
-            >
-              <button
-                className="flex items-center justify-center  bg-gradient-to-r from-[#af40ff] via-[#5b42f3] to-[#00ddeb] rounded-lg shadow-[0_15px_30px_-5px_rgba(151,65,252,0.2)] transition-all duration-300 ease-in-out hover:shadow-[0_20px_40px_-5px_rgba(151,65,252,0.3)] active:scale-90 active:shadow-[0_10px_20px_-5px_rgba(151,65,252,0.2)]"
-                // onClick={onClick}
-              >
-                <span className="bg-[#05062d] px-6 py-4 rounded-lg text-white text-lg font-medium transition-all duration-300 ease-in-out hover:bg-transparent">
-                 get Started
-                </span>
-              </button>
-            </Link>
           </div>
         </div>
       </div>
