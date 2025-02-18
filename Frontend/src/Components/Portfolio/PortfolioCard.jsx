@@ -5,19 +5,17 @@ const PortfolioCard = ({ port, onClick }) => {
   return (
     <motion.div
       onClick={onClick}
-      className="relative w-[400px] border cursor-pointer h-[250px] overflow-hidden group"
+      className="relative w-full h-[250px] overflow-hidden group cursor-pointer" 
       whileHover="hover"
       initial="initial"
       exit="exit"
     >
-      {/* Image */}
       <img
         src={port.images}
         alt={port.name}
         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
       />
 
-      {/* Overlay Layer */}
       <motion.div
         variants={{
           initial: { opacity: 0 },
@@ -27,7 +25,6 @@ const PortfolioCard = ({ port, onClick }) => {
         className="absolute inset-0 bg-[#02DB81] bg-opacity-30"
       ></motion.div>
 
-      {/* Name Section (Animate from bottom to top) */}
       <motion.div
         variants={{
           initial: { y: 100, opacity: 0 },

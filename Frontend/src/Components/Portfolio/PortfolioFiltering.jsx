@@ -53,7 +53,7 @@ const PortfolioFiltering = ({
                 key={category}
                 onClick={() => {
                   onCategoryChange(category);
-                  setIsCategoryOpen(false); // Close dropdown on selection
+                  setIsCategoryOpen(false); 
                 }}
                 className={`w-full text-left px-4 py-2 text-sm font-medium hover:bg-gray-100 ${
                   selectedCategory === category
@@ -91,7 +91,7 @@ const PortfolioFiltering = ({
                 onClick={() => {
                   setSelectedSort(option);
                   onSortChange(option);
-                  setIsSortOpen(false); // Close dropdown on selection
+                  setIsSortOpen(false); 
                 }}
                 className={`w-full text-left px-4 py-2 text-sm font-medium hover:bg-gray-100 ${
                   selectedSort === option

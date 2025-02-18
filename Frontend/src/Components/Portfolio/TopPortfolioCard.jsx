@@ -10,14 +10,12 @@ const TopPortfolioCard = ({ port, onClick }) => {
       initial="initial"
       exit="exit"
     >
-      {/* Image */}
       <img
         src={port.images}
         alt={port.name}
         className="w-full h-full object-cover transition-all duration-300 filter grayscale group-hover:grayscale-0"
       />
 
-      {/* Overlay Layer */}
       <motion.div
         variants={{
           initial: { opacity: 0 },

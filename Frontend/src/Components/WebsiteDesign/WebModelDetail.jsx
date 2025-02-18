@@ -69,10 +69,10 @@ const WebModelDetail = () => {
           <h2 className="text-2xl font-bold text-red-600 dark:text-red-100 mb-4">
             Error Loading Model
           </h2>
-          <p className="text-red-700 dark:text-red-200 mb-4">{error.message}</p>
+          <p className="text-red-700 dark:text-red-200 mb-4">{error}</p>
           <button
             onClick={() => navigate("/webmodels")}
-            className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Return to Models
           </button>
@@ -82,14 +82,14 @@ const WebModelDetail = () => {
 
   if (!webModel)
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center text-center p-4 dark:bg-purple-950">
+      <div className="min-h-screen flex flex-col items-center justify-center text-center p-4 dark:bg-green-950">
         <div className="max-w-md bg-blue-50 dark:bg-blue-900 p-6 rounded-lg">
           <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-100 mb-4">
             Model Not Found
           </h1>
           <button
             onClick={() => navigate("/webmodels")}
-            className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
           >
             Browse All Models
           </button>
@@ -126,6 +126,7 @@ const WebModelDetail = () => {
                   src={image.image}
                   alt={`${webModel.name} - ${index + 1}`}
                   className="w-full h-96 object-cover object-center"
+                  loading="lazy"
                   onError={(e) => {
                     e.target.src = "https://via.placeholder.com/600x400";
                   }}
@@ -137,14 +138,16 @@ const WebModelDetail = () => {
           <button
             onClick={scrollLeft}
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm rounded-full p-3 hover:bg-white/50 transition-all"
+            aria-label="Scroll left"
           >
-            <ChevronLeftIcon className="w-8 h-8 text-purple-600" />
+            <ChevronLeftIcon className="w-8 h-8 text-green-600" />
           </button>
           <button
             onClick={scrollRight}
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm rounded-full p-3 hover:bg-white/50 transition-all"
+            aria-label="Scroll right"
           >
-            <ChevronRightIcon className="w-8 h-8 text-purple-600" />
+            <ChevronRightIcon className="w-8 h-8 text-green-600" />
           </button>
         </div>
 
@@ -155,7 +158,7 @@ const WebModelDetail = () => {
               {webModel.name}
             </h1>
             <div className="flex items-center gap-2 mb-6">
-              <span className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100 px-3 py-1 rounded-full text-sm font-medium">
+              <span className="bg-purple-100 dark:bg-green-600 text-green-600 dark:text-purple-100 px-3 py-1 rounded-full text-sm font-medium">
                 {webModel.category.title}
               </span>
             </div>
@@ -168,7 +171,7 @@ const WebModelDetail = () => {
           {webModel.workflow && (
             <div className="mb-8">
               <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 dark:text-white">
-                <MdDesignServices className="text-purple-600" />
+                <MdDesignServices className="text-green-600" />
                 Design Workflow
               </h3>
               <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
@@ -178,8 +181,8 @@ const WebModelDetail = () => {
                       key={index}
                       className="flex items-start gap-4 p-4 bg-white dark:bg-gray-600 rounded-lg"
                     >
-                      <div className="bg-purple-100 dark:bg-purple-900 p-2 rounded-full">
-                        <span className="text-purple-600 dark:text-purple-300 font-bold">
+                      <div className="bg-purple-100 dark:bg-green-600 p-2 rounded-full">
+                        <span className="text-green-600-600 dark:text-purple-300 font-bold">
                           {index + 1}
                         </span>
                       </div>
@@ -196,7 +199,7 @@ const WebModelDetail = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2 dark:text-white">
-                  <MdInfo className="text-purple-600" />
+                  <MdInfo className="text-green-600" />
                   Model Details
                 </h3>
                 <div className="space-y-4">
@@ -225,7 +228,7 @@ const WebModelDetail = () => {
 
               <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2 dark:text-white">
-                  <Md3dRotation className="text-purple-600" />
+                  <Md3dRotation className="text-green-600" />
                   Custom Model Solution
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
@@ -234,7 +237,7 @@ const WebModelDetail = () => {
                 </p>
                 <button
                   onClick={() => navigate("/contact")}
-                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  className="px-6 py-2 bg-green-600-600 text-white rounded-lg hover:bg-green-600-700 transition-colors"
                 >
                   Request Custom Model
                 </button>

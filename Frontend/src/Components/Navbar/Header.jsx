@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import RespNavbar from "./RespNavbar";
 import { LuLogIn } from "react-icons/lu";
 import { Link } from "react-router-dom";
@@ -10,20 +10,39 @@ import useDarkMode from "../../hooks/useDarkMode";
 const Header = () => {
   const [isOpne, setIsOpen] = useState(false);
   const [darkMode, setDarkMode] = useDarkMode();
+  const headerRef = useRef(null); // Ref to the header element
+  const [headerHeight, setHeaderHeight] = useState(0);
 
- 
+  useEffect(() => {
+    const calculateHeaderHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    calculateHeaderHeight();
+
+    // Recalculate on window resize
+    window.addEventListener("resize", calculateHeaderHeight);
+
+    return () => {
+      window.removeEventListener("resize", calculateHeaderHeight);
+    };
+  }, []);
+
   const repsonsiveHandler = () => {
     setIsOpen(!isOpne);
   };
 
   return (
-    <header className="fixed top-0 lg:sticky z-30 p-2 dark:bg-purple-950 left-0 right-0 bg-purple-950">
+    <header
+      className="fixed top-0 lg:sticky z-30 p-2 dark:bg-purple-950 left-0 right-0 bg-purple-950"
+      ref={headerRef} // Attach ref to the header element
+    >
       <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2">
-        {/* Logo and Menu Button */}
         <div className="flex items-center gap-x-5 md:col-span-2 lg:col-span-1">
           <div
             onClick={repsonsiveHandler}
-            
             className="flex lg:hidden cursor-pointer justify-end items-center"
           >
             <span className="text-white hover:bg-gray-400 rounded-full p-2 hover:text-white transition duration-300">
@@ -41,21 +60,8 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Login in responsive */}
-        <div className="flex justify-end lg:hidden">
-          <Link to="/sign-up" className="flex items-center bg-gray-50 p-1">
-            <span className="px-2 text-sm font-semibold">Login</span>
-            <span>
-              <LuLogIn className="text-gray-700" size={20} />
-            </span>
-          </Link>
-        </div>
-
-        {/* Desktop Login and Icons */}
         <div className="lg:flex items-center col-span-1 hidden justify-end gap-x-5">
-          {/* Actions (Theme Toggle & Email Icon) */}
           <div className="flex items-center justify-between py-1.5 gap-x-5">
-            {/* Dark Mode Toggle */}
             <div
               className={`relative flex items-center w-[110px] h-[40px] cursor-pointer rounded-full  
       ${
@@ -97,10 +103,10 @@ const Header = () => {
       {/* Responsive Navbar */}
       {isOpne && (
         <div>
-          {/* Overlay */}
+          {/* Black Overlay */}
           <div
             onClick={repsonsiveHandler}
-            className="fixed left-0 right-0 top-24 bottom-0 bg-black opacity-80 z-10"
+            className="fixed left-0 right-0 top-0 bottom-0 bg-black opacity-50 z-20" // Adjusted z-index and top
           ></div>
 
           {/* Navbar */}
@@ -109,6 +115,7 @@ const Header = () => {
             setDarkMode={setDarkMode}
             darkMode={darkMode}
             isOpne={isOpne}
+            headerHeight={headerHeight} // Pass the header height
           />
         </div>
       )}

@@ -5,9 +5,8 @@ import PortfolioCard from "./PortfolioCard";
 import Breadcrumb from "./Breadcrumb";
 
 const CategoryPage = () => {
-  const { categoryName } = useParams(); // Extract the category name from the URL
+  const { categoryName } = useParams(); 
  const navigate = useNavigate();
-  // Filter projects based on the category
   const filteredProjects =
     categoryName === "All"
       ? Portfolio_Data

@@ -13,7 +13,7 @@ const Portfolio = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [cardsPerPage, setCardsPerPage] = useState(6);
+  const [cardsPerPage, setCardsPerPage] = useState(6); //Adjust if needed
   const [portfolioData, setPortfolioData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -181,25 +181,28 @@ const Portfolio = () => {
   }
 
   return (
-    <section className="mx-auto  max-w-7xl ">
+    <section className="mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
+      {" "}
+      {/* Added padding */}
       <div className="py-4">
         <h1 className="text-2xl font-bold">Our Works</h1>
       </div>
-      <div className="grid grid-cols-4 max-w-7xl mx-auto h-auto items-start gap-x-3">
-        <aside className="col-span-1 h-auto bg-green-100/95 dark:bg-gray-700 min-h-0 overflow-auto">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {" "}
+        {/* Responsive grid */}
+        <aside className="md:col-span-1 h-auto bg-green-100/95 dark:bg-gray-700 min-h-0 overflow-auto">
           <CategoryList />
         </aside>
-
         {/* Middle Section - Portfolio Slider Hero */}
-        <div className="col-span-2 border h-[300px] min-h-0 overflow-auto">
+        <div className="md:col-span-2 border h-[300px] min-h-0 overflow-auto">
+          {" "}
+          {/* Adjusted col-span */}
           <PortFolioSliderHero Portfolio_Data={portfolioData} />
         </div>
-
-        <aside className="col-span-1 h-auto bg-green-100/95 dark:bg-gray-700 min-h-0 overflow-auto">
+        <aside className="md:col-span-1 h-auto bg-green-100/95 dark:bg-gray-700 min-h-0 overflow-auto hidden md:block ">
           <ProjectNameList Portfolio_Data={portfolioData} />
         </aside>
       </div>
-      
       <div className="mt-6">
         <PortfolioFiltering
           selectedCategory={selectedCategory}
@@ -208,12 +211,11 @@ const Portfolio = () => {
           onSortChange={handleSortChange}
         />
       </div>
-     
-      <div className="grid grid-cols-3 max-w-7xl gap-5 mt-10 mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-10">
+
         {currentCards.map((port, index) => {
           const handleClick = () => {
-            console.log(`here: ${port.id}`);
-            console.log(`here 2: ${port.name}`);
+
             navigate(`/portfolio/${port.id}`, {
               state: { port: port },
             });
@@ -224,9 +226,10 @@ const Portfolio = () => {
           );
         })}
       </div>
-
       {totalPages > 1 && (
-        <div className="flex justify-start items-center my-10 space-x-2">
+        <div className="flex justify-center items-center mt-8 space-x-2">
+          {" "}
+          {/* Centered pagination */}
           {currentPage > 1 && (
             <button
               onClick={handlePreviousPage}
@@ -235,7 +238,6 @@ const Portfolio = () => {
               <FaChevronLeft className="mr-2" /> Previous
             </button>
           )}
-
           {renderPaginationButtons()}
           {currentPage < totalPages && (
             <button
@@ -247,7 +249,6 @@ const Portfolio = () => {
           )}
         </div>
       )}
-
       <div className="mt-10">
         <LatestPortfolioWork Portfolio_Data={portfolioData} />
       </div>
