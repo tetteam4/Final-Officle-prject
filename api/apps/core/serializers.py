@@ -1,3 +1,4 @@
+from apps.attendance.models import WorkflowModel
 from rest_framework import serializers
 from taggit.serializers import TagListSerializerField
 
@@ -144,13 +145,19 @@ class WebModelImageSerializer(serializers.ModelSerializer):
         fields = ["id", "image"]
 
 
+class WorkflowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkflowModel
+        fields = ["id", "title", "description", "image"]
+
+
 class WebModelSerializer(serializers.ModelSerializer):
     category = WebCategorySerializer()
     images = WebModelImageSerializer(many=True)
 
     class Meta:
         model = WebModel
-        fields = ["id", "category", "workflow", "name", "description", "images"]
+        fields = ["id", "category", "name", "description", "images"]
 
 
 class ServicesCategorySerializer(serializers.ModelSerializer):

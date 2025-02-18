@@ -7,6 +7,9 @@ const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [visibleCategories, setVisibleCategories] = useState(5);
+  const [showAll, setShowAll] = useState(false);
+  const [buttonText, setButtonText] = useState("See More");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -29,6 +32,18 @@ const CategoryList = () => {
     fetchCategories();
   }, []);
 
+  const handleToggleCategories = () => {
+    if (showAll) {
+      setVisibleCategories(5);
+      setShowAll(false);
+      setButtonText("See More");
+    } else {
+      setVisibleCategories(categories.length);
+      setShowAll(true);
+      setButtonText("See Less");
+    }
+  };
+
   if (loading) {
     return <div>Loading categories...</div>;
   }
@@ -41,13 +56,15 @@ const CategoryList = () => {
     <div className="">
       <ul>
         <li>
-          <h1 className="text-lg border-b font-bold py-2  px-4">Categories</h1>
+          <h1 className="text-lg  font-bold py-2 dark:bg-gray-700 dark:text-white px-4">
+            Categories
+          </h1>
         </li>
-        {categories.map((category) => (
+        {categories.slice(0, visibleCategories).map((category) => (
           <li key={category.id} className="">
             <button
               onClick={() => navigate(`/portfolio_ca/${category.name}`)}
-              className="w-full text-left flex items-center gap-x-1    text-md font-medium cursor-pointer p-2 border-gray-300 hover:bg-white text-gray-700  transition-all shadow-sm"
+              className="w-full text-left flex items-center gap-x-1  dark:bg-gray-600 dark:text-gray-100 text-md font-medium cursor-pointer p-2 border-gray-300  hover:bg-white dark:hover:bg-white dark:hover:text-gray-700  text-gray-700  transition-all shadow-sm"
             >
               <span className="">
                 <IoMdArrowDropright className="text-2xl text-green-500" />
@@ -58,7 +75,18 @@ const CategoryList = () => {
             </button>
           </li>
         ))}
+        
       </ul>
+      {categories.length > 5 && (
+        <div className="flex justify-center">
+          <button
+            onClick={handleToggleCategories}
+            className="mt-4 mb-2  hover:text-blue-700 dark:hover:text-white bg-gray-100"
+          >
+            {buttonText}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

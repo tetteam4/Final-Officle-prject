@@ -25,12 +25,13 @@ const WebModelDetail = () => {
         const response = await fetch(
           `http://localhost:8000/api/webmodels/${id}/`
         );
-        if (!response.ok)
-          throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
         setWebModel(data);
       } catch (err) {
-        setError(err);
+        setError(err.message || "An error occurred while fetching data.");
       } finally {
         setLoading(false);
       }

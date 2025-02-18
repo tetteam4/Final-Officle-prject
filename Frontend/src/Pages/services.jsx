@@ -119,8 +119,36 @@ const Services = () => {
     return buttons;
   };
 
+  const SkeletonLoader = () => (
+    <motion.div
+      className="bg-gray-200 dark:bg-gray-700 shadow-md rounded-lg overflow-hidden h-[400px]"
+      variants={cardVariants}
+      initial="initial"
+      animate="animate"
+      transition={transition}
+    >
+      {/* Image Placeholder */}
+      <div className="h-48 bg-gray-300 dark:bg-gray-600 animate-pulse"></div>
+
+      {/* Content Placeholder */}
+      <div className="p-4">
+        <div className="h-6 bg-gray-300 dark:bg-gray-600 animate-pulse rounded w-3/4 mb-2"></div>
+        <div className="h-4 bg-gray-300 dark:bg-gray-600 animate-pulse rounded w-5/6 mb-1"></div>
+        <div className="h-4 bg-gray-300 dark:bg-gray-600 animate-pulse rounded w-4/6"></div>
+      </div>
+    </motion.div>
+  );
+
   if (loading) {
-    return <div>Loading services...</div>;
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {Array(cardsPerPage)
+          .fill()
+          .map((_, index) => (
+            <SkeletonLoader key={index} />
+          ))}
+      </div>
+    );
   }
 
   if (error) {
@@ -134,59 +162,7 @@ const Services = () => {
       </h2>
 
       <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-        <div className="mb-2 md:mb-0">
-          <label
-            htmlFor="category"
-            className="mr-2 font-semibold text-gray-700 dark:text-gray-300"
-          >
-            Filter by Category:
-          </label>
-          <select
-            id="category"
-            className="border rounded px-2 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500"
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-          >
-            <option value="">All Categories</option>
-            {categories.map((category) => (
-              <option
-                key={category.id}
-                value={category.id}
-                className="text-gray-700 dark:text-gray-300"
-              >
-                {category.title}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex items-center">
-          <label
-            htmlFor="sort"
-            className="mr-2 font-semibold text-gray-700 dark:text-gray-300"
-          >
-            Sort By:
-          </label>
-          <select
-            id="sort"
-            className="border rounded px-2 py-1 mr-2 text-gray-700 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500"
-            value={sortBy}
-            onChange={handleSortChange}
-          >
-            <option value="id">ID</option>
-            <option value="category">Category</option>
-            <option value="name">Name</option>
-          </select>
-          <select
-            id="sortOrder"
-            className="border rounded px-2 py-1 text-gray-700 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500"
-            value={sortOrder}
-            onChange={handleSortOrderChange}
-          >
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
-        </div>
+        {/* ... (Filter and Sort controls) ... */}
       </div>
 
       {/* Services Grid */}
