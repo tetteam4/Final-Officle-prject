@@ -186,7 +186,7 @@ const Portfolio = () => {
         <h1 className="text-2xl font-bold">Our Works</h1>
       </div>
       <div className="grid grid-cols-4 max-w-7xl mx-auto h-auto items-start gap-x-3">
-        <aside className="col-span-1 border h-auto bg-green-100/95 min-h-0 overflow-auto">
+        <aside className="col-span-1 h-auto bg-green-100/95 dark:bg-gray-700 min-h-0 overflow-auto">
           <CategoryList />
         </aside>
 
@@ -195,7 +195,7 @@ const Portfolio = () => {
           <PortFolioSliderHero Portfolio_Data={portfolioData} />
         </div>
 
-        <aside className="col-span-1 border h-auto bg-green-100/95 min-h-0 overflow-auto">
+        <aside className="col-span-1 h-auto bg-green-100/95 dark:bg-gray-700 min-h-0 overflow-auto">
           <ProjectNameList Portfolio_Data={portfolioData} />
         </aside>
       </div>

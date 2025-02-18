@@ -63,8 +63,8 @@ const CategoryList = () => {
         {categories.slice(0, visibleCategories).map((category) => (
           <li key={category.id} className="">
             <button
-              onClick={() => navigate(`/portfolio_ca/${category.name}`)}
-              className="w-full text-left flex items-center gap-x-1  dark:bg-gray-600 dark:text-gray-100 text-md font-medium cursor-pointer p-2 border-gray-300  hover:bg-white dark:hover:bg-white dark:hover:text-gray-700  text-gray-700  transition-all shadow-sm"
+              onClick={() => navigate(`/portfolio/`)}
+              className="w-full text-left flex items-center gap-x-1 border-b  dark:bg-gray-600 dark:text-gray-100 text-md font-medium cursor-pointer p-2 border-gray-300  hover:bg-white dark:hover:bg-white dark:hover:text-gray-700  text-gray-700  transition-all shadow-sm"
             >
               <span className="">
                 <IoMdArrowDropright className="text-2xl text-green-500" />
@@ -75,13 +75,12 @@ const CategoryList = () => {
             </button>
           </li>
         ))}
-        
       </ul>
       {categories.length > 5 && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-2 mb-2">
           <button
             onClick={handleToggleCategories}
-            className="mt-4 mb-2  hover:text-blue-700 dark:hover:text-white bg-gray-100"
+            className="mt-2 text-green-400 hover:text-gray-100 "
           >
             {buttonText}
           </button>
