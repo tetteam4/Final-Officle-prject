@@ -40,7 +40,7 @@ const MegaMenu = ({ subCategories = [], isVisible }) => {
                 ) : (
                   React.cloneElement(category.icon, {
                     className: "w-6 h-6 mr-1",
-                  }) // Clone and apply class
+                  }) 
                 )}
                 <h3 className="font-bold text-md mb-2 border-b-2 pb-2 text-gray-900 dark:text-gray-300">
                   {category.category}

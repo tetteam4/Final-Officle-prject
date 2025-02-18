@@ -56,10 +56,11 @@ const CategoryList = () => {
     <div className="">
       <ul>
         <li>
-          <h1 className="text-lg  font-bold py-2 dark:bg-gray-700 dark:text-white px-4">
+          <h1 className="text-lg font-bold py-2 dark:bg-gray-700 dark:text-white px-4">
             Categories
           </h1>
         </li>
+
         {categories.slice(0, visibleCategories).map((category) => (
           <li key={category.id} className="">
             <button
@@ -76,6 +77,7 @@ const CategoryList = () => {
           </li>
         ))}
       </ul>
+
       {categories.length > 5 && (
         <div className="flex justify-center mt-2 mb-2">
           <button

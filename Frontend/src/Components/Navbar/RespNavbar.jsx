@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavData } from "./navdata";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
@@ -7,7 +7,13 @@ import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import { MdWbSunny, MdNightlight } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 
-function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
+function RespNavbar({
+  repsonsiveHandler,
+  darkMode,
+  setDarkMode,
+  isOpne,
+  headerHeight,
+}) {
   const { navData, loading, error } = useNavData();
   const [expandedMenus, setExpandedMenus] = useState({});
   const [expandedCategories, setExpandedCategories] = useState({});
@@ -27,6 +33,11 @@ function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
     }));
   };
 
+  // Adjusted top position
+  const navbarStyle = {
+    top: `${headerHeight}px`,
+  };
+
   return (
     <AnimatePresence mode="wait">
       {isOpne && (
@@ -37,7 +48,8 @@ function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
           transition={{ duration: 0.1, ease: "easeInOut" }}
           role="dialog"
           aria-hidden={!isOpne}
-          className={`fixed top-[75px] left-0 h-[100vh] bottom-0 z-20 bg-white text-black shadow-md transform transition-transform duration-300 ease-in-out w-[80%] sm:w-[75%] lg:w-[390px]`}
+          style={navbarStyle}
+          className={`fixed left-0 z-30 bg-white text-black shadow-md transform transition-transform duration-300 ease-in-out  w-[80%] sm:w-[75%] lg:w-[390px]`}
         >
           <div className="h-[calc(100vh-70px-70px)] overflow-y-auto pb-16">
             <form className="flex-1 px-5 mt-5 relative">
@@ -59,86 +71,102 @@ function RespNavbar({ repsonsiveHandler, darkMode, setDarkMode, isOpne }) {
               <ul className="flex flex-col space-y-2 p-4">
                 {navData.map((navItem, index) => (
                   <li key={index} className="border-b border-gray-300 pb-2">
-                    <div
-                      className="flex items-center justify-between cursor-pointer"
-                      onClick={() => toggleMenu(index)}
-                      aria-expanded={expandedMenus[index]}
-                      aria-controls={`menu-${index}`}
-                    >
-                      <span className="text-xl">{navItem.name}</span>
-                      {navItem.subCategories ? (
-                        expandedMenus[index] ? (
-                          <IoMdRemove size={20} />
-                        ) : (
-                          <IoMdAdd size={20} />
-                        )
-                      ) : null}
-                    </div>
-                    {navItem.subCategories && expandedMenus[index] && (
-                      <ul
-                        id={`menu-${index}`}
-                        className="mt-2 space-y-3"
-                        role="list"
+                    {/*  Wrap everything in a Link if no subcategories */}
+                    {!navItem.subCategories ? (
+                      <Link
+                        to={navItem.path}
+                        className="flex items-center justify-between cursor-pointer text-xl"
+                        onClick={repsonsiveHandler} // Close nav on link click
                       >
-                        {navItem.subCategories.map((category, catIndex) => (
-                          <li
-                            key={catIndex}
-                            className="border-t border-gray-300"
+                        <span>{navItem.name}</span>
+                      </Link>
+                    ) : (
+                      <>
+                        <div
+                          className="flex items-center justify-between cursor-pointer"
+                          onClick={() => toggleMenu(index)}
+                          aria-expanded={expandedMenus[index]}
+                          aria-controls={`menu-${index}`}
+                        >
+                          <span className="text-xl">{navItem.name}</span>
+                          {navItem.subCategories ? (
+                            expandedMenus[index] ? (
+                              <IoMdRemove size={20} />
+                            ) : (
+                              <IoMdAdd size={20} />
+                            )
+                          ) : null}
+                        </div>
+                        {navItem.subCategories && expandedMenus[index] && (
+                          <ul
+                            id={`menu-${index}`}
+                            className="mt-2 space-y-3"
+                            role="list"
                           >
-                            <div
-                              className="flex items-center justify-between cursor-pointer text-md"
-                              onClick={() => toggleCategory(index, catIndex)}
-                              aria-expanded={
-                                expandedCategories[`${index}-${catIndex}`]
-                              }
-                              aria-controls={`category-${index}-${catIndex}`}
-                            >
-                              <span className="flex items-center">
-                                {typeof category.icon === "string" ? (
-                                  <img
-                                    className="w-6 h-6 mr-1"
-                                    src={category.icon}
-                                    alt={category.category}
-                                  />
-                                ) : (
-                                  React.cloneElement(category.icon, {
-                                    className: "w-6 h-6 mr-1",
-                                  })
-                                )}
-                                <span>{category.category}</span>
-                              </span>
-                              {expandedCategories[`${index}-${catIndex}`] ? (
-                                <IoMdRemove size={18} />
-                              ) : (
-                                <IoMdAdd size={18} />
-                              )}
-                            </div>
-                            {expandedCategories[`${index}-${catIndex}`] && (
-                              <ul
-                                id={`category-${index}-${catIndex}`}
-                                className="ml-5 mt-2 space-y-2"
-                                role="list"
+                            {navItem.subCategories.map((category, catIndex) => (
+                              <li
+                                key={catIndex}
+                                className="border-t border-gray-300"
                               >
-                                {category.items.map((item, itemIndex) => (
-                                  <li
-                                    key={itemIndex}
-                                    className="border-t border-gray-300 py-1"
+                                <div
+                                  className="flex items-center justify-between cursor-pointer text-md"
+                                  onClick={() =>
+                                    toggleCategory(index, catIndex)
+                                  }
+                                  aria-expanded={
+                                    expandedCategories[`${index}-${catIndex}`]
+                                  }
+                                  aria-controls={`category-${index}-${catIndex}`}
+                                >
+                                  <span className="flex items-center">
+                                    {typeof category.icon === "string" ? (
+                                      <img
+                                        className="w-6 h-6 mr-1"
+                                        src={category.icon}
+                                        alt={category.category}
+                                      />
+                                    ) : (
+                                      React.cloneElement(category.icon, {
+                                        className: "w-6 h-6 mr-1",
+                                      })
+                                    )}
+                                    <span>{category.category}</span>
+                                  </span>
+                                  {expandedCategories[
+                                    `${index}-${catIndex}`
+                                  ] ? (
+                                    <IoMdRemove size={18} />
+                                  ) : (
+                                    <IoMdAdd size={18} />
+                                  )}
+                                </div>
+                                {expandedCategories[`${index}-${catIndex}`] && (
+                                  <ul
+                                    id={`category-${index}-${catIndex}`}
+                                    className="ml-5 mt-2 space-y-2"
+                                    role="list"
                                   >
-                                    <Link
-                                      to={item.path}
-                                      className="block text-gray-700 hover:text-white"
-                                      onClick={repsonsiveHandler}
-                                      
-                                    >
-                                      {item.name}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
+                                    {category.items.map((item, itemIndex) => (
+                                      <li
+                                        key={itemIndex}
+                                        className="border-t border-gray-300 py-1"
+                                      >
+                                        <Link
+                                          to={item.path}
+                                          className="block text-gray-700 hover:text-white"
+                                          onClick={repsonsiveHandler}
+                                        >
+                                          {item.name}
+                                        </Link>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </>
                     )}
                   </li>
                 ))}

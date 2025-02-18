@@ -5,19 +5,18 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const TopPortfolioList = ({ Portfolio_Data }) => {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1); 
-  const [cardsPerPage, setCardsPerPage] = useState(4); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(3);
   const [topProjects, setTopProjects] = useState([]);
 
   useEffect(() => {
     if (Portfolio_Data) {
       const filteredProjects = Portfolio_Data.filter(
-        (project) => project.rating === "T" 
+        (project) => project.rating === "T"
       );
       setTopProjects(filteredProjects);
     }
   }, [Portfolio_Data]);
-
 
   const totalPages = Math.ceil(topProjects.length / cardsPerPage);
 
@@ -126,9 +125,9 @@ const TopPortfolioList = ({ Portfolio_Data }) => {
   };
 
   return (
-    <section className="max-w-7xl my-10 mx-auto">
+    <section className="max-w-7xl my-10 mx-auto px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-bold mb-4">Top Website Design Examples</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {currentCards.map((project) => (
           <TopPortfolioCard
             key={project.id}
@@ -144,7 +143,7 @@ const TopPortfolioList = ({ Portfolio_Data }) => {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-start items-center my-10 space-x-2">
+        <div className="flex justify-center items-center mt-8 space-x-2">
           {/* Previous Button */}
           {currentPage > 1 && (
             <button

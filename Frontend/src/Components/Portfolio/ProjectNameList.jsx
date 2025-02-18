@@ -26,7 +26,9 @@ const ProjectNameList = ({ Portfolio_Data }) => {
     <div>
       <ul className="">
         <li>
-          <h1 className="text-lg border-b font-bold py-2  px-4">Projects</h1>
+          <h1 className="text-lg font-bold py-2 px-4 dark:bg-gray-700 dark:text-white">
+            Projects
+          </h1>
         </li>
         {displayedProjects.map((port, index) => (
           <li
@@ -36,7 +38,7 @@ const ProjectNameList = ({ Portfolio_Data }) => {
                 state: { port: port },
               })
             }
-            className="w-full text-left flex items-center gap-x-1 border-b  dark:bg-gray-600 dark:text-gray-100 text-md font-medium cursor-pointer p-2 border-gray-300  hover:bg-white dark:hover:bg-white dark:hover:text-gray-700  text-gray-700  transition-all shadow-sm"
+            className="w-full text-left flex items-center gap-x-1 border-b dark:bg-gray-600 dark:text-gray-100 text-md font-medium cursor-pointer p-2 border-gray-300 hover:bg-white dark:hover:bg-white dark:hover:text-gray-700 text-gray-700 transition-all shadow-sm"
           >
             <span className="">
               <IoMdArrowDropright className="text-2xl text-green-500" />
@@ -48,7 +50,7 @@ const ProjectNameList = ({ Portfolio_Data }) => {
         ))}
       </ul>
       {Portfolio_Data.length > 5 && (
-        <div className="flex justify-center  mt-2 mb-2">
+        <div className="flex justify-center mt-2 mb-2">
           <button
             onClick={handleToggleProjects}
             className="mt-2 text-green-400 hover:text-gray-100 "

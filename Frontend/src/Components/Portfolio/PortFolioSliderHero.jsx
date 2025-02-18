@@ -28,12 +28,9 @@ const PortFolioSliderHero = ({ Portfolio_Data }) => {
         {Portfolio_Data.map((port, index) => (
           <SwiperSlide
             onClick={() =>
-              navigate(
-                `/portfolio/${port.id}`,
-                {
-                  state: { port: port },
-                }
-              )
+              navigate(`/portfolio/${port.id}`, {
+                state: { port: port },
+              })
             }
             key={index}
           >

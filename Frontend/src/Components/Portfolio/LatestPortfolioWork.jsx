@@ -11,9 +11,9 @@ const LatestPortfolioWork = ({ Portfolio_Data }) => {
   const latestProjects = sortedProjects.slice(0, 3);
 
   return (
-    <section className="max-w-7xl my-10 mx-auto">
+    <section className="max-w-7xl my-10 mx-auto px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-bold mb-4">Latest Works</h2>
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
         {latestProjects.map((project, index) => (
           <PortfolioCard key={index} port={project} />
         ))}

@@ -120,13 +120,6 @@ const WebsiteDesign = () => {
   return (
 
     <div className="p-8 min-h-screen">
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="fixed bottom-4 right-4 p-2 bg-purple-800 text-white rounded-full shadow-lg"
-      >
-        {darkMode ? "🌙" : "☀️"}
-      </button>
-
       <h2 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
         Our Website Designs
       </h2>
@@ -188,7 +181,7 @@ const WebsiteDesign = () => {
         {currentCards.map((webModel) => (
           <Link to={`/webmodels/${webModel.id}`} key={webModel.id}>
             <motion.div
-              className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden cursor-pointer h-[400px]" // Removed p-6 and text-center
+              className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden cursor-pointer h-[400px]"
               variants={cardVariants}
               initial="initial"
               animate="animate"
@@ -231,7 +224,7 @@ const WebsiteDesign = () => {
               onClick={() => handlePageChange(index + 1)}
               className={`px-4 py-2 mx-1 rounded-md ${
                 currentPage === index + 1
-                  ? "bg-purple-800 text-white"
+                  ? "bg-green-800 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
