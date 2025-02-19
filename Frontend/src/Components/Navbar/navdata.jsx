@@ -62,6 +62,7 @@ export const useNavData = () => {
 
         // Transform the data to match NAV_DATA structure
         const transformedNavData = [
+        
           { name: "Home", path: "/", icon: null, subCategories: null },
           {
             name: "Website Design",
@@ -104,7 +105,7 @@ export const useNavData = () => {
                 .filter((service) => service.category.id === category.id)
                 .map((service) => ({
                   name: service.name,
-                  path: `/services/${service.pkid}`,
+                  path: `/services/${service.id}`,
                 })),
             })),
           },

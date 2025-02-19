@@ -1,7 +1,8 @@
 // RespNavbar.jsx (or whatever your filename is)
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useNavData } from "./navdata"; // Changed import to useNavData
+import { useNavData } from "./navdata";
+import log from "../../assets/final.png";
 import MegaMenu from "./MegaMenu";
 import { IoMdArrowDropdown } from "react-icons/io";
 
@@ -14,7 +15,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50); 
+      setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -34,22 +35,33 @@ const Navbar = () => {
   return (
     <nav
       className={`w-full hidden lg:block z-30 transition-all duration-500 dark:bg-gray-900 ${
-        isScrolled
-          ? "fixed top-0 left-0 shadow-md"
-          : "relative bg-transparent "
+        isScrolled ? "fixed top-0 left-0 shadow-md" : "relative bg-transparent "
       }`}
     >
       <div
         className={`px-4 py-1.5 flex justify-center items-center ${
-          isScrolled ? "bg-white text-gray-900" : "relative bg-white"
+          isScrolled
+            ? "bg-purple-800 dark:bg-purple-800 mr-8 w-full text-gray-100"
+            : "relative bg-white text-black"
         }`}
       >
+        <div>
+          {isScrolled ? (
+            <div className="">
+              <Link to="/" className="">
+                <img src={log} alt="Logo" className="h-8 w-auto" />
+              </Link>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
         <ul className="lg:flex lg:gap-4 p-4 lg:p-0 space-y-4 lg:space-y-0 flex justify-center items-center w-full">
           {loading ? (
             <li>Loading navigation...</li>
           ) : error ? (
             <li>Error loading navigation: {error.message}</li>
-            ) : (
+          ) : (
             navData.map((item, index) => (
               <li
                 key={index}
@@ -76,7 +88,6 @@ const Navbar = () => {
                     </span>
                   )}
                 </Link>
-
                 {delayedItem === index && item.subCategories && (
                   <>
                     <div
@@ -95,7 +106,6 @@ const Navbar = () => {
                     </div>
                   </>
                 )}
-                
               </li>
             ))
           )}
