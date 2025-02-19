@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import RespNavbar from "./RespNavbar";
 import { LuLogIn } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import logo from "../../assets/tet.png";
+import logo from "../../assets/final.png";
 import { MdMenu, MdClose } from "react-icons/md";
 import { MdWbSunny, MdNightlight } from "react-icons/md";
 import useDarkMode from "../../hooks/useDarkMode";
@@ -20,13 +20,18 @@ const Header = () => {
       }
     };
 
-    calculateHeaderHeight();
+    const handleScroll = () => {
+      calculateHeaderHeight();
+      console.log("Header Height:", headerRef.current.offsetHeight);
+    };
 
-    // Recalculate on window resize
+    calculateHeaderHeight();
     window.addEventListener("resize", calculateHeaderHeight);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("resize", calculateHeaderHeight);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -37,7 +42,7 @@ const Header = () => {
   return (
     <header
       className="fixed top-0 lg:sticky z-30 p-2 dark:bg-purple-950 left-0 right-0 bg-purple-950"
-      ref={headerRef} // Attach ref to the header element
+      ref={headerRef} 
     >
       <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2">
         <div className="flex items-center gap-x-5 md:col-span-2 lg:col-span-1">
@@ -68,7 +73,6 @@ const Header = () => {
         darkMode === "dark" ? "bg-zinc-700" : "bg-white"
       } shadow-sm transition-all duration-300`}
             >
-              {/* Toggle Circle */}
               <div
                 className={`absolute w-[35px] h-[35px] rounded-full top-[2px] transition-all duration-300 shadow-md
         ${
@@ -78,7 +82,6 @@ const Header = () => {
         }`}
               ></div>
 
-              {/* Sun Icon (Light Mode) */}
               <MdWbSunny
                 onClick={() => setDarkMode("light")}
                 className={`absolute left-[13px] w-5 h-5 transition-all ${
@@ -86,7 +89,6 @@ const Header = () => {
                 }`}
               />
 
-              {/* Moon Icon (Dark Mode) */}
               <MdNightlight
                 onClick={() => setDarkMode("dark")}
                 className={`absolute right-[13px] w-5 h-5 transition-all ${
@@ -100,22 +102,19 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Responsive Navbar */}
       {isOpne && (
         <div>
-          {/* Black Overlay */}
           <div
             onClick={repsonsiveHandler}
             className="fixed left-0 right-0 top-0 bottom-0 bg-black opacity-50 z-20" // Adjusted z-index and top
           ></div>
 
-          {/* Navbar */}
           <RespNavbar
             repsonsiveHandler={repsonsiveHandler}
             setDarkMode={setDarkMode}
             darkMode={darkMode}
             isOpne={isOpne}
-            headerHeight={headerHeight} // Pass the header height
+            headerHeight={headerHeight}
           />
         </div>
       )}

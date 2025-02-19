@@ -7,7 +7,7 @@ import {
   FaUndoAlt,
   FaCheckCircle,
 } from "react-icons/fa";
-import logo from "../../assets/tet.png";
+import logo from "../../assets/final.png";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +41,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center gap-x-7 mt-2">
             <p>Telephone: +93772387935</p>
             <p className="border-r border-l px-5 border-gray-100">
-             Email:hussain.mohammadi1380@gmail.com
+              Email:hussain.mohammadi1380@gmail.com
             </p>
             <p className="text-md">We are available 24/7 to assist you.</p>
           </div>
@@ -115,8 +115,6 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-
-    
 
         {/* Social Media */}
         <div>
