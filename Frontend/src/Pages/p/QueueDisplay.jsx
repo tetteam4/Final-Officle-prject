@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 const QueueDisplay = ({ orders }) => {
-  const [currentOrder, setCurrentOrder] = useState(null); // نوبت فعلی
+  const [currentOrder, setCurrentOrder] = useState(null);
 
   useEffect(() => {
     if (orders.length > 0) {
       const interval = setInterval(() => {
-        setCurrentOrder(orders[0]); // اولین سفارش در لیست
+        setCurrentOrder(orders[0]); // نمایش اولین سفارش
         orders.shift(); // حذف سفارش از لیست
       }, 5000); // هر 5 ثانیه یک نوبت جدید
 

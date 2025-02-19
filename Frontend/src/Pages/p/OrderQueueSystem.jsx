@@ -1,18 +1,25 @@
 import React, { useState } from "react";
 
 const OrderQueueSystem = () => {
-  const [orders, setOrders] = useState([]); // لیست سفارشات
-  const [newOrder, setNewOrder] = useState(""); // سفارش جدید
+  // داده‌های ثابت برای سفارشات
+  const staticOrders = [
+    { id: 1, customerName: "علی محمدی", status: "در انتظار" },
+    { id: 2, customerName: "زهرا احمدی", status: "در انتظار" },
+    { id: 3, customerName: "محمد حسینی", status: "در انتظار" },
+  ];
+
+  const [orders, setOrders] = useState(staticOrders); // استفاده از داده‌های ثابت
+  const [newOrder, setNewOrder] = useState("");
 
   const addOrder = () => {
     if (newOrder.trim()) {
       const order = {
-        id: orders.length + 1, // شماره نوبت
+        id: orders.length + 1,
         customerName: newOrder,
-        status: "در انتظار", // وضعیت سفارش
+        status: "در انتظار",
       };
       setOrders([...orders, order]);
-      setNewOrder(""); // پاک کردن فیلد ورودی
+      setNewOrder("");
     }
   };
 
