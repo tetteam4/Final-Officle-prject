@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import RespNavbar from "./RespNavbar";
 import { LuLogIn } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import logo from "../../assets/final.png";
+import logo from "../../assets/testing.png";
 import { MdMenu, MdClose } from "react-icons/md";
 import { MdWbSunny, MdNightlight } from "react-icons/md";
 import useDarkMode from "../../hooks/useDarkMode";

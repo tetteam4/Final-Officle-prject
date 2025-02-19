@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavData } from "./navdata";
-import log from "../../assets/final.png";
+import log from "../../assets/testing.png";
 import MegaMenu from "./MegaMenu";
 import { IoMdArrowDropdown } from "react-icons/io";
 
@@ -41,7 +41,7 @@ const Navbar = () => {
       <div
         className={`px-4 py-1.5 flex justify-center items-center ${
           isScrolled
-            ? "bg-purple-800 dark:bg-purple-800 mr-8 w-full text-gray-100"
+            ? "bg-purple-950 dark:bg-gray-800 mr-8 w-full text-gray-100"
             : "relative bg-white text-black"
         }`}
       >
