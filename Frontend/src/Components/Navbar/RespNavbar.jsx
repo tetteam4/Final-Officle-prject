@@ -49,7 +49,7 @@ function RespNavbar({
           role="dialog"
           aria-hidden={!isOpne}
           style={navbarStyle}
-          className={`fixed left-0 z-30 bg-white text-black shadow-md transform transition-transform duration-300 ease-in-out  w-[80%] sm:w-[75%] lg:w-[390px]`}
+          className={`fixed bg-wait dark:bg-gray-800 dark:text-gray-300 left-0 z-30 bg-white text-black shadow-md transform transition-transform duration-300 ease-in-out  w-[80%] sm:w-[75%] lg:w-[390px]`}
         >
           <div className="h-[calc(100vh-70px-70px)] overflow-y-auto pb-16">
             <form className="flex-1 px-5 mt-5 relative">
@@ -175,14 +175,13 @@ function RespNavbar({
           </div>
 
           {/* Footer */}
-          <div className="absolute z-20 flex border bg-white p-3 items-center w-full justify-between px-5">
+          <div className="absolute z-20 flex border bg-white dark:bg-gray-800 dark:text-gray-300 dark:border-0 p-3 items-center w-full justify-between px-5 ">
             <div
-              className={`relative flex items-center w-[110px] h-[40px] cursor-pointer rounded-full border 
+              className={`relative flex  items-center w-[110px] h-[40px] cursor-pointer rounded-full border 
                  ${
                    darkMode ? "bg-zinc-700" : "bg-white"
                  } shadow-sm transition-all duration-300`}
             >
-              {/* Toggle Circle */}
               <div
                 className={`absolute w-[35px] h-[35px] rounded-full top-[2px] transition-all duration-300 shadow-md
                    ${
@@ -192,7 +191,6 @@ function RespNavbar({
                    }`}
               ></div>
 
-              {/* Sun Icon (Light Mode) */}
               <MdWbSunny
                 onClick={() => setDarkMode(false)}
                 className={`absolute left-[13px] w-5 h-5 transition-all ${
@@ -200,7 +198,6 @@ function RespNavbar({
                 }`}
               />
 
-              {/* Moon Icon (Dark Mode) */}
               <MdNightlight
                 onClick={() => setDarkMode(true)}
                 className={`absolute right-[13px] w-5 h-5 transition-all ${
@@ -210,12 +207,6 @@ function RespNavbar({
                 }`}
               />
             </div>
-            <a
-              href="mailto:user@example.com"
-              className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-all duration-300"
-            >
-              <MdEmail className="w-6 h-6" />
-            </a>
           </div>
         </motion.div>
       )}

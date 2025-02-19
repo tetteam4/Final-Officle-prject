@@ -52,6 +52,7 @@ const BlogDetailsPage = () => {
     fetchBlogDetails();
   }, [id]);
 
+  
   const fadeIn = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.5 } },
@@ -182,7 +183,9 @@ const BlogDetailsPage = () => {
               className="prose dark:prose-invert max-w-none mb-16"
             >
               <h2 className="text-3xl font-bold mb-6">Overview</h2>
-              <p className="text-xl leading-relaxed">{blog.general_info}</p>
+              <p className="text-xl leading-relaxed">
+                {blog.general_info}
+              </p>
             </motion.section>
 
             {blog.section.map((section, index) => (
