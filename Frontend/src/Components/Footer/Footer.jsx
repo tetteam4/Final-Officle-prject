@@ -7,7 +7,7 @@ import {
   FaUndoAlt,
   FaCheckCircle,
 } from "react-icons/fa";
-import logo from "../../assets/final.png";
+import logo from "../../assets/testing.png";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -30,7 +30,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-purple-950 text-gray-100 border-t border-gray-100">
+    <footer className="bg-purple-950 dark:bg-gray-800 text-gray-100 border-t border-gray-100">
       {/* Top Section */}
       <div className="w-full mx-auto container mb-5 flex flex-col md:flex-row justify-between items-center p-4">
         {/* Logo and Contact Info */}
