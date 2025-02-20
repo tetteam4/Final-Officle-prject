@@ -21,6 +21,7 @@
 /// version 2
 
 // src/data.js
+// src/data.js
 export const booths = Array.from({ length: 12 }, (_, i) => ({
   id: i + 1,
   name: `میز ${i + 1}`,
