@@ -24,8 +24,8 @@ import "../src/Pages/ani.css";
 import ServiceDetailsPage from "./Components/serveices/ServiceDetailsPage.jsx";
 import WebsiteDesign from "./Components/WebsiteDesign/Web_Design.jsx";
 import WebModelDetail from "./Components/WebsiteDesign/WebModelDetail.jsx";
-// import QueueSystem from "./Pages/Screeen.jsx";
-import Apps from "./Pages/Screeen.jsx";
+import QueueSystem from "./Pages/Screeen.jsx";
+// import Apps from "./Pages/Screeen.jsx";
 
 const App = () => {
   const [theme, toggleTheme] = useDarkMode();
@@ -48,8 +48,8 @@ const App = () => {
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/screen" element={<Apps />} />
-              {/* <Route path="/screen" element={<QueueSystem />} /> */}
+              {/* <Route path="/screen" element={<Apps />} /> */}
+              <Route path="/screen" element={<QueueSystem />} />
 
               <Route
                 path="/portfolio_ca/:categoryName"
