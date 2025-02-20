@@ -20,13 +20,12 @@
 
 /// version 2
 
-// src/data.js
-// src/data.js
+
 export const booths = Array.from({ length: 12 }, (_, i) => ({
   id: i + 1,
   name: `میز ${i + 1}`,
-  icon: "🖥️", // Booth icon
-  isBusy: Math.random() < 0.5, // Randomly set booth status (busy or available)
+  icon: "🖥️", 
+  isBusy: Math.random() < 0.5, 
 }));
 
 export const customers = [
@@ -35,3 +34,5 @@ export const customers = [
   { id: 3, name: "آقا حسینی", booth: 3, icon: "👤" },
   { id: 4, name: "خانم کریمی", booth: 7, icon: "👤" },
 ];
+
+//version 3
