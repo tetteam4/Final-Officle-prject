@@ -111,6 +111,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { booths, customers } from "../Utilities/dta";
+import logp from "../assets/design-null (6).png";
 
 const CustomerWaitingScreen = () => {
   const [currentCustomerIndex, setCurrentCustomerIndex] = useState(0);
@@ -120,12 +121,11 @@ const CustomerWaitingScreen = () => {
   const currentCustomer = customers[currentCustomerIndex];
   const assignedBooth = booths.find((b) => b.id === currentCustomer.booth);
 
-  // Typing animation for customer name
   useEffect(() => {
     if (isTyping) {
       const timeout = setTimeout(() => {
         setDisplayText(currentCustomer.name.slice(0, displayText.length + 1));
-      }, 100); // Typing speed
+      }, 150); // Typing speed
 
       if (displayText === currentCustomer.name) {
         setIsTyping(false);
@@ -135,75 +135,96 @@ const CustomerWaitingScreen = () => {
     }
   }, [displayText, isTyping, currentCustomer.name]);
 
-  // Move to the next customer after a delay
   useEffect(() => {
     const timeout = setTimeout(() => {
       setCurrentCustomerIndex((prev) => (prev + 1) % customers.length);
       setDisplayText("");
       setIsTyping(true);
-    }, 5000); // Delay before showing the next customer
+    }, 5000); 
 
     return () => clearTimeout(timeout);
   }, [currentCustomerIndex]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-8">
-      {/* Ready Booths */}
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
-        {booths
-          .filter((booth) => !booth.isBusy)
-          .map((booth) => (
-            <motion.div
-              key={booth.id}
-              className="p-6 rounded-lg text-center shadow-lg bg-green-600 hover:shadow-2xl transition-shadow"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <div className="text-6xl mb-2">{booth.icon}</div>
-              <p className="text-sm font-semibold">{booth.name}</p>
-            </motion.div>
-          ))}
+    <div className="min-h-screen bg-green-800 text-black flex flex-col">
+      {/* Header */}
+      <div className="bg-green-800 p-6 text-center">
+        <h1 className="text-5xl font-bold text-yellow-400 mb-2">
+          به چاپخانه تمدن خوش آمدید
+        </h1>
+        <p className="text-2xl text-gray-200">لطفا منتظر بمانید</p>
+        {/* Logo Placeholder */}
+        <div className="mt-4">
+          <img src={logp} alt="Printshop Logo" className="w-24 h-24 mx-auto" />
+        </div>
       </div>
 
-      {/* Customer Announcement */}
-      <div className="bg-blue-600 rounded-lg p-8 text-center shadow-2xl max-w-md w-full">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentCustomer.id}
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="text-4xl mb-4">{currentCustomer.icon}</div>
-            <p className="text-2xl font-semibold">
-              {displayText}
-              {isTyping && (
-                <motion.span
-                  className="ml-1"
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
+      {/* Main Content (Divided into 2 Sections) */}
+      <div className="flex flex-1">
+        {/* Section 1: Ready Booths */}
+        <div className="flex-1 p-8">
+          <h2 className="text-4xl font-bold text-center mb-8 text-yellow-400">
+            میزهای آماده
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {booths
+              .filter((booth) => !booth.isBusy)
+              .map((booth) => (
+                <motion.div
+                  key={booth.id}
+                  className="p-8 rounded-lg text-center shadow-lg bg-green-600 hover:shadow-2xl transition-shadow"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  |
-                </motion.span>
-              )}
-            </p>
-            <p className="text-lg mt-4">
-              لطفا به{" "}
-              <span className="text-yellow-400 font-semibold">
-                {assignedBooth?.name}
-              </span>{" "}
-              مراجعه کنید.
-            </p>
-            <motion.div
-              className="text-4xl mt-4"
-              animate={{ x: [0, 10, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            >
-              ➡️
-            </motion.div>
-          </motion.div>
-        </AnimatePresence>
+                  <div className="text-8xl mb-4">{booth.icon}</div>
+                  <p className="text-2xl font-semibold">{booth.name}</p>
+                </motion.div>
+              ))}
+          </div>
+        </div>
+
+        {/* Section 2: Customer Announcement */}
+        <div className="flex-1 p-8  flex items-center justify-center">
+          <div className="bg-blue-600 rounded-lg p-8 text-center shadow-2xl max-w-2xl w-full">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentCustomer.id}
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="text-8xl mb-6">{currentCustomer.icon}</div>
+                <p className="text-4xl font-semibold">
+                  {displayText}
+                  {isTyping && (
+                    <motion.span
+                      className="ml-1"
+                      animate={{ opacity: [0, 1, 0] }}
+                      transition={{ duration: 0.8, repeat: Infinity }}
+                    >
+                      |
+                    </motion.span>
+                  )}
+                </p>
+                <p className="text-3xl mt-6">
+                  لطفا به{" "}
+                  <span className="text-yellow-400 font-semibold">
+                    {assignedBooth?.name}
+                  </span>{" "}
+                  مراجعه کنید.
+                </p>
+                <motion.div
+                  className="text-6xl mt-6"
+                  animate={{ x: [0, 10, 0] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                >
+                  ⬅️
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </div>
   );
