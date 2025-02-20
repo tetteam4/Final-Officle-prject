@@ -108,10 +108,141 @@
 ///version 2
 
 // src/CustomerWaitingScreen.js
+// import React, { useState, useEffect } from "react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { booths, customers } from "../Utilities/dta";
+// import logp from "../assets/design-null (6).png";
+
+// const CustomerWaitingScreen = () => {
+//   const [currentCustomerIndex, setCurrentCustomerIndex] = useState(0);
+//   const [displayText, setDisplayText] = useState("");
+//   const [isTyping, setIsTyping] = useState(true);
+
+//   const currentCustomer = customers[currentCustomerIndex];
+//   const assignedBooth = booths.find((b) => b.id === currentCustomer.booth);
+
+//   useEffect(() => {
+//     if (isTyping) {
+//       const timeout = setTimeout(() => {
+//         setDisplayText(currentCustomer.name.slice(0, displayText.length + 1));
+//       }, 150); // Typing speed
+
+//       if (displayText === currentCustomer.name) {
+//         setIsTyping(false);
+//       }
+
+//       return () => clearTimeout(timeout);
+//     }
+//   }, [displayText, isTyping, currentCustomer.name]);
+
+//   useEffect(() => {
+//     const timeout = setTimeout(() => {
+//       setCurrentCustomerIndex((prev) => (prev + 1) % customers.length);
+//       setDisplayText("");
+//       setIsTyping(true);
+//     }, 5000);
+
+//     return () => clearTimeout(timeout);
+//   }, [currentCustomerIndex]);
+
+//   return (
+//     <div className="min-h-screen bg-green-800 text-black flex flex-col">
+//       {/* Header */}
+//       <div className="bg-green-800 p-6 text-center">
+//         <h1 className="text-5xl font-bold text-yellow-400 mb-2">
+//           به چاپخانه تمدن خوش آمدید
+//         </h1>
+//         <p className="text-2xl text-gray-200">لطفا منتظر بمانید</p>
+//         {/* Logo Placeholder */}
+//         <div className="mt-4">
+//           <img src={logp} alt="Printshop Logo" className="w-24 h-24 mx-auto" />
+//         </div>
+//       </div>
+
+//       {/* Main Content (Divided into 2 Sections) */}
+//       <div className="flex flex-1">
+//         <div className="flex-1 p-8">
+//           <h2 className="text-4xl font-bold text-center mb-8 text-yellow-400">
+//             طراحان آماده
+//           </h2>
+//           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+//             {booths
+//               .filter((booth) => !booth.isBusy)
+//               .map((booth) => (
+//                 <motion.div
+//                   key={booth.id}
+//                   className="p-8 rounded-lg text-center shadow-lg bg-green-600 hover:shadow-2xl transition-shadow"
+//                   whileHover={{ scale: 1.05 }}
+//                   whileTap={{ scale: 0.95 }}
+//                 >
+//                   <div className="text-8xl mb-4">{booth.icon}</div>
+//                   <p className="text-2xl font-semibold">{booth.name}</p>
+//                 </motion.div>
+//               ))}
+//           </div>
+//         </div>
+
+//         {/* Section 2: Customer Announcement */}
+//         <div className="flex-1 p-8  flex items-center justify-center">
+//           <div className="bg-blue-600 rounded-lg p-8 text-center shadow-2xl max-w-2xl w-full">
+//             <AnimatePresence mode="wait">
+//               <motion.div
+//                 key={currentCustomer.id}
+//                 initial={{ opacity: 0, y: -50 }}
+//                 animate={{ opacity: 1, y: 0 }}
+//                 exit={{ opacity: 0, y: 50 }}
+//                 transition={{ duration: 0.5 }}
+//               >
+//                 <div className="text-8xl mb-6">{currentCustomer.icon}</div>
+//                 <p className="text-4xl font-semibold">
+//                   {displayText}
+//                   {isTyping && (
+//                     <motion.span
+//                       className="ml-1"
+//                       animate={{ opacity: [0, 1, 0] }}
+//                       transition={{ duration: 0.8, repeat: Infinity }}
+//                     >
+//                       |
+//                     </motion.span>
+//                   )}
+//                 </p>
+//                 <p className="text-3xl mt-6">
+//                   لطفا به{" "}
+//                   <span className="text-yellow-400 font-semibold">
+//                     {assignedBooth?.name}
+//                   </span>{" "}
+//                   مراجعه کنید.
+//                 </p>
+//                 <motion.div
+//                   className="text-6xl mt-6"
+//                   animate={{ x: [0, 10, 0] }}
+//                   transition={{ duration: 1, repeat: Infinity }}
+//                 >
+//                   ⬅️
+//                 </motion.div>
+//               </motion.div>
+//             </AnimatePresence>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CustomerWaitingScreen;
+
+
+
+// version 3
+
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import styled from "styled-components"; // Styled components
 import { booths, customers } from "../Utilities/dta";
-import logp from "../assets/design-null (6).png";
+import logp from "../assets/design-null (6).png"; //logo import
+
+// Utility function for Tailwind CSS classes
+const cn = (...classes) => classes.filter(Boolean).join(" ");
 
 const CustomerWaitingScreen = () => {
   const [currentCustomerIndex, setCurrentCustomerIndex] = useState(0);
@@ -121,11 +252,12 @@ const CustomerWaitingScreen = () => {
   const currentCustomer = customers[currentCustomerIndex];
   const assignedBooth = booths.find((b) => b.id === currentCustomer.booth);
 
+  // --- Typing Effect useEffect ---
   useEffect(() => {
     if (isTyping) {
       const timeout = setTimeout(() => {
         setDisplayText(currentCustomer.name.slice(0, displayText.length + 1));
-      }, 150); // Typing speed
+      }, 100); // Typing speed
 
       if (displayText === currentCustomer.name) {
         setIsTyping(false);
@@ -133,59 +265,67 @@ const CustomerWaitingScreen = () => {
 
       return () => clearTimeout(timeout);
     }
-  }, [displayText, isTyping, currentCustomer.name]);
+  }, [displayText, isTyping, currentCustomer]);
 
+  // --- Customer Rotation useEffect ---
   useEffect(() => {
     const timeout = setTimeout(() => {
       setCurrentCustomerIndex((prev) => (prev + 1) % customers.length);
       setDisplayText("");
       setIsTyping(true);
-    }, 5000); 
+    }, 5000);
 
     return () => clearTimeout(timeout);
   }, [currentCustomerIndex]);
 
   return (
-    <div className="min-h-screen bg-green-800 text-black flex flex-col">
-      {/* Header */}
-      <div className="bg-green-800 p-6 text-center">
-        <h1 className="text-5xl font-bold text-yellow-400 mb-2">
+    <StyledContainer className="min-h-screen bg-green-900 text-white flex flex-col">
+      <StyledHeader className="bg-gray-800 p-6 text-center">
+        <StyledHeading className="text-5xl font-bold text-yellow-400 mb-2">
           به چاپخانه تمدن خوش آمدید
-        </h1>
-        <p className="text-2xl text-gray-200">لطفا منتظر بمانید</p>
-        {/* Logo Placeholder */}
-        <div className="mt-4">
-          <img src={logp} alt="Printshop Logo" className="w-24 h-24 mx-auto" />
-        </div>
-      </div>
+        </StyledHeading>
+        <StyledParagraph className="text-2xl text-gray-300">
+          لطفا منتظر بمانید
+        </StyledParagraph>
+        <StyledLogoWrapper className="mt-4">
+          <motion.img
+            src={logp}
+            alt="Printshop Logo"
+            className="w-24 h-24 mx-auto rounded-full shadow-md"
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
+          />
+        </StyledLogoWrapper>
+      </StyledHeader>
 
-      {/* Main Content (Divided into 2 Sections) */}
-      <div className="flex flex-1">
-        {/* Section 1: Ready Booths */}
-        <div className="flex-1 p-8">
-          <h2 className="text-4xl font-bold text-center mb-8 text-yellow-400">
-            میزهای آماده
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <StyledMainContent className="flex flex-1">
+        <StyledSection className="flex-1 p-8">
+          <StyledSectionTitle className="text-4xl font-bold text-center mb-8 text-yellow-400">
+            طراحان آماده
+          </StyledSectionTitle>
+          <StyledBoothGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {booths
               .filter((booth) => !booth.isBusy)
               .map((booth) => (
                 <motion.div
                   key={booth.id}
-                  className="p-8 rounded-lg text-center shadow-lg bg-green-600 hover:shadow-2xl transition-shadow"
+                  className="p-8 rounded-lg text-center shadow-lg bg-gray-700 hover:shadow-2xl transition-shadow"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <div className="text-8xl mb-4">{booth.icon}</div>
-                  <p className="text-2xl font-semibold">{booth.name}</p>
+                  <StyledBoothIcon className="text-6xl mb-4">
+                    {booth.icon}
+                  </StyledBoothIcon>
+                  <StyledBoothName className="text-xl font-semibold">
+                    {booth.name}
+                  </StyledBoothName>
                 </motion.div>
               ))}
-          </div>
-        </div>
+          </StyledBoothGrid>
+        </StyledSection>
 
-        {/* Section 2: Customer Announcement */}
-        <div className="flex-1 p-8  flex items-center justify-center">
-          <div className="bg-blue-600 rounded-lg p-8 text-center shadow-2xl max-w-2xl w-full">
+        <StyledCustomerSection className="flex-1 p-8 flex items-center justify-center">
+          <StyledCustomerCard className="bg-blue-700 rounded-lg p-8 text-center shadow-2xl max-w-2xl w-full">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentCustomer.id}
@@ -194,40 +334,78 @@ const CustomerWaitingScreen = () => {
                 exit={{ opacity: 0, y: 50 }}
                 transition={{ duration: 0.5 }}
               >
-                <div className="text-8xl mb-6">{currentCustomer.icon}</div>
-                <p className="text-4xl font-semibold">
+                <StyledCustomerIcon className="text-6xl mb-6">
+                  {currentCustomer.icon}
+                </StyledCustomerIcon>
+                <StyledCustomerName className="text-3xl font-semibold">
                   {displayText}
                   {isTyping && (
-                    <motion.span
+                    <StyledCursor
                       className="ml-1"
                       animate={{ opacity: [0, 1, 0] }}
                       transition={{ duration: 0.8, repeat: Infinity }}
                     >
                       |
-                    </motion.span>
+                    </StyledCursor>
                   )}
-                </p>
-                <p className="text-3xl mt-6">
-                  لطفا به{" "}
+                </StyledCustomerName>
+                <StyledCustomerNote className="text-2xl mt-6">
+                  لطفا به
                   <span className="text-yellow-400 font-semibold">
                     {assignedBooth?.name}
-                  </span>{" "}
+                  </span>
                   مراجعه کنید.
-                </p>
-                <motion.div
-                  className="text-6xl mt-6"
+                </StyledCustomerNote>
+                <StyledAnimatedArrow
+                  className="text-5xl mt-6"
                   animate={{ x: [0, 10, 0] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 >
                   ⬅️
-                </motion.div>
+                </StyledAnimatedArrow>
               </motion.div>
             </AnimatePresence>
-          </div>
-        </div>
-      </div>
-    </div>
+          </StyledCustomerCard>
+        </StyledCustomerSection>
+      </StyledMainContent>
+    </StyledContainer>
   );
 };
 
+// --STYLED COMPONENTS--
+const StyledContainer = styled.div``;
+
+const StyledHeader = styled.div``;
+
+const StyledHeading = styled.h1``;
+
+const StyledParagraph = styled.p``;
+
+const StyledLogoWrapper = styled.div``;
+
+const StyledMainContent = styled.div``;
+
+const StyledSection = styled.div``;
+
+const StyledSectionTitle = styled.h2``;
+
+const StyledBoothGrid = styled.div``;
+
+const StyledBoothIcon = styled.div``;
+
+const StyledBoothName = styled.p``;
+
+const StyledCustomerSection = styled.div``;
+
+const StyledCustomerCard = styled.div``;
+
+const StyledCustomerIcon = styled.div``;
+
+const StyledCustomerName = styled.p``;
+
+const StyledCursor = styled(motion.span)``;
+
+const StyledCustomerNote = styled.p``;
+
+const StyledAnimatedArrow = styled(motion.div)``;
 export default CustomerWaitingScreen;
