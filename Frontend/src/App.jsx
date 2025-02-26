@@ -13,9 +13,7 @@ import Blog from "./Pages/Blog.jsx";
 import PortfolioDetialsPage from "./Components/Portfolio/PortfolioDetialsPage.jsx";
 import CategoryPage from "./Components/Portfolio/CategoryPage.jsx";
 import NotFound from "./Pages/NotFound.jsx";
-import SignUpPage from "./Pages/SignUp/Signup.jsx";
 import { Frown, ImagePlay, Import } from "lucide-react";
-import Signin from "./Pages/SignUp/Signin.jsx";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme.jsx";
 import useDarkMode from "./hooks/useDarkMode";
@@ -62,8 +60,6 @@ const App = () => {
             </Route>
             <Route path="/verify_email/*" element={<VerifyEmail />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/sign-up" element={<SignUpPage />} />
-            <Route path="/sign-in" element={<Signin />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
